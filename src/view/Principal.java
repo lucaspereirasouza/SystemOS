@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
+import view.suporte.Contato;
+import view.suporte.SuporteMenu;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.Cursor;
@@ -68,7 +71,7 @@ public class Principal extends JFrame {
 	public Principal() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/IconMonitor.png")));
 		setResizable(false);
-		setTitle("ConsoleX");
+		setTitle("ConsoleX Ordens de Serviço");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 827, 420);
 		contentPane = new JPanel();
@@ -87,18 +90,37 @@ public class Principal extends JFrame {
 			}
 		});
 		
+		JButton bttnTool = new JButton("");
+		bttnTool.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		bttnTool.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SuporteMenu Suporte = new SuporteMenu();
+				Suporte.setVisible(true);
+			}
+		});
+		bttnTool.setIcon(new ImageIcon(Principal.class.getResource("/img/ToolIcon.png")));
+		bttnTool.setToolTipText("Suporte");
+		bttnTool.setBounds(432, 11, 64, 64);
+		contentPane.add(bttnTool);
+		
 		lblDate = new JLabel("New label");
 		lblDate.setBounds(26, 294, 259, 38);
 		contentPane.add(lblDate);
 		
 		JButton bttnUsers_1 = new JButton("");
+		bttnUsers_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		bttnUsers_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		bttnUsers_1.setIcon(new ImageIcon(Principal.class.getResource("/img/UsersIcon2.png")));
 		bttnUsers_1.setToolTipText("Clientes");
 		bttnUsers_1.setBounds(506, 11, 73, 64);
 		contentPane.add(bttnUsers_1);
 		
 		JButton btnNewButton_1_1 = new JButton("");
-		btnNewButton_1_1.setToolTipText("Relatórios");
+		btnNewButton_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton_1_1.setToolTipText("Relatório");
 		btnNewButton_1_1.setIcon(new ImageIcon(Principal.class.getResource("/img/ReportIcon.png")));
 		btnNewButton_1_1.setBounds(589, 11, 64, 64);
 		contentPane.add(btnNewButton_1_1);

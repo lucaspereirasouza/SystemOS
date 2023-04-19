@@ -1,4 +1,4 @@
-package view;
+package view.suporte;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Contato extends JDialog {
 
@@ -108,9 +110,13 @@ public class Contato extends JDialog {
 		}
 		{
 			JButton bttnSubmit_1 = new JButton("Enviar");
+			bttnSubmit_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				
+				}
+			});
 			bttnSubmit_1.setBounds(273, 297, 89, 23);
 			getContentPane().add(bttnSubmit_1);
 		}
 	}
-
 }
