@@ -87,6 +87,22 @@ public class Principal extends JFrame {
 			}
 		});
 		
+		lblDate = new JLabel("New label");
+		lblDate.setBounds(26, 294, 259, 38);
+		contentPane.add(lblDate);
+		
+		JButton bttnUsers_1 = new JButton("");
+		bttnUsers_1.setIcon(new ImageIcon(Principal.class.getResource("/img/UsersIcon2.png")));
+		bttnUsers_1.setToolTipText("Clientes");
+		bttnUsers_1.setBounds(506, 11, 73, 64);
+		contentPane.add(bttnUsers_1);
+		
+		JButton btnNewButton_1_1 = new JButton("");
+		btnNewButton_1_1.setToolTipText("Relatórios");
+		btnNewButton_1_1.setIcon(new ImageIcon(Principal.class.getResource("/img/ReportIcon.png")));
+		btnNewButton_1_1.setBounds(589, 11, 64, 64);
+		contentPane.add(btnNewButton_1_1);
+		
 		dbicon = new JLabel("");
 		dbicon.setBounds(754, 284, 57, 48);
 		contentPane.add(dbicon);
@@ -94,7 +110,7 @@ public class Principal extends JFrame {
 		bttnUsers.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bttnUsers.setToolTipText("Usuarios");
 		bttnUsers.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
-		bttnUsers.setBounds(737, 11, 64, 64);
+		bttnUsers.setBounds(663, 11, 64, 64);
 		contentPane.add(bttnUsers);
 		
 		JButton btnNewButton_1 = new JButton("");
@@ -107,7 +123,7 @@ public class Principal extends JFrame {
 		});
 		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton_1.setIcon(new ImageIcon(Principal.class.getResource("/img/AboutIcon.png")));
-		btnNewButton_1.setBounds(645, 11, 64, 64);
+		btnNewButton_1.setBounds(737, 11, 64, 64);
 		contentPane.add(btnNewButton_1);
 		
 		JPanel panel = new JPanel();
@@ -120,13 +136,8 @@ public class Principal extends JFrame {
 		panel_1.setBounds(0, 294, 883, 38);
 		contentPane.add(panel_1);
 		
-		lblDate = new JLabel("New label");
-		lblDate.setVerticalAlignment(SwingConstants.TOP);
-		lblDate.setHorizontalAlignment(SwingConstants.LEFT);
-		panel_1.add(lblDate);
-		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/IconMonitor.png")));
+		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ConsoleIcon.png")));
 		lblNewLabel.setBounds(673, 115, 128, 128);
 		contentPane.add(lblNewLabel);
 		status();
@@ -139,7 +150,7 @@ public class Principal extends JFrame {
 	private void setardata() {
 		Date data = new Date();
 		DateFormat formatado = DateFormat.getDateInstance(DateFormat.FULL);
-		lblDate.setText("");
+		lblDate.setText(formatado.format(data));
 	}
 	
 	private void status() {

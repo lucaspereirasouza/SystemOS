@@ -35,6 +35,7 @@ public class Usuarios extends JDialog {
 	private JTextField txtNome;
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
+	private JTextField txtFone;
 
 	/**
 	 * Launch the application.
@@ -101,10 +102,12 @@ public class Usuarios extends JDialog {
 		txtEmail.setColumns(10);
 		
 		JButton btnNewButton = new JButton("");
+		getRootPane().setDefaultButton(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			search();
 			}
+		
 		});
 		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton.setIcon(new ImageIcon(Usuarios.class.getResource("/img/search.png")));
@@ -133,8 +136,28 @@ public class Usuarios extends JDialog {
 			add();
 			}
 		});
-		btnNewButton_2.setBounds(342, 204, 64, 64);
+		btnNewButton_2.setBounds(342, 188, 64, 64);
 		getContentPane().add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			refresh();
+			}
+		});
+		btnNewButton_3.setIcon(new ImageIcon(Usuarios.class.getResource("/img/refreshIcon.png")));
+		btnNewButton_3.setBounds(342, 263, 64, 64);
+		getContentPane().add(btnNewButton_3);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Fone");
+		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_3_1.setBounds(20, 253, 46, 14);
+		getContentPane().add(lblNewLabel_3_1);
+		
+		txtFone = new JTextField();
+		txtFone.setColumns(10);
+		txtFone.setBounds(74, 252, 171, 20);
+		getContentPane().add(txtFone);
 
 	}
 	private void search() {
@@ -142,7 +165,7 @@ public class Usuarios extends JDialog {
 		//System.out.println("teste do botão buscar");
 		
 		// Criar uma variável com a query (instrução do banco)
-		String read = "select * from usuarios where nome = ?";
+		String read = "select * from contatos where nome = ?";
 		//tratamento de exceções
 		try {
 			//abrir a conexão
@@ -161,6 +184,7 @@ public class Usuarios extends JDialog {
 				txtNome.setText(rs.getString(2)); //2° NOME
 				txtEmail.setText(rs.getString(3));//3° EMAIL
 				txtSenha.setText(rs.getString(4));
+				txtFone.setText(rs.getString(5));
 			
 			} else {
 				//se não existir um contato no banco
@@ -174,23 +198,49 @@ public class Usuarios extends JDialog {
 	
 	@SuppressWarnings("deprecation")
 	private void add() {
+		//
 		
 		// condição
 		if (txtNome.getText().isEmpty()) {
-			
 			JOptionPane.showMessageDialog(null, "Nome obrigatorio.");
 			txtNome.requestFocus();
 		}else if (txtSenha.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Senha obrigatoria.");
+			txtSenha.requestFocus();
+		}else if (txtEmail.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Email obrigatoria.");
 			txtEmail.requestFocus();
+		}
+		else if (txtFone.getText().isEmpty()) {
+		JOptionPane.showMessageDialog(null, "Fone obrigatorio.");
+		txtEmail.requestFocus();
+		
 		}else {
+			//adicionar contato
+			//usar dao e pst via con
+			try {
+				
+			con = dao.conectar();
+			//estrutura dao
+			//adicionar mensagem
+			String create = "insert into contatos(nome,email,senha,fone) values(?,?,?,?)";
+			pst = con.prepareStatement(create);
+			// Lista dos contatos
+			pst.setString(1,txtNome.getText()); 
+			pst.setString(2,txtEmail.getText());
+			pst.setString(3,txtSenha.getText());
+			pst.setString(4,txtFone.getText());
 			
-			// Comando crud create
-			String create = "Insert into users(nome,fone,email) values ?,?,?";
-			
-			txtNome.getText();
-			txtSenha.getText();
-			txtEmail.getText();
+			pst.executeUpdate(); // execute update
+			JOptionPane.showMessageDialog(null, "Contato adicionado com sucesso");
+			// limpar os campos
+			limparCampos();
+			// fechar a conexão com o banco
+			con.close();
+			}catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e);
+				// TODO: handle exception
+			}
 		}
 		
 	}
@@ -199,6 +249,40 @@ public class Usuarios extends JDialog {
 			txtNome.setText(null);
 			txtSenha.setText(null);
 			txtEmail.setText(null);
+			txtFone.setText(null);
 		}//fim do método limparCampos()
+	@SuppressWarnings("deprecation")
+	private void refresh() {
+		if (txtNome.getText().isEmpty()) {
+		JOptionPane.showMessageDialog(null, "Preencha os campos");
+		txtNome.requestFocus(); // Oque faz?
+		}else if(txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha os campos");
+			txtEmail.requestFocus(); // Oque faz?
+		}else if(txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha os campos");
+			txtSenha.requestFocus(); // Oque faz?
+		}else {
+			String update = "update contatos set nome=?,fone?,email=? where";
+			try{
+				con = dao.conectar();
+				pst = con.prepareStatement(update);
+				
+				pst.setString(1, txtId.getText());
+				pst.setString(2, txtNome.getText());
+				pst.setString(3, txtEmail.getText());
+				pst.setString(4, txtSenha.getText());
+				pst.setString(5, txtFone.getText());
+				
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
+				limparCampos();
+				con.close();
+			}catch (Exception e) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}
+	}
 }
 
