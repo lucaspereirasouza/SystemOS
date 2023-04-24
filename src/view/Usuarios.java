@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.DAO;
+import util.Validador;
+
 import java.awt.Toolkit;
 import javax.swing.JPasswordField;
 
@@ -62,7 +64,7 @@ public class Usuarios extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Usuarios.class.getResource("/img/UserIcon.png")));
 		setTitle("Usuarios");
 		setModal(true);
-		setBounds(100, 100, 450, 376);
+		setBounds(100, 100, 450, 408);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("id");
@@ -95,6 +97,7 @@ public class Usuarios extends JDialog {
 		txtNome.setBounds(76, 94, 171, 20);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
+		txtNome.setDocument(new Validador(5));
 		
 		txtEmail = new JTextField();
 		txtEmail.setBounds(76, 147, 171, 20);
@@ -158,6 +161,16 @@ public class Usuarios extends JDialog {
 		txtFone.setColumns(10);
 		txtFone.setBounds(74, 252, 171, 20);
 		getContentPane().add(txtFone);
+		
+		JButton bttnRemove = new JButton("X");
+		bttnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			remove();
+			}
+		});
+		bttnRemove.setFont(new Font("Tahoma", Font.PLAIN, 49));
+		bttnRemove.setBounds(20, 294, 64, 64);
+		getContentPane().add(bttnRemove);
 
 	}
 	private void search() {
@@ -282,6 +295,26 @@ public class Usuarios extends JDialog {
 				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, e);
 			}
+		}
+	}
+	private void remove() {
+		con = dao.conectar();
+		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste contato?","Atenção!", JOptionPane.YES_NO_CANCEL_OPTION);
+		if(confirma == JOptionPane.YES_OPTION) {
+			try {
+			String delete = "delete from contatos where id = ?;";
+			con = dao.conectar();
+			pst = con.prepareStatement(delete);
+			pst.setString(1, txtId.getText());
+			pst.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Usuario removidos com sucesso");
+
+			limparCampos();
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e);
+			}
+			
 		}
 	}
 }
