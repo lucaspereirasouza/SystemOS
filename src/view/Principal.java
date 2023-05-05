@@ -84,9 +84,9 @@ public class Principal extends JFrame {
 		bttnUsers.addActionListener(new ActionListener() {
 			//Action performer  ! ! 
 			public void actionPerformed(ActionEvent e) {
-				//Abrir a tela de usuarios
-				Usuarios usuarios = new Usuarios();
-				usuarios.setVisible(true);
+				//Abrir a tela de Agenda
+				Agenda Agenda = new Agenda();
+				Agenda.setVisible(true);
 			}
 		});
 		
@@ -130,7 +130,7 @@ public class Principal extends JFrame {
 		contentPane.add(dbicon);
 		dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
 		bttnUsers.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		bttnUsers.setToolTipText("Usuarios");
+		bttnUsers.setToolTipText("Agenda");
 		bttnUsers.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
 		bttnUsers.setBounds(663, 11, 64, 64);
 		contentPane.add(bttnUsers);

@@ -21,6 +21,9 @@ import util.Validador;
 
 import java.awt.Toolkit;
 import javax.swing.JPasswordField;
+import java.awt.Button;
+import java.awt.Canvas;
+import java.awt.Color;
 
 public class Usuarios extends JDialog {
 	/**
@@ -38,6 +41,10 @@ public class Usuarios extends JDialog {
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
 	private JTextField txtFone;
+	private JButton bttnAdd;
+	private JButton bttnRemove;
+	private JButton bttnEditar;
+	private JButton bttnBuscar;
 
 	/**
 	 * Launch the application.
@@ -97,25 +104,25 @@ public class Usuarios extends JDialog {
 		txtNome.setBounds(76, 94, 171, 20);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
-		txtNome.setDocument(new Validador(5));
+		txtNome.setDocument(new Validador(20));
 		
 		txtEmail = new JTextField();
 		txtEmail.setBounds(76, 147, 171, 20);
 		getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
 		
-		JButton btnNewButton = new JButton("");
-		getRootPane().setDefaultButton(btnNewButton);
-		btnNewButton.addActionListener(new ActionListener() {
+		bttnBuscar = new JButton("");
+		getRootPane().setDefaultButton(bttnBuscar);
+		bttnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			search();
 			}
 		
 		});
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setIcon(new ImageIcon(Usuarios.class.getResource("/img/search.png")));
-		btnNewButton.setBounds(342, 26, 64, 64);
-		getContentPane().add(btnNewButton);
+		bttnBuscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		bttnBuscar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/search.png")));
+		bttnBuscar.setBounds(342, 26, 64, 64);
+		getContentPane().add(bttnBuscar);
 		
 		JButton btnNewButton_1 = new JButton("");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -125,32 +132,35 @@ public class Usuarios extends JDialog {
 		});
 		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton_1.setIcon(new ImageIcon(Usuarios.class.getResource("/img/erase.png")));
-		btnNewButton_1.setBounds(342, 113, 64, 64);
+		btnNewButton_1.setBounds(20, 294, 64, 64);
 		getContentPane().add(btnNewButton_1);
 		
 		txtSenha = new JPasswordField();
 		txtSenha.setBounds(76, 203, 171, 14);
 		getContentPane().add(txtSenha);
+		txtNome.setDocument(new Validador(20));
 		
-		JButton btnNewButton_2 = new JButton("");
-		btnNewButton_2.setIcon(new ImageIcon(Usuarios.class.getResource("/img/plusIcon.png")));
-		btnNewButton_2.addActionListener(new ActionListener() {
+		bttnAdd = new JButton("");
+		bttnAdd.setEnabled(false);
+		bttnAdd.setIcon(new ImageIcon(Usuarios.class.getResource("/img/plusIcon.png")));
+		bttnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			add();
+			adicionar();
 			}
 		});
-		btnNewButton_2.setBounds(342, 188, 64, 64);
-		getContentPane().add(btnNewButton_2);
+		bttnAdd.setBounds(342, 188, 64, 64);
+		getContentPane().add(bttnAdd);
 		
-		JButton btnNewButton_3 = new JButton("");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		bttnEditar = new JButton("");
+		bttnEditar.setEnabled(false);
+		bttnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			refresh();
 			}
 		});
-		btnNewButton_3.setIcon(new ImageIcon(Usuarios.class.getResource("/img/refreshIcon.png")));
-		btnNewButton_3.setBounds(342, 263, 64, 64);
-		getContentPane().add(btnNewButton_3);
+		bttnEditar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/refreshIcon.png")));
+		bttnEditar.setBounds(342, 263, 64, 64);
+		getContentPane().add(bttnEditar);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Fone");
 		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -162,14 +172,15 @@ public class Usuarios extends JDialog {
 		txtFone.setBounds(74, 252, 171, 20);
 		getContentPane().add(txtFone);
 		
-		JButton bttnRemove = new JButton("X");
+		bttnRemove = new JButton("X");
+		bttnRemove.setEnabled(false);
 		bttnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			remove();
 			}
 		});
 		bttnRemove.setFont(new Font("Tahoma", Font.PLAIN, 49));
-		bttnRemove.setBounds(20, 294, 64, 64);
+		bttnRemove.setBounds(342, 110, 64, 64);
 		getContentPane().add(bttnRemove);
 
 	}
@@ -198,10 +209,16 @@ public class Usuarios extends JDialog {
 				txtEmail.setText(rs.getString(3));//3° EMAIL
 				txtSenha.setText(rs.getString(4));
 				txtFone.setText(rs.getString(5));
-			
+				//Validação
+				bttnAdd.setEnabled(true);
+				bttnBuscar.setEnabled(false);
+				
 			} else {
 				//se não existir um contato no banco
 				JOptionPane.showMessageDialog(null, "Contato inexistente");
+				bttnAdd.setEnabled(true);
+				bttnBuscar.setEnabled(false);
+			
 			}
 			// fechar a conexão (IMPORTANTE!)
 			con.close();
@@ -210,7 +227,7 @@ public class Usuarios extends JDialog {
 	} // fim do metodo buscar
 	
 	@SuppressWarnings("deprecation")
-	private void add() {
+	private void adicionar() {
 		//
 		
 		// condição
@@ -263,6 +280,13 @@ public class Usuarios extends JDialog {
 			txtSenha.setText(null);
 			txtEmail.setText(null);
 			txtFone.setText(null);
+			
+			bttnAdd.setEnabled(false);
+			bttnRemove.setEnabled(false);
+			bttnAdd.setEnabled(false);
+			bttnEditar.setEnabled(false);
+			
+			bttnBuscar.setEnabled(true);
 		}//fim do método limparCampos()
 	@SuppressWarnings("deprecation")
 	private void refresh() {

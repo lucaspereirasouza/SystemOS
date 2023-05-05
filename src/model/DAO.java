@@ -12,7 +12,6 @@ public class DAO {
 	private String password = "123@senac";
 	// Criação de um objeto para uso da classe Connection(JDBC)
 	private Connection con;
-
 	/**
 	 * Método responsável por abrir a conexão com o banco
 	 * @return con
