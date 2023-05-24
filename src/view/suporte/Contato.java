@@ -12,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import javax.swing.DropMode;
 
 public class Contato extends JDialog {
 
@@ -19,7 +21,7 @@ public class Contato extends JDialog {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtAaa;
 
 	/**
 	 * Launch the application.
@@ -40,15 +42,16 @@ public class Contato extends JDialog {
 	public Contato() {
 		setBounds(100, 100, 388, 370);
 		getContentPane().setLayout(null);
-		contentPanel.setBounds(0, 0, 434, 228);
+		contentPanel.setBounds(0, 0, 434, 292);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		{
-			textField_3 = new JTextField();
-			textField_3.setBounds(10, 147, 326, 128);
-			contentPanel.add(textField_3);
-			textField_3.setColumns(10);
+			txtAaa = new JTextField();
+			txtAaa.setHorizontalAlignment(SwingConstants.LEFT);
+			txtAaa.setBounds(10, 147, 326, 144);
+			contentPanel.add(txtAaa);
+			txtAaa.setColumns(1);
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Nome");
@@ -105,7 +108,7 @@ public class Contato extends JDialog {
 		}
 		{
 			JLabel lblNewLabel_2 = new JLabel("Descreva em detalhes o problema:");
-			lblNewLabel_2.setBounds(10, 122, 178, 14);
+			lblNewLabel_2.setBounds(10, 122, 237, 14);
 			contentPanel.add(lblNewLabel_2);
 		}
 		{

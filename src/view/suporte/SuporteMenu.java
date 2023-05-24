@@ -57,7 +57,7 @@ public class SuporteMenu extends JDialog {
 		getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Possiveis soluções");
-		lblNewLabel_2.setBounds(10, 195, 97, 14);
+		lblNewLabel_2.setBounds(10, 195, 143, 14);
 		getContentPane().add(lblNewLabel_2);
 		
 		JButton bttnSubmit_1 = new JButton("Enviar");
