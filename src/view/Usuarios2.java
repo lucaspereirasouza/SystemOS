@@ -31,6 +31,7 @@ import util.Validador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.BevelBorder;
+import java.awt.SystemColor;
 
 public class Usuarios2 extends JDialog {
 	/**
@@ -76,6 +77,7 @@ public class Usuarios2 extends JDialog {
 	 * Create the dialog.
 	 */
 	public Usuarios2() {
+		getContentPane().setBackground(SystemColor.activeCaptionBorder);
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -115,7 +117,7 @@ public class Usuarios2 extends JDialog {
 								listaUsuarios.addMouseListener(new MouseAdapter() {
 									@Override
 									public void mouseClicked(MouseEvent e) {
-
+										ItensUsuariosLista();
 									}
 								});
 								listaUsuarios.setModel(new AbstractListModel() {
@@ -207,10 +209,11 @@ public class Usuarios2 extends JDialog {
 				adicionar();
 			}
 		});
-		bttnAdd.setBounds(457, 112, 64, 64);
+		bttnAdd.setBounds(457, 39, 64, 64);
 		getContentPane().add(bttnAdd);
 
 		bttnEditar = new JButton("");
+		bttnEditar.setEnabled(false);
 		bttnEditar.setToolTipText("Editar");
 		bttnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -222,6 +225,7 @@ public class Usuarios2 extends JDialog {
 		getContentPane().add(bttnEditar);
 
 		bttnRemove = new JButton("X");
+		bttnRemove.setEnabled(false);
 		bttnRemove.setToolTipText("Remover");
 		bttnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -229,7 +233,7 @@ public class Usuarios2 extends JDialog {
 			}
 		});
 		bttnRemove.setFont(new Font("Tahoma", Font.PLAIN, 49));
-		bttnRemove.setBounds(457, 26, 64, 64);
+		bttnRemove.setBounds(457, 113, 64, 64);
 		getContentPane().add(bttnRemove);
 
 		lblNewLabel_4 = new JLabel("Login");
@@ -309,18 +313,17 @@ public class Usuarios2 extends JDialog {
 				pst.setString(2, txtLogin.getText());
 				pst.setString(3, txtSenha.getText());
 
-				pst.executeUpdate(); // execute update
+				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Contato adicionado com sucesso");
-				// limpar os campos
+				
 				limparCampos();
 				bttnEditar.setEnabled(true);
-				// fechar a conexão com o banco
-				con.close();
+				
+				con.close(); //"Releases this Connection object's database and JDBC resources immediately instead of waiting for them to be automatically released"
 			} catch (SQLIntegrityConstraintViolationException e) {
 				JOptionPane.showMessageDialog(null, "Já existe uma conta com esse login, tente com outro nome.");
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e);
-				// TODO: handle exception
 			}
 		}
 
@@ -330,7 +333,6 @@ public class Usuarios2 extends JDialog {
 		txtId.setText(null);
 		txtNome.setText(null);
 		txtSenha.setText(null);
-
 		txtLogin.setText(null);
 
 		bttnAdd.setEnabled(false);
@@ -339,11 +341,11 @@ public class Usuarios2 extends JDialog {
 		bttnEditar.setEnabled(false);
 
 		bttnBuscar.setEnabled(true);
-		
+		//
 		scrollPane.setVisible(false);
 		listaUsuarios.setVisible(false);
 		
-	}// fim do método limparCampos()
+	}//
 
 	@SuppressWarnings("deprecation")
 	private void refresh() {
@@ -375,7 +377,7 @@ public class Usuarios2 extends JDialog {
 				JOptionPane.showMessageDialog(null, e);
 			}
 		}
-	}
+	}//
 
 	private void remove() {
 		con = dao.conectar();
@@ -398,7 +400,7 @@ public class Usuarios2 extends JDialog {
 			}
 
 		}
-	}
+	}//
 
 	private void listarUsuarios() {
 
@@ -427,6 +429,37 @@ public class Usuarios2 extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-
+		
+	}//
+	public void ItensUsuariosLista() {
+		int linha = listaUsuarios.getSelectedIndex();
+		String comando = "Select * from usuarios where nome like '" + txtNome.getText() + "%'" + " order by nome limit "+(linha)+", 1";
+		if (linha>=0) {
+			try {    
+			con = dao.conectar();
+			pst = con.prepareStatement(comando);
+			rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				scrollPane.setVisible(false);
+				
+				txtId.setText(rs.getString(1));
+				txtNome.setText(rs.getString(2));
+				txtLogin.setText(rs.getString(3));
+				txtSenha.setText(rs.getString(4));
+				
+			}
+		}
+			catch(SQLException se) {
+				
+			}
+			catch(Exception e) {
+				
+			}
+		} else {
+			scrollPane.setVisible(false);
+		}
+		
+		System.out.println(linha);
 	}
 }

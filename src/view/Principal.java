@@ -76,7 +76,7 @@ public class Principal extends JFrame {
 		setResizable(false);
 		setTitle("ConsoleX Ordens de Serviço");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1212, 608);
+		setBounds(100, 100, 1116, 631);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -88,7 +88,7 @@ public class Principal extends JFrame {
 			// Action performer ! !
 			public void actionPerformed(ActionEvent e) {
 				// Abrir a tela de Agenda
-				Usuarios Usuario = new Usuarios();
+				Usuarios2 Usuario = new Usuarios2();
 				Usuario.setVisible(true);
 			}
 		});
@@ -101,40 +101,53 @@ public class Principal extends JFrame {
 				Suporte.setVisible(true);
 			}
 		});
+		
+		JButton bttnHome = new JButton("");
+		bttnHome.setBounds(10, 21, 81, 57);
+		contentPane.add(bttnHome);
+		bttnHome.setEnabled(false);
+		bttnHome.setIcon(new ImageIcon(Principal.class.getResource("/img/houseIcon.png")));
 		bttnTool.setIcon(new ImageIcon(Principal.class.getResource("/img/ToolIcon.png")));
 		bttnTool.setToolTipText("Suporte");
-		bttnTool.setBounds(432, 11, 64, 64);
+		bttnTool.setBounds(703, 11, 64, 64);
 		contentPane.add(bttnTool);
 
 		JButton bttnUsers_1 = new JButton("");
 		bttnUsers_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bttnUsers_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			ClienteMain cliente = new ClienteMain();
-			cliente.setVisible(true);
+			Clientes clientes = new Clientes();
+			clientes.setEnabled(true);
+			clientes.setVisible(true);
 			}
 		});
 		bttnUsers_1.setIcon(new ImageIcon(Principal.class.getResource("/img/UsersIcon2.png")));
 		bttnUsers_1.setToolTipText("Clientes");
-		bttnUsers_1.setBounds(506, 11, 73, 64);
+		bttnUsers_1.setBounds(777, 11, 73, 64);
 		contentPane.add(bttnUsers_1);
 
-		JButton BttnOS = new JButton("");
-		BttnOS.setEnabled(false);
-		BttnOS.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		BttnOS.setToolTipText("Relatório");
-		BttnOS.setIcon(new ImageIcon(Principal.class.getResource("/img/ReportIcon.png")));
-		BttnOS.setBounds(589, 11, 64, 64);
-		contentPane.add(BttnOS);
+		JButton BtnServicos = new JButton("");
+		BtnServicos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			Servicos servic = new Servicos();
+			servic.setVisible(true);
+			
+			}
+		});
+		BtnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		BtnServicos.setToolTipText("Relatório");
+		BtnServicos.setIcon(new ImageIcon(Principal.class.getResource("/img/ReportIcon.png")));
+		BtnServicos.setBounds(860, 11, 64, 64);
+		contentPane.add(BtnServicos);
 
 		dbicon = new JLabel("");
-		dbicon.setBounds(754, 284, 57, 48);
+		dbicon.setBounds(1043, 531, 57, 48);
 		contentPane.add(dbicon);
 		dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
 		bttnUsers.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bttnUsers.setToolTipText("Agenda");
 		bttnUsers.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
-		bttnUsers.setBounds(663, 11, 64, 64);
+		bttnUsers.setBounds(934, 11, 64, 64);
 		contentPane.add(bttnUsers);
 
 		JButton bttnAbout = new JButton("");
@@ -147,17 +160,17 @@ public class Principal extends JFrame {
 		});
 		bttnAbout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bttnAbout.setIcon(new ImageIcon(Principal.class.getResource("/img/AboutIcon.png")));
-		bttnAbout.setBounds(737, 11, 64, 64);
+		bttnAbout.setBounds(1008, 11, 64, 64);
 		contentPane.add(bttnAbout);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.activeCaption);
-		panel.setBounds(0, 32, 873, 27);
+		panel.setBounds(0, 32, 1112, 27);
 		contentPane.add(panel);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.activeCaption);
-		panel_1.setBounds(0, 294, 883, 38);
+		panel_1.setBounds(0, 543, 1204, 38);
 		contentPane.add(panel_1);
 		
 				lblDate = new JLabel("New label");
@@ -165,20 +178,14 @@ public class Principal extends JFrame {
 
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ConsoleIcon.png")));
-		lblNewLabel.setBounds(673, 115, 128, 128);
+		lblNewLabel.setBounds(944, 110, 128, 128);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Barrel");
+		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
 		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBounds(0, 0, 139, 415);
+		lblNewLabel_1.setBounds(0, -36, 189, 697);
 		contentPane.add(lblNewLabel_1);
-		
-		JButton bttnHome = new JButton("");
-		bttnHome.setEnabled(false);
-		bttnHome.setIcon(new ImageIcon(Principal.class.getResource("/img/houseIcon.png")));
-		bttnHome.setBounds(277, 73, 64, 64);
-		contentPane.add(bttnHome);
 		status();
 		setardata();
 	}
