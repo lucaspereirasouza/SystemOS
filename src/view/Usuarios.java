@@ -32,6 +32,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.BevelBorder;
 import java.awt.SystemColor;
+import java.awt.Color;
 
 public class Usuarios extends JDialog {
 	/**
@@ -77,7 +78,7 @@ public class Usuarios extends JDialog {
 	 * Create the dialog.
 	 */
 	public Usuarios() {
-		getContentPane().setBackground(SystemColor.activeCaptionBorder);
+		getContentPane().setBackground(SystemColor.menu);
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
