@@ -44,6 +44,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.Toolkit;
 
 public class Servicos extends JDialog {
 
@@ -89,6 +90,7 @@ public class Servicos extends JDialog {
 	 * Create the dialog.
 	 */
 	public Servicos() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Servicos.class.getResource("/img/ToolIcon.png")));
 		setTitle("Serviços");
 		setBounds(100, 100, 602, 292);
 		getContentPane().setLayout(null);
@@ -127,7 +129,7 @@ public class Servicos extends JDialog {
 
 		txtEquipamento = new JTextField();
 		txtEquipamento.setColumns(10);
-		txtEquipamento.setBounds(135, 86, 162, 20);
+		txtEquipamento.setBounds(112, 86, 185, 20);
 		txtEquipamento.setDocument(new Validador(200));
 		getContentPane().add(txtEquipamento);
 
@@ -153,7 +155,7 @@ public class Servicos extends JDialog {
 			}
 		});
 		txtValor.setColumns(10);
-		txtValor.setBounds(112, 154, 125, 20);
+		txtValor.setBounds(112, 154, 185, 20);
 		txtOS.setDocument(new Validador(10));
 		getContentPane().add(txtValor);
 
@@ -265,7 +267,7 @@ public class Servicos extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 			imprimirOS();}
 		});
-		btnNewButton.setBounds(487, 217, 89, 23);
+		btnNewButton.setBounds(469, 217, 107, 23);
 		getContentPane().add(btnNewButton);
 
 	}
