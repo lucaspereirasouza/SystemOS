@@ -71,7 +71,7 @@ public class Relatorios extends JDialog {
 		
 		JButton btnClientes_1 = new JButton("Clientes");
 		btnClientes_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnClientes_1.setIcon(new ImageIcon(Relatorios.class.getResource("/img/UserIcon.png")));
+		btnClientes_1.setIcon(new ImageIcon(Relatorios.class.getResource("/img/clientes.png")));
 		btnClientes_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			relatorioClientes();}
@@ -168,7 +168,7 @@ public class Relatorios extends JDialog {
 				DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 				document.add(new Paragraph(formatador.format(dataRelatorio)));
 				//adicionar um páragrafo
-				document.add(new Paragraph("Serviços:"));
+				document.add(new Paragraph("Equipamento console:"));
 				document.add(new Paragraph(" ")); //pular uma linha
 				//----------------------------------------------------------
 				//query (instrução sql para gerar o relatório de clientes)

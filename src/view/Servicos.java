@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.DAO;
-import model.DAOclientes;
 import util.Validador;
 
 import javax.swing.JButton;
