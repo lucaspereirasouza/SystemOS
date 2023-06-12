@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.DAO;
+import model.DAOclientes;
 import util.Validador;
 
 import javax.swing.JButton;
@@ -17,11 +18,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import java.awt.Cursor;
 
 public class Servicos extends JDialog {
+
+	private static final long serialVersionUID = 1L;
 	private Connection con;
 	private ResultSet rs;
 	private PreparedStatement pst;
@@ -37,6 +51,9 @@ public class Servicos extends JDialog {
 	private JButton btnAdicionar;
 	private JButton btnExcluir;
 	private JButton btnApagar;
+	private JTextField txtCliente;
+	private JScrollPane scrollPane;
+	private JList list;
 
 	/**
 	 * Launch the application.
@@ -60,7 +77,7 @@ public class Servicos extends JDialog {
 	 */
 	public Servicos() {
 		setTitle("Serviços");
-		setBounds(100, 100, 602, 357);
+		setBounds(100, 100, 602, 292);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("OS");
@@ -68,6 +85,7 @@ public class Servicos extends JDialog {
 		getContentPane().add(lblNewLabel);
 
 		txtOS = new JTextField();
+		txtOS.setEnabled(false);
 		txtOS.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -79,7 +97,7 @@ public class Servicos extends JDialog {
 		getContentPane().add(txtOS);
 		txtOS.setColumns(10);
 		txtOS.setDocument(new Validador(5));
-		
+
 		JLabel lblDatwe = new JLabel("Date");
 		lblDatwe.setBounds(28, 55, 52, 20);
 		getContentPane().add(lblDatwe);
@@ -87,7 +105,7 @@ public class Servicos extends JDialog {
 		txtDate = new JTextField();
 		txtDate.setEnabled(false);
 		txtDate.setColumns(10);
-		txtDate.setBounds(102, 55, 394, 20);
+		txtDate.setBounds(102, 55, 195, 20);
 		getContentPane().add(txtDate);
 
 		JLabel lblEquipamentio = new JLabel("Equipamento");
@@ -96,7 +114,7 @@ public class Servicos extends JDialog {
 
 		txtEquipamento = new JTextField();
 		txtEquipamento.setColumns(10);
-		txtEquipamento.setBounds(135, 86, 361, 20);
+		txtEquipamento.setBounds(135, 86, 162, 20);
 		txtEquipamento.setDocument(new Validador(200));
 		getContentPane().add(txtEquipamento);
 
@@ -106,7 +124,7 @@ public class Servicos extends JDialog {
 
 		txtDefeito = new JTextField();
 		txtDefeito.setColumns(10);
-		txtDefeito.setBounds(90, 123, 406, 20);
+		txtDefeito.setBounds(90, 123, 207, 20);
 		txtDefeito.setDocument(new Validador(200));
 		getContentPane().add(txtDefeito);
 
@@ -127,28 +145,84 @@ public class Servicos extends JDialog {
 		getContentPane().add(txtValor);
 
 		btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setIcon(new ImageIcon(Servicos.class.getResource("/img/cliAdd.png")));
+		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdicionar.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adicionar();
 			}
 		});
-		btnAdicionar.setBounds(48, 240, 97, 36);
+		btnAdicionar.setBounds(10, 208, 138, 41);
 		getContentPane().add(btnAdicionar);
 
 		btnEditar = new JButton("Editar");
+		btnEditar.setIcon(new ImageIcon(Servicos.class.getResource("/img/cliEdit.png")));
+		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnEditar.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editar();
 			}
 		});
-		btnEditar.setBounds(225, 240, 97, 36);
+		btnEditar.setBounds(158, 208, 125, 41);
 		getContentPane().add(btnEditar);
 
 		btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(396, 240, 97, 36);
+		btnExcluir.setIcon(new ImageIcon(Servicos.class.getResource("/img/cliRemove.png")));
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			excluir();
+			}
+		});
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnExcluir.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnExcluir.setBounds(293, 208, 125, 41);
 		getContentPane().add(btnExcluir);
 
+		JButton btnBuscar = new JButton("Pesquisar");
+		btnBuscar.setIcon(new ImageIcon(Servicos.class.getResource("/img/search.png")));
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buscar();
+			}
+		});
+		btnBuscar.setBounds(207, 11, 162, 40);
+		getContentPane().add(btnBuscar);
+
+		btnApagar = new JButton("");
+		btnApagar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnApagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparcampos();
+			}
+		});
+		btnApagar.setIcon(new ImageIcon(Servicos.class.getResource("/img/erase.png")));
+		btnApagar.setBounds(512, 154, 64, 64);
+		getContentPane().add(btnApagar);
+
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(335, 55, 207, 94);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setVisible(false);
+		scrollPane.setBounds(10, 40, 187, 43);
+		panel.add(scrollPane);
+
+		list = new JList();
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			cliqueCLI();}
+		});
+		scrollPane.setViewportView(list);
+
 		txtID = new JTextField();
+		txtID.setBounds(33, 61, 65, 14);
+		panel.add(txtID);
 		txtID.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -156,32 +230,22 @@ public class Servicos extends JDialog {
 			}
 		});
 		txtID.setColumns(10);
-		txtID.setBounds(423, 24, 107, 20);
 		txtID.setDocument(new Validador(5));
-		getContentPane().add(txtID);
 
-		JLabel lblId = new JLabel("ID do cliente");
-		lblId.setBounds(325, 24, 88, 20);
-		getContentPane().add(lblId);
-
-		JButton btnBuscar = new JButton("Pesquisar");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buscar();
+		txtCliente = new JTextField();
+		txtCliente.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				buscarCLI();
 			}
 		});
-		btnBuscar.setBounds(207, 24, 97, 20);
-		getContentPane().add(btnBuscar);
+		txtCliente.setColumns(10);
+		txtCliente.setBounds(10, 22, 187, 20);
+		panel.add(txtCliente);
 
-		btnApagar = new JButton("");
-		btnApagar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				limparcampos();
-			}
-		});
-		btnApagar.setIcon(new ImageIcon(Servicos.class.getResource("/img/erase.png")));
-		btnApagar.setBounds(500, 171, 64, 64);
-		getContentPane().add(btnApagar);
+		JLabel lblNewLabel_1 = new JLabel("Id");
+		lblNewLabel_1.setBounds(10, 61, 46, 14);
+		panel.add(lblNewLabel_1);
 
 	}
 
@@ -196,67 +260,82 @@ public class Servicos extends JDialog {
 	}
 
 	public void adicionar() {
-		// teste do botão para limpar campos
-
-		// Validação
 		if (txtID.getText().isEmpty()) {
 			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
-			txtOS.requestFocus();
-//		} else if (txtIDCli.getText().isEmpty()) {
-//			JOptionPane.showInternalMessageDialog(null, "O campo IDCliente não pode estar vazio.");
-//			txtIDCli.requestFocus();
-		} else if (txtDate.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo date não pode estar vazio.");
-			txtDate.requestFocus();
-		} else if (txtEquipamento.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo Equipamento não pode estar vazio.");
+			txtID.requestFocus();
+		} else if (txtID.getText().isEmpty()) {
+			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
 			txtEquipamento.requestFocus();
 		} else if (txtDefeito.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo Defeito não pode estar vazio.");
+			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
 			txtDefeito.requestFocus();
 		} else if (txtValor.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo Valor não pode estar vazio.");
-			txtValor.requestFocus();
-		} else
+			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
+			txtDefeito.requestFocus();
+		} else {
 			try {
 				con = dao.conectar();
-				String comando = "insert into servicos (id,equipamento,defeito,valor) value (?,?,?,?);";
-				// Começo da declaração
+				String comando = "insert into servicos (id,equipamento,defeito,valor) value (?,?,?,?)";
+
 				pst = con.prepareStatement(comando);
-				// Sequencia de definição dos valores string dentro do (?)
 				pst.setString(1, txtID.getText());
 				pst.setString(2, txtEquipamento.getText());
 				pst.setString(3, txtDefeito.getText());
 				pst.setString(4, txtValor.getText());
-//				pst.setString(5, txtID.getText());
 
-				btnEditar.setEnabled(true);
+				pst.executeUpdate();
 				con.close();
+
 				limparcampos();
 				JOptionPane.showInternalMessageDialog(null, "Adicionado com sucesso");
+				btnEditar.setEnabled(true);
 			} catch (SQLException se) {
 				se.printStackTrace();
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+
 	}//
 
 	public void excluir() {
+		con = dao.conectar();
+		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste contato?", "Atenção!",
+				JOptionPane.YES_NO_OPTION);
+		if (confirma == JOptionPane.YES_OPTION) {
+			try {
+				String delete = "delete from servicos where id = ?;";
+				
+				con = dao.conectar();
+				pst = con.prepareStatement(delete);
+				pst.setString(1, txtID.getText());
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "servico removidos com sucesso");
 
+				limparcampos();
+			
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e);
+			}
+
+		}
 	}
 
 	public void buscar() {
-
-		String comando = "Select * into servicos where os = ? ";
-
+		// Captura do numero da OS (sem usar a caixa de texto)
+		String numOS = JOptionPane.showInputDialog("Numero da os:");
 		try {
+			String comando = "select * from servicos where os = ? ";
+
 			con = dao.conectar();
 			pst = con.prepareStatement(comando);
-			pst.setString(1, txtOS.getText());
+			pst.setString(1, numOS);
 			rs = pst.executeQuery();
 			if (rs.next()) {
-//			txtOS.setText(rs.getString(1));
+				txtOS.setText(rs.getString(1));
+//				txtOS.setText(numOS);
 				txtDate.setText(rs.getString(2));
 				txtEquipamento.setText(rs.getString(3));
 				txtDefeito.setText(rs.getString(4));
@@ -279,7 +358,71 @@ public class Servicos extends JDialog {
 	}
 
 	public void editar() {
+		String comando = "update servicos set dataOS=?,equipamento=?,defeito=?,valor=? where os=?";
+		if (txtID.getText().isEmpty()) {
+			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
+			txtID.requestFocus();
+		} else if (txtID.getText().isEmpty()) {
+			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
+			txtEquipamento.requestFocus();
+		} else if (txtDefeito.getText().isEmpty()) {
+			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
+			txtDefeito.requestFocus();
+		} else if (txtValor.getText().isEmpty()) {
+			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
+			txtDefeito.requestFocus();
+		} else {
+			try {
+				con = dao.conectar();
+				pst = con.prepareStatement(comando);
 
+				pst.setString(1, txtDate.getText());
+				pst.setString(2, txtEquipamento.getText());
+				pst.setString(3, txtDefeito.getText());
+				pst.setString(4, txtValor.getText());
+				pst.setString(5, txtOS.getText());
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Dados editados com sucesso.");
+				limparcampos();
+
+				con.close();
+			} catch (SQLException se) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(null, se);
+			} catch (Exception e) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}
+	}
+
+	public void buscarCLI() {
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+		list.setModel(modelo);
+		String type = "Select * from clientes where nome like '" + txtCliente.getText() + "%'" + " order by nome ";
+		try {
+
+			con = dao.conectar();
+			pst = con.prepareStatement(type);
+			rs = pst.executeQuery();
+			System.out.println("Conexão");
+			while (rs.next()) {
+				list.setVisible(true);
+				scrollPane.setVisible(true);
+				modelo.addElement(rs.getString(2));
+				if (txtCliente.getText().isEmpty()) {
+//					System.out.println("Condição");
+					list.setVisible(false);
+					scrollPane.setVisible(false);
+				}
+			}
+			con.close();
+		} catch (SQLException se) {
+			System.out.println(se);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	public void onlyNum(KeyEvent e) {
@@ -289,4 +432,29 @@ public class Servicos extends JDialog {
 
 		}
 	}
+
+	public void cliqueCLI() {
+		int linha = list.getSelectedIndex();
+		String comando = "Select * from clientes where nome like '" + txtCliente.getText() + "%'" + " order by nome limit "
+				+ (linha) + ", 1";
+		if (linha >= 0) {
+			try {
+				con = dao.conectar();
+				pst = con.prepareStatement(comando);
+				rs = pst.executeQuery();
+
+				if (rs.next()) {
+					scrollPane.setVisible(false);
+					txtCliente.setText(rs.getString(2));
+					txtID.setText(rs.getString(1));
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();// TODO: handle exception
+			}
+		} else {
+			scrollPane.setVisible(false);
+		}
+	}
+
 }

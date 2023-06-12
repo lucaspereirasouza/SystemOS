@@ -65,6 +65,7 @@ public class Clientes extends JDialog {
 	private JButton btnEditar;
 	private JButton btnExcluir;
 	private JList listClientes;
+	private JButton btnExcluir_1;
 
 	/**
 	 * Launch the application.
@@ -104,6 +105,12 @@ public class Clientes extends JDialog {
 						scrollPane.setViewportView(listClientes);
 
 		txtCep = new JTextField();
+		txtCep.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				onlyNum(e);
+			}
+		});
 		txtCep.setColumns(10);
 		txtCep.setBounds(61, 107, 158, 21);
 		getContentPane().add(txtCep);
@@ -174,6 +181,12 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblNewLabel_1_1_1_1);
 
 		txtNumero = new JTextField();
+		txtNumero.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+			onlyNum(e);
+			}
+		});
 		txtNumero.setColumns(10);
 		txtNumero.setBounds(466, 139, 86, 20);
 		getContentPane().add(txtNumero);
@@ -257,6 +270,18 @@ public class Clientes extends JDialog {
 						"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 		cboUf.setBounds(342, 223, 47, 22);
 		getContentPane().add(cboUf);
+		
+		btnExcluir_1 = new JButton("");
+		btnExcluir_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			limparcampos();
+			}
+		});
+		btnExcluir_1.setIcon(new ImageIcon(Clientes.class.getResource("/img/erase.png")));
+		btnExcluir_1.setToolTipText("Excluir");
+		btnExcluir_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		btnExcluir_1.setBounds(435, 308, 64, 64);
+		getContentPane().add(btnExcluir_1);
 	}
 
 	private void limparcampos() {
@@ -264,13 +289,14 @@ public class Clientes extends JDialog {
 		txtNome.setText(null);
 		txtFone.setText(null);
 		txtCep.setText(null);
-		;
+		
 		txtEndereco.setText(null);
 		txtNumero.setText(null);
 		txtBairro.setText(null);
 		txtComplemento.setText(null);
 		txtCidade.setText(null);
-
+		txtNumero.setText(null);
+		
 		cboUf.setSelectedItem("");
 
 		scrollPane.setVisible(false);
@@ -307,6 +333,9 @@ public class Clientes extends JDialog {
 					resultado = element.getText();
 					if (resultado.equals("1")) {
 						System.out.println("Ok");
+						txtComplemento.setText(null);
+						txtNumero.setText(null);
+						
 					} else {
 						JOptionPane.showMessageDialog(null, "CEP nÃ£o encontrado");
 					}
@@ -384,15 +413,21 @@ public class Clientes extends JDialog {
 				pst = con.prepareStatement(delete);
 				pst.setString(1, txtId.getText());
 				pst.executeUpdate();
-
-				JOptionPane.showMessageDialog(null, "Cliente removidos com sucesso");
+				
+				con.close();
+				JOptionPane.showInternalConfirmDialog(null, "Cliente removidos com sucesso");
 				limparcampos();
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);
 
 //			limparCampos();
-			} catch (Exception e) {
+			}catch (java.sql.SQLIntegrityConstraintViolationException se) {
+				//
+				JOptionPane.showInternalMessageDialog(null, "Não pode excluir o cliente (Tem registro OS)");
+				System.out.println(se);
+			}
+			catch (Exception e) {
 				//
 				System.out.println(e);
 			}
@@ -501,6 +536,23 @@ public class Clientes extends JDialog {
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Nome do cliente obrigatorio.");
 			txtNome.requestFocus();
+		}
+		else if (txtFone.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O telefone deve ser preenchido");
+		} else if (txtCep.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
+		} else if (txtEndereco.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O Endereço deve ser preenchido");
+		} else if (txtNumero.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O Numero deve ser preenchido");
+		} else if (txtBairro.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O Bairro deve ser preenchido");
+//		} else if (txtComplemento.getText().isEmpty()) {
+//			JOptionPane.showMessageDialog(null, "O Complemento deve ser preenchido");
+		} else if (txtCidade.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
+		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
+			JOptionPane.showMessageDialog(null, "O UF deve ser selecionado");
 		} else {
 			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=? where idcli=?";
 			try {
@@ -543,7 +595,13 @@ public class Clientes extends JDialog {
 			}
 		}
 	}
+	public void onlyNum(KeyEvent e) {
+		char c = e.getKeyChar();
+		if (Character.isLetter(c)) {
+			e.consume();
 
+		}
+	}
 }// Fim do codigo
 /**
  * buscarCep

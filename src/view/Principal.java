@@ -76,29 +76,29 @@ public class Principal extends JFrame {
 		setResizable(false);
 		setTitle("ConsoleX Ordens de Serviço");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1116, 631);
+		setBounds(100, 100, 781, 423);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton bttnUsers = new JButton("");
-		bttnUsers.addActionListener(new ActionListener() {
+		JButton btnUsuarios = new JButton("");
+		btnUsuarios.addActionListener(new ActionListener() {
 			// Action performer ! !
 			public void actionPerformed(ActionEvent e) {
 				// Abrir a tela de Agenda
-				Usuarios2 Usuario = new Usuarios2();
+				Usuarios Usuario = new Usuarios();
 				Usuario.setVisible(true);
 			}
 		});
 
-		JButton bttnTool = new JButton("");
-		bttnTool.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		bttnTool.addActionListener(new ActionListener() {
+		JButton btnServicos = new JButton("");
+		btnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnServicos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SuporteMenu Suporte = new SuporteMenu();
-				Suporte.setVisible(true);
+				Servicos servicos = new Servicos();
+				servicos.setVisible(true);
 			}
 		});
 		
@@ -107,10 +107,10 @@ public class Principal extends JFrame {
 		contentPane.add(bttnHome);
 		bttnHome.setEnabled(false);
 		bttnHome.setIcon(new ImageIcon(Principal.class.getResource("/img/houseIcon.png")));
-		bttnTool.setIcon(new ImageIcon(Principal.class.getResource("/img/ToolIcon.png")));
-		bttnTool.setToolTipText("Suporte");
-		bttnTool.setBounds(703, 11, 64, 64);
-		contentPane.add(bttnTool);
+		btnServicos.setIcon(new ImageIcon(Principal.class.getResource("/img/ToolIcon.png")));
+		btnServicos.setToolTipText("Relatorios");
+		btnServicos.setBounds(449, 11, 64, 64);
+		contentPane.add(btnServicos);
 
 		JButton bttnUsers_1 = new JButton("");
 		bttnUsers_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -123,32 +123,32 @@ public class Principal extends JFrame {
 		});
 		bttnUsers_1.setIcon(new ImageIcon(Principal.class.getResource("/img/UsersIcon2.png")));
 		bttnUsers_1.setToolTipText("Clientes");
-		bttnUsers_1.setBounds(777, 11, 73, 64);
+		bttnUsers_1.setBounds(366, 14, 73, 64);
 		contentPane.add(bttnUsers_1);
 
-		JButton BtnServicos = new JButton("");
-		BtnServicos.addActionListener(new ActionListener() {
+		JButton btnRelatorios = new JButton("");
+		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			Servicos servic = new Servicos();
-			servic.setVisible(true);
+			Relatorios relatorios = new Relatorios();
+			relatorios.setVisible(true);
 			
 			}
 		});
-		BtnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		BtnServicos.setToolTipText("Relatório");
-		BtnServicos.setIcon(new ImageIcon(Principal.class.getResource("/img/ReportIcon.png")));
-		BtnServicos.setBounds(860, 11, 64, 64);
-		contentPane.add(BtnServicos);
+		btnRelatorios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRelatorios.setToolTipText("Relatório");
+		btnRelatorios.setIcon(new ImageIcon(Principal.class.getResource("/img/ReportIcon.png")));
+		btnRelatorios.setBounds(521, 11, 64, 64);
+		contentPane.add(btnRelatorios);
 
 		dbicon = new JLabel("");
-		dbicon.setBounds(1043, 531, 57, 48);
+		dbicon.setBounds(704, 329, 57, 48);
 		contentPane.add(dbicon);
 		dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
-		bttnUsers.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		bttnUsers.setToolTipText("Agenda");
-		bttnUsers.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
-		bttnUsers.setBounds(934, 11, 64, 64);
-		contentPane.add(bttnUsers);
+		btnUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnUsuarios.setToolTipText("Agenda");
+		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
+		btnUsuarios.setBounds(595, 11, 64, 64);
+		contentPane.add(btnUsuarios);
 
 		JButton bttnAbout = new JButton("");
 		bttnAbout.addActionListener(new ActionListener() {
@@ -160,7 +160,7 @@ public class Principal extends JFrame {
 		});
 		bttnAbout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bttnAbout.setIcon(new ImageIcon(Principal.class.getResource("/img/AboutIcon.png")));
-		bttnAbout.setBounds(1008, 11, 64, 64);
+		bttnAbout.setBounds(669, 11, 64, 64);
 		contentPane.add(bttnAbout);
 
 		JPanel panel = new JPanel();
@@ -170,7 +170,7 @@ public class Principal extends JFrame {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.activeCaption);
-		panel_1.setBounds(0, 543, 1204, 38);
+		panel_1.setBounds(0, 341, 1204, 38);
 		contentPane.add(panel_1);
 		
 				lblDate = new JLabel("New label");
@@ -178,7 +178,7 @@ public class Principal extends JFrame {
 
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ConsoleIcon.png")));
-		lblNewLabel.setBounds(944, 110, 128, 128);
+		lblNewLabel.setBounds(605, 110, 128, 128);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
