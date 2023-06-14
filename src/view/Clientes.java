@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Iterator;
 
 import javax.swing.JPasswordField;
@@ -66,6 +67,7 @@ public class Clientes extends JDialog {
 	private JButton btnExcluir;
 	private JList listClientes;
 	private JButton btnExcluir_1;
+	private JTextField txtCPF;
 
 	/**
 	 * Launch the application.
@@ -85,32 +87,34 @@ public class Clientes extends JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	public Clientes() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/img/ConsoleIcon.png")));
+		setTitle("Clientes");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/img/UsersIcon2.png")));
 		setResizable(false);
-		setBounds(100, 100, 591, 436);
+		setBounds(100, 100, 591, 370);
 		getContentPane().setLayout(null);
-		
-				scrollPane = new JScrollPane();
-				scrollPane.setVisible(false);
-				scrollPane.setBounds(61, 61, 302, 67);
-				getContentPane().add(scrollPane);
-				
-						listClientes = new JList();
-						listClientes.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
-								ItensClientesLista();
-							}
-						});
-						scrollPane.setViewportView(listClientes);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setVisible(false);
+		scrollPane.setBounds(61, 61, 302, 67);
+		getContentPane().add(scrollPane);
+
+		listClientes = new JList();
+		listClientes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ItensClientesLista();
+			}
+		});
+		scrollPane.setViewportView(listClientes);
 
 		txtCep = new JTextField();
 		txtCep.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyTyped(KeyEvent e) {
 				onlyNum(e);
 			}
 		});
+
 		txtCep.setColumns(10);
 		txtCep.setBounds(61, 107, 158, 21);
 		getContentPane().add(txtCep);
@@ -135,7 +139,7 @@ public class Clientes extends JDialog {
 			public void keyReleased(KeyEvent e) {
 				listarClientes();
 			}
-		
+
 		});
 		txtNome.setColumns(10);
 		txtNome.setBounds(61, 43, 302, 21);
@@ -151,6 +155,12 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblFone);
 
 		txtFone = new JTextField();
+		txtFone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				onlyNum(e);
+			}
+		});
 		txtFone.setColumns(10);
 		txtFone.setBounds(61, 75, 112, 21);
 		getContentPane().add(txtFone);
@@ -182,9 +192,10 @@ public class Clientes extends JDialog {
 
 		txtNumero = new JTextField();
 		txtNumero.addKeyListener(new KeyAdapter() {
+
 			@Override
-			public void keyPressed(KeyEvent e) {
-			onlyNum(e);
+			public void keyTyped(KeyEvent e) {
+				onlyNum(e);
 			}
 		});
 		txtNumero.setColumns(10);
@@ -201,7 +212,7 @@ public class Clientes extends JDialog {
 		txtBairro.setBounds(81, 172, 148, 21);
 		getContentPane().add(txtBairro);
 		txtBairro.setDocument(new Validador(30));
-		
+
 		JLabel lblNewLabel_1_1_1_2_1 = new JLabel("Complemento");
 		lblNewLabel_1_1_1_2_1.setBounds(317, 172, 86, 21);
 		getContentPane().add(lblNewLabel_1_1_1_2_1);
@@ -235,33 +246,33 @@ public class Clientes extends JDialog {
 		btnAdicionar.setIcon(new ImageIcon(Clientes.class.getResource("/img/cliAdd.png")));
 		btnAdicionar.setToolTipText("Adicionar");
 		btnAdicionar.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnAdicionar.setBounds(30, 308, 64, 64);
+		btnAdicionar.setBounds(30, 256, 64, 64);
 		getContentPane().add(btnAdicionar);
 
 		btnEditar = new JButton("");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			editar();
+				editar();
 			}
 		});
 		btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/img/cliEdit.png")));
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setEnabled(false);
 		btnEditar.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnEditar.setBounds(132, 308, 64, 64);
+		btnEditar.setBounds(132, 256, 64, 64);
 		getContentPane().add(btnEditar);
 
 		btnExcluir = new JButton("");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			remove();
+				remove();
 			}
 		});
 		btnExcluir.setIcon(new ImageIcon(Clientes.class.getResource("/img/cliRemove.png")));
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setEnabled(false);
 		btnExcluir.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnExcluir.setBounds(235, 308, 64, 64);
+		btnExcluir.setBounds(244, 256, 64, 64);
 		getContentPane().add(btnExcluir);
 
 		cboUf = new JComboBox();
@@ -270,18 +281,36 @@ public class Clientes extends JDialog {
 						"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 		cboUf.setBounds(342, 223, 47, 22);
 		getContentPane().add(cboUf);
-		
+
 		btnExcluir_1 = new JButton("");
 		btnExcluir_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			limparcampos();
+				limparcampos();
+				btnAdicionar.setEnabled(true);
 			}
 		});
 		btnExcluir_1.setIcon(new ImageIcon(Clientes.class.getResource("/img/erase.png")));
 		btnExcluir_1.setToolTipText("Excluir");
 		btnExcluir_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnExcluir_1.setBounds(435, 308, 64, 64);
+		btnExcluir_1.setBounds(437, 256, 64, 64);
 		getContentPane().add(btnExcluir_1);
+
+		txtCPF = new JTextField();
+		txtCPF.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				onlyNum(e);
+			}
+		});
+		txtCPF.setBounds(440, 43, 112, 20);
+		getContentPane().add(txtCPF);
+		txtCPF.setColumns(10);
+		txtCPF.setDocument(new Validador(11));
+
+		JLabel lblNewLabel_2 = new JLabel("CPF");
+		lblNewLabel_2.setBounds(399, 46, 41, 14);
+		getContentPane().add(lblNewLabel_2);
 	}
 
 	private void limparcampos() {
@@ -289,14 +318,15 @@ public class Clientes extends JDialog {
 		txtNome.setText(null);
 		txtFone.setText(null);
 		txtCep.setText(null);
-		
+		txtCPF.setText(null);
+
 		txtEndereco.setText(null);
 		txtNumero.setText(null);
 		txtBairro.setText(null);
 		txtComplemento.setText(null);
 		txtCidade.setText(null);
 		txtNumero.setText(null);
-		
+
 		cboUf.setSelectedItem("");
 
 		scrollPane.setVisible(false);
@@ -335,7 +365,7 @@ public class Clientes extends JDialog {
 						System.out.println("Ok");
 						txtComplemento.setText(null);
 						txtNumero.setText(null);
-						
+
 					} else {
 						JOptionPane.showMessageDialog(null, "CEP nÃ£o encontrado");
 					}
@@ -348,7 +378,7 @@ public class Clientes extends JDialog {
 	}
 
 	public void adicionar() {
-		String comando = "insert into clientes(nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?)";
+		String comando = "insert into clientes(nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf,cpf) values(?,?,?,?,?,?,?,?,?,?)";
 
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O nome deve ser preenchido");
@@ -356,7 +386,9 @@ public class Clientes extends JDialog {
 //		} else if (txtId.getText().isEmpty()) {
 //			
 //		}
-		else if (txtFone.getText().isEmpty()) {
+		else if (txtCPF.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O CPF deve ser preenchido");
+		} else if (txtFone.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O telefone deve ser preenchido");
 		} else if (txtCep.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
@@ -386,18 +418,22 @@ public class Clientes extends JDialog {
 				pst.setString(7, txtBairro.getText());
 				pst.setString(8, txtCidade.getText());
 				pst.setString(9, String.valueOf(cboUf.getSelectedItem()));
+				pst.setString(10, txtCPF.getText());
 
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
 				limparcampos();
 				con.close();
+			} catch (SQLIntegrityConstraintViolationException se1) {
+				JOptionPane.showInternalMessageDialog(null, "CPF já em uso");
 			} catch (SQLException se) {
 				System.out.println(se);
 
 			} catch (Exception e) {
 				System.out.println(e);
 			}
+
 		}
 	}
 
@@ -413,7 +449,7 @@ public class Clientes extends JDialog {
 				pst = con.prepareStatement(delete);
 				pst.setString(1, txtId.getText());
 				pst.executeUpdate();
-				
+
 				con.close();
 				JOptionPane.showInternalConfirmDialog(null, "Cliente removidos com sucesso");
 				limparcampos();
@@ -422,12 +458,11 @@ public class Clientes extends JDialog {
 				btnExcluir.setEnabled(false);
 
 //			limparCampos();
-			}catch (java.sql.SQLIntegrityConstraintViolationException se) {
+			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
 				//
 				JOptionPane.showInternalMessageDialog(null, "Não pode excluir o cliente (Tem registro OS)");
 				System.out.println(se);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				//
 				System.out.println(e);
 			}
@@ -515,6 +550,7 @@ public class Clientes extends JDialog {
 					txtBairro.setText(rs.getString(8));
 					txtCidade.setText(rs.getString(9));
 					cboUf.setSelectedItem(rs.getString(10));
+					txtCPF.setText(rs.getString(11));
 
 					btnEditar.setEnabled(true);
 					btnExcluir.setEnabled(true);
@@ -536,8 +572,9 @@ public class Clientes extends JDialog {
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Nome do cliente obrigatorio.");
 			txtNome.requestFocus();
-		}
-		else if (txtFone.getText().isEmpty()) {
+		} else if (txtCPF.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O CPF deve ser preenchido");
+		} else if (txtFone.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O telefone deve ser preenchido");
 		} else if (txtCep.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
@@ -554,12 +591,12 @@ public class Clientes extends JDialog {
 		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
 			JOptionPane.showMessageDialog(null, "O UF deve ser selecionado");
 		} else {
-			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=? where idcli=?";
+			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,cpf=? where idcli=?";
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(update);
 
-				pst.setString(10, txtId.getText());
+				pst.setString(11, txtId.getText());
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtFone.getText());
 				pst.setString(3, txtCep.getText());
@@ -569,7 +606,7 @@ public class Clientes extends JDialog {
 				pst.setString(7, txtBairro.getText());
 				pst.setString(8, txtCidade.getText());
 				pst.setString(9, String.valueOf(cboUf.getSelectedItem()));
-
+				pst.setString(10, txtCPF.getText());
 //				txtId.setText(rs.getString(1));
 //				txtNome.setText(rs.getString(2));
 //				txtFone.setText(rs.getString(3));
@@ -588,18 +625,20 @@ public class Clientes extends JDialog {
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);
 				con.close();
-			} catch (SQLException se) {
+			}catch (SQLIntegrityConstraintViolationException se1) {
+				JOptionPane.showInternalMessageDialog(null, "CPF já em uso");
+			}  catch (SQLException se) {
 				JOptionPane.showMessageDialog(null, se);
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e1);
 			}
 		}
 	}
+
 	public void onlyNum(KeyEvent e) {
 		char c = e.getKeyChar();
 		if (Character.isLetter(c)) {
 			e.consume();
-
 		}
 	}
 }// Fim do codigo

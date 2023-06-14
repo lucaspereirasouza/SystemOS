@@ -104,6 +104,7 @@ public class Usuarios extends JDialog {
 //						listarUsuarios();
 //					}
 		});
+		txtLogin.setDocument(new Validador(50));
 
 		scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
@@ -169,7 +170,7 @@ public class Usuarios extends JDialog {
 		txtNome.setBounds(75, 134, 204, 20);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
-		txtNome.setDocument(new Validador(25));
+		txtNome.setDocument(new Validador(15));
 
 		bttnBuscar = new JButton("");
 		bttnBuscar.setToolTipText("Buscar");
@@ -200,7 +201,7 @@ public class Usuarios extends JDialog {
 		txtSenha = new JPasswordField();
 		txtSenha.setBounds(76, 194, 219, 14);
 		getContentPane().add(txtSenha);
-//		txtSenha.setDocument(new Validador(20));
+		txtSenha.setDocument(new Validador(250));
 
 		bttnAdd = new JButton("");
 		bttnAdd.setToolTipText("Adicionar");
@@ -351,7 +352,7 @@ public class Usuarios extends JDialog {
 
 	@SuppressWarnings("deprecation")
 	private void refresh() {
-		String update = "update usuarios set nome=?,senha=md5(?) where id=?";
+		String update = "update usuarios set nome=?,senha=md5(?),login=? where id=?";
 		if (txtLogin.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
 			txtLogin.requestFocus();
@@ -361,15 +362,18 @@ public class Usuarios extends JDialog {
 			txtSenha.requestFocus();
 
 		} else {
-			
+
 			try {
 				con = dao.conectar();
+				
 				pst = con.prepareStatement(update);
 
-				pst.setString(3, txtId.getText());
+				
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtSenha.getText());
-
+				pst.setString(3, txtLogin.getText());
+				pst.setString(4, txtId.getText());
+				
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
 				limparCampos();
@@ -453,6 +457,8 @@ public class Usuarios extends JDialog {
 					txtLogin.setText(rs.getString(3));
 					txtSenha.setText(rs.getString(4));
 
+					bttnRemove.setEnabled(true);
+					bttnEditar.setEnabled(true);
 				}
 			} catch (SQLException se) {
 

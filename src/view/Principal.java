@@ -102,13 +102,23 @@ public class Principal extends JFrame {
 			}
 		});
 		
+		JButton bttnUsers_1_1_1 = new JButton("");
+		bttnUsers_1_1_1.setToolTipText("Clientes");
+		bttnUsers_1_1_1.setBounds(179, 216, 73, 64);
+		contentPane.add(bttnUsers_1_1_1);
+		
+		JButton bttnUsers_1_1 = new JButton("");
+		bttnUsers_1_1.setToolTipText("Clientes");
+		bttnUsers_1_1.setBounds(78, 216, 73, 64);
+		contentPane.add(bttnUsers_1_1);
+		
 		JButton bttnHome = new JButton("");
 		bttnHome.setBounds(10, 21, 81, 57);
 		contentPane.add(bttnHome);
 		bttnHome.setEnabled(false);
 		bttnHome.setIcon(new ImageIcon(Principal.class.getResource("/img/houseIcon.png")));
 		btnServicos.setIcon(new ImageIcon(Principal.class.getResource("/img/ToolIcon.png")));
-		btnServicos.setToolTipText("Relatorios");
+		btnServicos.setToolTipText("Serviços");
 		btnServicos.setBounds(449, 11, 64, 64);
 		contentPane.add(btnServicos);
 
@@ -145,7 +155,7 @@ public class Principal extends JFrame {
 		contentPane.add(dbicon);
 		dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
 		btnUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnUsuarios.setToolTipText("Agenda");
+		btnUsuarios.setToolTipText("Usuarios");
 		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
 		btnUsuarios.setBounds(595, 11, 64, 64);
 		contentPane.add(btnUsuarios);

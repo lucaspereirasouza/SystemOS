@@ -38,12 +38,15 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Executable;
 
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.awt.Dialog.ModalityType;
+import java.awt.Dialog.ModalExclusionType;
 
 public class Servicos extends JDialog {
 
@@ -89,6 +92,7 @@ public class Servicos extends JDialog {
 	 * Create the dialog.
 	 */
 	public Servicos() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Servicos.class.getResource("/img/ToolIcon.png")));
 		setTitle("Serviços");
 		setBounds(100, 100, 602, 292);
@@ -279,9 +283,13 @@ public class Servicos extends JDialog {
 		txtEquipamento.setText(null);
 		txtDefeito.setText(null);
 		txtValor.setText(null);
+		txtCliente.setText(null);
 	}
 
 	public void adicionar() {
+		String comando = "insert into servicos (id,equipamento,defeito,valor) value (?,?,?,?)";
+		String numOs = "SELECT OS FROM servicos WHERE OS = (SELECT MAX(OS) FROM servicos)";
+		String info = "";
 		if (txtID.getText().isEmpty()) {
 			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
 			txtID.requestFocus();
@@ -297,8 +305,7 @@ public class Servicos extends JDialog {
 		} else {
 			try {
 				con = dao.conectar();
-				String comando = "insert into servicos (id,equipamento,defeito,valor) value (?,?,?,?)";
-
+				
 				pst = con.prepareStatement(comando);
 				pst.setString(1, txtID.getText());
 				pst.setString(2, txtEquipamento.getText());
@@ -307,9 +314,18 @@ public class Servicos extends JDialog {
 
 				pst.executeUpdate();
 				con.close();
-
+				
+				con = dao.conectar();
+				pst = con.prepareStatement(numOs);
+				rs = pst.executeQuery();
+				
+				if (rs.next()) {
+					info = rs.getString(1);
+				}
+				con.close();
 				limparcampos();
 				JOptionPane.showInternalMessageDialog(null, "Adicionado com sucesso");
+				JOptionPane.showInternalMessageDialog(null,"Sua OS é: "+ info);
 				btnEditar.setEnabled(true);
 			} catch (SQLException se) {
 				se.printStackTrace();
@@ -364,6 +380,16 @@ public class Servicos extends JDialog {
 				txtValor.setText(rs.getString(5));
 				txtID.setText(rs.getString(6));
 
+			con.close();
+			
+			con = dao.conectar();
+			pst = con.prepareStatement("select nome from clientes where idcli = ?");
+			pst.setString(1, txtID.getText());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				txtCliente.setText(rs.getString(1));
+			}
+			con.close();
 //			OS
 //			dataOS
 //			equipame
@@ -483,7 +509,7 @@ public class Servicos extends JDialog {
 		Document document = new Document();
 		// validação
 		if (txtOS.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "Por favor, preencha o campo antes de confirmar");
+			JOptionPane.showInternalMessageDialog(null, "Selecione o numero da OS antes de imprimir");
 			txtOS.requestFocus();
 		} else {
 
