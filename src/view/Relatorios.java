@@ -173,7 +173,7 @@ public class Relatorios extends JDialog {
 				//----------------------------------------------------------
 				//query (instrução sql para gerar o relatório de clientes)
 				
-				String readServicos = "select os,dataOS,defeito,valor,nome from servicos inner join clientes on servicos.id = clientes.idcli;";
+				String readServicos = "select os,dataOS,equipamento,defeito,valor,nome from servicos inner join clientes on servicos.id = clientes.idcli";
 				try {
 					//abrir a conexão com o banco
 					
@@ -184,7 +184,7 @@ public class Relatorios extends JDialog {
 					rs = pst.executeQuery();
 					//atenção uso do while para trazer todos os clientes
 					// Criar uma tabela de duas colunas usando o framework(itextPDF)
-					PdfPTable tabela = new PdfPTable(5); //(4) número de colunas
+					PdfPTable tabela = new PdfPTable(6); //(6) número de colunas
 					// Criar o cabeçalho da tabela
 					
 					
@@ -192,10 +192,16 @@ public class Relatorios extends JDialog {
 					PdfPCell col1 = new PdfPCell(new Paragraph("OS"));
 					PdfPCell col2 = new PdfPCell(new Paragraph("Data"));
 					PdfPCell col3 = new PdfPCell(new Paragraph("Equipamento"));
-					PdfPCell col4 = new PdfPCell(new Paragraph("Valor"));
-					PdfPCell col5 = new PdfPCell(new Paragraph("Clientes"));
+					PdfPCell col4 = new PdfPCell(new Paragraph("Defeito"));
+					PdfPCell col5 = new PdfPCell(new Paragraph("Valor"));
+					PdfPCell col6 = new PdfPCell(new Paragraph("Clientes"));
 					
-					
+					tabela.addCell(col1);
+					tabela.addCell(col2);
+					tabela.addCell(col3);
+					tabela.addCell(col4);
+					tabela.addCell(col5);
+					tabela.addCell(col6);
 					
 					while (rs.next()) {
 						//popular a tabela
@@ -204,6 +210,7 @@ public class Relatorios extends JDialog {
 						tabela.addCell(rs.getString(3));
 						tabela.addCell(rs.getString(4));
 						tabela.addCell(rs.getString(5));
+						tabela.addCell(rs.getString(6));
 					}				
 					//adicionar a tabela ao documento pdf
 					document.add(tabela);

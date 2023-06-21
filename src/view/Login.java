@@ -84,6 +84,8 @@ public class Login extends JFrame {
 					if(rs.next()) {
 						principal.setVisible(true);
 						con.close();
+					}else {
+						JOptionPane.showInternalMessageDialog(null, "Login ou senha invalida");
 					}
 				}
 				catch (Exception e) {
@@ -96,6 +98,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		setTitle("Login");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/ConsoleIcon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 667, 336);
@@ -143,15 +146,10 @@ public class Login extends JFrame {
 		bttnAcessar.setBounds(470, 202, 114, 33);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBackground(Color.LIGHT_GRAY);
+		lblNewLabel.setBackground(new Color(36, 107, 128));
 		lblNewLabel.setOpaque(true);
 		lblNewLabel.setBounds(0, 223, 674, 27);
 		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Bem vindo.");
-		lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 27));
-		lblNewLabel_1.setBounds(90, 37, 184, 19);
-		contentPane.add(lblNewLabel_1);
 		status();
 	}
 	
