@@ -68,6 +68,13 @@ public class Principal extends JFrame {
 	private JLabel dbicon;
 	private JPanel PanelBarraEsquerda;
 	private JButton bttnHome;
+	
+	public JLabel lblUsuario;
+	public JLabel lblCargo;
+	public JButton btnUsuarios;
+	public JButton btnRelatorios;
+	public JButton btnServicos;
+	public JButton btnClientes;
 
 	/**
 	 * Launch the application.
@@ -175,7 +182,8 @@ public class Principal extends JFrame {
 		PanelBarraEsquerda.setBounds(0, 0, 241, 384);
 		contentPane.add(PanelBarraEsquerda);
 
-		JButton btnRelatorios = new JButton("Relatório");
+		btnRelatorios = new JButton("Relatório");
+		btnRelatorios.setEnabled(false);
 		btnRelatorios.setContentAreaFilled(false);
 		btnRelatorios.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
 		btnRelatorios.setHorizontalAlignment(SwingConstants.LEFT);
@@ -194,7 +202,8 @@ public class Principal extends JFrame {
 		btnRelatorios.setToolTipText("Gerador de Relatorio de clientes e serviços");
 		btnRelatorios.setIcon(new ImageIcon(Principal.class.getResource("/img/ReportIcon.png")));
 
-		JButton btnUsuarios = new JButton("Usuarios");
+		btnUsuarios = new JButton("Usuarios");
+		btnUsuarios.setEnabled(false);
 		btnUsuarios.setContentAreaFilled(false);
 		btnUsuarios.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
 		btnUsuarios.setHorizontalAlignment(SwingConstants.LEFT);
@@ -214,26 +223,26 @@ public class Principal extends JFrame {
 		btnUsuarios.setToolTipText("Criação de usuarios");
 		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
 
-		JButton bttnUsers_1 = new JButton("Clientes");
-		bttnUsers_1.setContentAreaFilled(false);
-		bttnUsers_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
-		bttnUsers_1.setHorizontalAlignment(SwingConstants.LEFT);
-		bttnUsers_1.setHorizontalTextPosition(SwingConstants.RIGHT);
-		bttnUsers_1.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		bttnUsers_1.setBounds(10, 227, 221, 46);
-		PanelBarraEsquerda.add(bttnUsers_1);
-		bttnUsers_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		bttnUsers_1.addActionListener(new ActionListener() {
+		btnClientes = new JButton("Clientes");
+		btnClientes.setContentAreaFilled(false);
+		btnClientes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
+		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
+		btnClientes.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnClientes.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
+		btnClientes.setBounds(10, 227, 221, 46);
+		PanelBarraEsquerda.add(btnClientes);
+		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Clientes clientes = new Clientes();
 				clientes.setEnabled(true);
 				clientes.setVisible(true);
 			}
 		});
-		bttnUsers_1.setIcon(new ImageIcon(Principal.class.getResource("/img/UsersIcon2.png")));
-		bttnUsers_1.setToolTipText("Criação de clientes");
+		btnClientes.setIcon(new ImageIcon(Principal.class.getResource("/img/UsersIcon2.png")));
+		btnClientes.setToolTipText("Criação de clientes");
 
-		JButton btnServicos = new JButton("Serviços");
+		btnServicos = new JButton("Serviços");
 		btnServicos.setContentAreaFilled(false);
 		btnServicos.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
 		btnServicos.setHorizontalAlignment(SwingConstants.LEFT);
@@ -261,7 +270,8 @@ public class Principal extends JFrame {
 		contentPane.add(bttnUsers_1_1);
 		bttnUsers_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Apertado");
+				String value = "fade225f096f9138f98f29887fc1f10d";
+				System.out.println(value.length());
 			}
 		});
 		bttnUsers_1_1.setToolTipText("Clientes");
@@ -288,11 +298,29 @@ public class Principal extends JFrame {
 		bttnAbout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bttnAbout.setIcon(new ImageIcon(Principal.class.getResource("/img/AboutIcon.png")));
 
-		JLabel lblNewLabel_1 = new JLabel("[Insira cargo aqui]");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(543, 348, 151, 14);
+		JLabel lblNewLabel_1 = new JLabel("Usuario:");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 17));
+		lblNewLabel_1.setBounds(500, 309, 67, 33);
 		contentPane.add(lblNewLabel_1);
+		
+		lblUsuario = new JLabel("[]");
+		lblUsuario.setHorizontalAlignment(SwingConstants.LEFT);
+		lblUsuario.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 15));
+		lblUsuario.setBounds(577, 309, 67, 33);
+		contentPane.add(lblUsuario);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Cargo:");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 17));
+		lblNewLabel_1_1.setBounds(511, 340, 67, 33);
+		contentPane.add(lblNewLabel_1_1);
+		
+		lblCargo = new JLabel("[]");
+		lblCargo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCargo.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 15));
+		lblCargo.setBounds(577, 340, 67, 33);
+		contentPane.add(lblCargo);
 		status();
 		setardata();
 		comeco();
@@ -313,7 +341,24 @@ public class Principal extends JFrame {
 		PanelBarraEsquerda.setVisible(false);
 		System.out.println("Barra Invisivel");
 	}
-
+//	private void NomeUsuario() {
+//		String comando = "Select * from usuarios where ?";
+//		try {
+//			con = dao.conectar();
+//			pst = con.prepareStatement(comando);
+//			rs = pst.executeQuery();
+//			
+//			if(rs.next()) {
+//				lblUsuario.setText(rs.getString(2));
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		
+//		
+//		
+//		
+//	}
 	private void status() {
 		try {
 			// abrir a conexão

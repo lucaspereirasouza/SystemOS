@@ -33,6 +33,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.BevelBorder;
 import java.awt.SystemColor;
 import java.awt.Color;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 
 public class Usuarios extends JDialog {
 	/**
@@ -56,6 +59,8 @@ public class Usuarios extends JDialog {
 	private JTextField txtLogin;
 	private JScrollPane scrollPane;
 	private JList listaUsuarios;
+	private JComboBox cbPerfil;
+	private JCheckBox checkSenha;
 
 	/**
 	 * Launch the application.
@@ -242,6 +247,39 @@ public class Usuarios extends JDialog {
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_4.setBounds(20, 77, 46, 28);
 		getContentPane().add(lblNewLabel_4);
+
+		JLabel lblPerfil = new JLabel("Perfil");
+		lblPerfil.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPerfil.setBounds(20, 237, 46, 14);
+		getContentPane().add(lblPerfil);
+
+		cbPerfil = new JComboBox();
+		cbPerfil.setModel(new DefaultComboBoxModel(new String[] { "", "admin", "user" }));
+		cbPerfil.setBounds(86, 229, 72, 22);
+		getContentPane().add(cbPerfil);
+
+		checkSenha = new JCheckBox("Alterar senha");
+		checkSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//			txtSenha.setText(null);
+//			txtSenha.setBackground(Color.YELLOW);
+				@SuppressWarnings("deprecation")
+				String pass = txtSenha.getText();
+				if (checkSenha.isSelected()) {
+					System.out.println("selecionado");
+					txtSenha.setBackground(Color.YELLOW);
+					txtSenha.setText(null);
+					txtSenha.requestFocus();
+
+				} else {
+					System.out.println("Não selecionado");
+				
+					txtSenha.setBackground(Color.WHITE);
+				}
+			}
+		});
+		checkSenha.setBounds(90, 320, 135, 23);
+		getContentPane().add(checkSenha);
 	}
 
 	private void search() {
@@ -261,7 +299,8 @@ public class Usuarios extends JDialog {
 				txtId.setText(rs.getString(1)); // 1º ID
 				txtNome.setText(rs.getString(2)); // 2° NOME
 				txtLogin.setText(rs.getString(3)); // 3° Login
-				txtSenha.setText(Value);
+				txtSenha.setText(rs.getString(4));
+				cbPerfil.setSelectedItem(rs.getString(5));
 
 				bttnEditar.setEnabled(true);
 				bttnAdd.setEnabled(true);
@@ -298,7 +337,9 @@ public class Usuarios extends JDialog {
 		} else if (capturaSenha.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Senha obrigatoria.");
 			txtSenha.requestFocus();
-
+		} else if (cbPerfil.getSelectedItem().equals("")) {
+			JOptionPane.showMessageDialog(null, "Perfil obrigatorio.");
+			cbPerfil.requestFocus();
 		} else {
 			// adicionar contato
 			// usar dao e pst via con
@@ -307,13 +348,14 @@ public class Usuarios extends JDialog {
 				con = dao.conectar();
 				// estrutura dao
 				// adicionar mensagem
-				String create = "insert into usuarios(nome,login,senha) values(?,?,md5(?))";
+				String create = "insert into usuarios(nome,login,senha,perfil) values(?,?,md5(?),?)";
 
 				pst = con.prepareStatement(create);
 				// Lista dos usuarios
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtLogin.getText());
 				pst.setString(3, txtSenha.getText());
+				pst.setString(4, (String) cbPerfil.getSelectedItem());
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Contato adicionado com sucesso");
@@ -333,11 +375,12 @@ public class Usuarios extends JDialog {
 	}
 
 	private void limparCampos() {
+		// Remoção de todos os textos
 		txtId.setText(null);
 		txtNome.setText(null);
 		txtSenha.setText(null);
 		txtLogin.setText(null);
-
+		// Validação dos botões
 		bttnAdd.setEnabled(false);
 		bttnRemove.setEnabled(false);
 		bttnAdd.setEnabled(false);
@@ -347,33 +390,54 @@ public class Usuarios extends JDialog {
 		//
 		scrollPane.setVisible(false);
 		listaUsuarios.setVisible(false);
-
+		//
+		cbPerfil.setSelectedItem("");
 	}//
 
 	@SuppressWarnings("deprecation")
 	private void refresh() {
-		String update = "update usuarios set nome=?,senha=md5(?),login=? where id=?";
+		String update = "update usuarios set nome=?,senha=md5(?),login=?,perfil=? where id=?";
+		String updatemd5 = "update usuarios set nome=?,senha=?,login=?,perfil=? where id=?";
+
 		if (txtLogin.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
 			txtLogin.requestFocus();
-
 		} else if (txtSenha.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Senha obrigatoria.");
 			txtSenha.requestFocus();
+		} else if (txtLogin.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
+			txtLogin.requestFocus();
+		} else if (cbPerfil.getSelectedItem().equals("")) {
+			JOptionPane.showMessageDialog(null, "Perfil obrigatorio.");
+			cbPerfil.requestFocus();
 
 		} else {
 
 			try {
 				con = dao.conectar();
-				
-				pst = con.prepareStatement(update);
-
-				
+				if (checkSenha.isSelected())
+					pst = con.prepareStatement(update);
+//				if (txtSenha.getText().length()>=30) {
+//					pst = con.prepareStatement(updatemd5);
+//				}else {
+				else {
+					pst = con.prepareStatement(updatemd5);
+				}
+//				}
 				pst.setString(1, txtNome.getText());
+
+//				if(txtSenha.getText().length()>=30) {
+//				pst.setString(2, rs.getString(4));
+//				System.out.println("mudado");
+//				}else{
 				pst.setString(2, txtSenha.getText());
+
 				pst.setString(3, txtLogin.getText());
-				pst.setString(4, txtId.getText());
-				
+
+				pst.setString(4, (String) cbPerfil.getSelectedItem());
+				pst.setString(5, txtId.getText());
+
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
 				limparCampos();
@@ -456,7 +520,7 @@ public class Usuarios extends JDialog {
 					txtNome.setText(rs.getString(2));
 					txtLogin.setText(rs.getString(3));
 					txtSenha.setText(rs.getString(4));
-
+					cbPerfil.setSelectedItem(rs.getString(5));
 					bttnRemove.setEnabled(true);
 					bttnEditar.setEnabled(true);
 				}

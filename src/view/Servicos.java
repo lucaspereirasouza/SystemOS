@@ -504,7 +504,7 @@ public class Servicos extends JDialog {
 			scrollPane.setVisible(false);
 		}
 	}
-	private void imprimirOS() {
+		private void imprimirOS() {
 		// instanciar objeto para usar os métodos da biblioteca
 		Document document = new Document();
 		// validação
