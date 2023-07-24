@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class Produtos extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +28,10 @@ public class Produtos extends JDialog {
 	private FileInputStream fis;
 	private int fisSize;
 	
-	private JLabel labelImg;
+	private JLabel lblImg;
+	private JTextField txtidProdutos;
+	private JTextField txtEstoque;
+	private JTextField txtEstoqueMin;
 	
 	/**
 	 * Launch the application.
@@ -53,19 +57,42 @@ public class Produtos extends JDialog {
 		setBounds(100, 100, 589, 450);
 		getContentPane().setLayout(null);
 		
-		labelImg = new JLabel("");
-		labelImg.setIcon(new ImageIcon(Produtos.class.getResource("/img/produtosIcon.png")));
-		labelImg.setBounds(335, 152, 140, 140);
-		getContentPane().add(labelImg);
+		lblImg = new JLabel("");
+		lblImg.setIcon(new ImageIcon(Produtos.class.getResource("/img/produtosIcon.png")));
+		lblImg.setBounds(358, 11, 140, 140);
+		getContentPane().add(lblImg);
 		
-		JButton btnNewButton = new JButton("Carregar foto");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnCarregarFoto = new JButton("Carregar foto");
+		btnCarregarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			LoadPhoto();
 			}
 		});
-		btnNewButton.setBounds(175, 210, 126, 23);
-		getContentPane().add(btnNewButton);
+		btnCarregarFoto.setBounds(222, 80, 126, 23);
+		getContentPane().add(btnCarregarFoto);
+		
+		txtidProdutos = new JTextField();
+		txtidProdutos.setBounds(27, 32, 86, 20);
+		getContentPane().add(txtidProdutos);
+		txtidProdutos.setColumns(10);
+		
+		txtEstoque = new JTextField();
+		txtEstoque.setBounds(27, 122, 86, 20);
+		getContentPane().add(txtEstoque);
+		txtEstoque.setColumns(10);
+		
+		txtEstoqueMin = new JTextField();
+		txtEstoqueMin.setBounds(27, 176, 86, 20);
+		getContentPane().add(txtEstoqueMin);
+		txtEstoqueMin.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("EstoqueMin");
+		lblNewLabel.setBounds(27, 153, 86, 14);
+		getContentPane().add(lblNewLabel);
+		
+		JLabel lblEstoque = new JLabel("Estoque");
+		lblEstoque.setBounds(27, 100, 86, 14);
+		getContentPane().add(lblEstoque);
 
 	}
 	
@@ -73,13 +100,14 @@ public class Produtos extends JDialog {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle("Selecionar arquivo");
 		jfc.setFileFilter(new FileNameExtensionFilter("Arquivo de imagens (*.PNG,*.JPG,*.JPEG)","png","jpg","jpeg"));
-		
 		int rs = jfc.showOpenDialog(this);
 		if(rs==JFileChooser.APPROVE_OPTION) {
 			try {
 				fis = new FileInputStream(jfc.getSelectedFile());
 				fisSize = (int) jfc.getSelectedFile().length();
-				Image foto = ImageIO.read(jfc.getSelectedFile()).getScaledInstance(labelImg.getWidth(), labelImg.getHeight(), Image.SCALE_SMOOTH);
+				Image foto = ImageIO.read(jfc.getSelectedFile()).getScaledInstance(lblImg.getWidth(), lblImg.getHeight(), Image.SCALE_SMOOTH);
+				lblImg.setIcon(new ImageIcon(foto));
+				lblImg.updateUI();
 			} catch (Exception e) {
 				e.printStackTrace();// TODO: handle exception
 			}

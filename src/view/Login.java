@@ -24,6 +24,10 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.JTextArea;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Cursor;
 
 public class Login extends JFrame {
 
@@ -43,6 +47,7 @@ public class Login extends JFrame {
 	private JTextField txtLogin;
 	private JPasswordField txtSenha;
 	private JLabel dbicon;
+	private JLabel lblEsqueciMinhaSenha;
 
 	/**
 	 * Launch the application.
@@ -85,32 +90,31 @@ public class Login extends JFrame {
 				if (rs.next()) {
 					// Capturar o perfil do usuario
 					String perfil = rs.getString(5);
-					//Condição Admin
-					
+					// Condição Admin
+
 					if (perfil.equals("admin")) {
-						//Principal Window visibility
+						// Principal Window visibility
 						principal.setVisible(true);
-						//Setting Usuario and Cargo fields from data
+						// Setting Usuario and Cargo fields from data
 						principal.lblUsuario.setText(rs.getString(2));
 						principal.lblCargo.setText(rs.getString(5));
-						
+
 						principal.btnUsuarios.setEnabled(true);
 						principal.btnRelatorios.setEnabled(true);
-						
-						//Fechar banco
+
+						// Fechar banco
 						con.close();
-						//Fechar janela
+						// Fechar janela
 						this.dispose();
-					}else if (perfil.equals("user")) {
+					} else if (perfil.equals("user")) {
 						principal.setVisible(true);
 						principal.lblUsuario.setText(rs.getString(2));
 						principal.lblCargo.setText(rs.getString(5));
 						con.close();
-						//Remoção total da janela
-						//Memória solta para o Sistema
+						// Remoção total da janela
+						// Memória solta para o Sistema
 						this.dispose();
-					}
-					else {
+					} else {
 						System.out.println("Sem cargo");
 					}
 				} else {
@@ -179,6 +183,35 @@ public class Login extends JFrame {
 		lblNewLabel.setOpaque(true);
 		lblNewLabel.setBounds(0, 223, 674, 27);
 		contentPane.add(lblNewLabel);
+
+		lblEsqueciMinhaSenha = new JLabel("Esqueci minha senha");
+		lblEsqueciMinhaSenha.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblEsqueciMinhaSenha.setForeground(Color.BLACK);
+		lblEsqueciMinhaSenha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Label Clicado");
+				EsqueciMinhaSenha esquecisenha = new EsqueciMinhaSenha();
+				esquecisenha.setVisible(true);
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println("Label mouse entrado");
+				lblEsqueciMinhaSenha.setForeground(Color.BLUE);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				System.out.println("Label mouse saido ?");
+				lblEsqueciMinhaSenha.setForeground(Color.BLACK);
+			}
+		});
+		lblEsqueciMinhaSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEsqueciMinhaSenha.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblEsqueciMinhaSenha.setBounds(139, 197, 114, 17);
+		contentPane.add(lblEsqueciMinhaSenha);
 		status();
 	}
 

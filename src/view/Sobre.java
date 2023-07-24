@@ -16,6 +16,12 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
+import java.net.URL;
+import java.awt.Cursor;
 
 public class Sobre extends JDialog {
 
@@ -81,5 +87,41 @@ public class Sobre extends JDialog {
 		lblNewLabel_1_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));
 		lblNewLabel_1_1_1.setBounds(10, 254, 126, 46);
 		getContentPane().add(lblNewLabel_1_1_1);
+		
+		JLabel lblNewLabel = new JLabel("github.com/lucaspereirasouza");
+		lblNewLabel.setBounds(214, 255, 242, 46);
+		getContentPane().add(lblNewLabel);
+		lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				link("https://github.com/lucaspereirasouza");
+				
+//					https://pnrtscr.com/gz5n0s
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println("Label mouse entrado");
+				lblNewLabel.setForeground(Color.BLUE);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				System.out.println("Label mouse saido ?");
+				lblNewLabel.setForeground(Color.BLACK);
+			}
+		});
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+	}
+	private void link(String url) {
+		Desktop desktop = Desktop.getDesktop();
+		try {
+			URI URI = new URI(url);
+			desktop.browse(URI);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e);
+		}
 	}
 }
