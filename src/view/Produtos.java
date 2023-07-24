@@ -37,9 +37,9 @@ public class Produtos extends JDialog {
 
 	private JLabel lblImg;
 	private JTextField txtidProdutos;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtValor;
+	private JTextField txtLocalArmazenagem;
+	private JTextField txtIdFornecedor;
 	private JTextField txtestoquemin;
 	private JTextField txtestoque;
 
@@ -111,45 +111,66 @@ public class Produtos extends JDialog {
 		getContentPane().add(lblNewLabel_1);
 
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (txtidProdutos.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "O campo ID deve ser preenchido.");
+					txtestoque.requestFocus();
+				} else {
+
+				}
+			}
+		});
 		btnRemover.setBounds(163, 333, 126, 23);
 		getContentPane().add(btnRemover);
 
 		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(323, 240, 126, 23);
+		btnPesquisar.setBounds(207, 89, 126, 23);
 		getContentPane().add(btnPesquisar);
 
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (txtidProdutos.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "O campo ID deve ser preenchido.");
+					txtestoque.requestFocus();
+				} else if (txtidProdutos.getText().isEmpty()) {
+
+				} else {
+
+				}
+			}
+		});
 		btnEditar.setBounds(299, 333, 126, 23);
 		getContentPane().add(btnEditar);
 
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(27, 241, 113, 20);
-		getContentPane().add(textField);
+		txtValor = new JTextField();
+		txtValor.setColumns(10);
+		txtValor.setBounds(27, 241, 113, 20);
+		getContentPane().add(txtValor);
 
-		JLabel lblNewLabel_2 = new JLabel("EstoqueMin");
+		JLabel lblNewLabel_2 = new JLabel("Valor");
 		lblNewLabel_2.setBounds(27, 218, 86, 14);
 		getContentPane().add(lblNewLabel_2);
 
-		JLabel lblNewLabel_2_1 = new JLabel("EstoqueMin");
-		lblNewLabel_2_1.setBounds(176, 218, 86, 14);
+		JLabel lblNewLabel_2_1 = new JLabel("Local armazenagem");
+		lblNewLabel_2_1.setBounds(176, 218, 113, 14);
 		getContentPane().add(lblNewLabel_2_1);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(176, 241, 126, 20);
-		getContentPane().add(textField_1);
+		txtLocalArmazenagem = new JTextField();
+		txtLocalArmazenagem.setColumns(10);
+		txtLocalArmazenagem.setBounds(176, 241, 126, 20);
+		getContentPane().add(txtLocalArmazenagem);
 
 		JButton btnNewButton = new JButton("Barcode");
 		btnNewButton.setEnabled(false);
 		btnNewButton.setBounds(474, 333, 89, 23);
 		getContentPane().add(btnNewButton);
 
-		textField_2 = new JTextField();
-		textField_2.setEnabled(false);
-		textField_2.setColumns(10);
-		textField_2.setBounds(113, 58, 57, 20);
-		getContentPane().add(textField_2);
+		txtIdFornecedor = new JTextField();
+		txtIdFornecedor.setColumns(10);
+		txtIdFornecedor.setBounds(113, 58, 57, 20);
+		getContentPane().add(txtIdFornecedor);
 
 		JLabel lblNewLabel_1_1 = new JLabel("IdFornecedor");
 		lblNewLabel_1_1.setBounds(115, 33, 68, 14);
@@ -207,6 +228,11 @@ public class Produtos extends JDialog {
 		} else if (txtestoquemin.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O campo Estoque Minimo deve ser preenchido.");
 			txtestoquemin.requestFocus();
+		}
+		else if (txtIdFornecedor.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O campo Fornecedor deve ser preenchido.");
+			txtestoquemin.requestFocus();
+		} else {
 		}
 	}
 
