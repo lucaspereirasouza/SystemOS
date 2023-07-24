@@ -68,6 +68,8 @@ public class Fornecedor extends JDialog {
 	private JList listClientes;
 	private JButton btnExcluir_1;
 	private JTextField txtCPF;
+	private JLabel lblNewLabel_1_1_1_3;
+	private JTextField txtCPFCNPJ;
 
 	/**
 	 * Launch the application.
@@ -87,7 +89,7 @@ public class Fornecedor extends JDialog {
 	 */
 	@SuppressWarnings("unchecked")
 	public Fornecedor() {
-		setTitle("Clientes");
+		setTitle("Fornecedor");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Fornecedor.class.getResource("/img/UsersIcon2.png")));
 		setResizable(false);
 		setBounds(100, 100, 591, 370);
@@ -129,8 +131,8 @@ public class Fornecedor extends JDialog {
 		txtId.setBounds(30, 11, 80, 21);
 		getContentPane().add(txtId);
 
-		JLabel lblNome = new JLabel("Nome");
-		lblNome.setBounds(10, 43, 41, 21);
+		JLabel lblNome = new JLabel("Nome do fornecedor");
+		lblNome.setBounds(152, 21, 100, 21);
 		getContentPane().add(lblNome);
 
 		txtNome = new JTextField();
@@ -150,8 +152,8 @@ public class Fornecedor extends JDialog {
 		lblNewLabel_1_1.setBounds(10, 107, 41, 21);
 		getContentPane().add(lblNewLabel_1_1);
 
-		JLabel lblFone = new JLabel("Fone");
-		lblFone.setBounds(10, 75, 41, 21);
+		JLabel lblFone = new JLabel("Telefone");
+		lblFone.setBounds(10, 75, 56, 21);
 		getContentPane().add(lblFone);
 
 		txtFone = new JTextField();
@@ -311,6 +313,22 @@ public class Fornecedor extends JDialog {
 		JLabel lblNewLabel_2 = new JLabel("CPF");
 		lblNewLabel_2.setBounds(399, 46, 41, 14);
 		getContentPane().add(lblNewLabel_2);
+		
+		lblNewLabel_1_1_1_3 = new JLabel("CPF/CNPJ");
+		lblNewLabel_1_1_1_3.setBounds(399, 75, 56, 21);
+		getContentPane().add(lblNewLabel_1_1_1_3);
+		
+		txtCPFCNPJ = new JTextField();
+		txtCPFCNPJ.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			onlyNum(e);
+			}
+		});
+		txtCPFCNPJ.setColumns(10);
+		txtCPFCNPJ.setBounds(466, 75, 86, 20);
+		getContentPane().add(txtCPFCNPJ);
+		txtCPF.setDocument(new Validador(14));
 	}
 
 	private void limparcampos() {
@@ -378,7 +396,7 @@ public class Fornecedor extends JDialog {
 	}
 
 	public void adicionar() {
-		String comando = "insert into clientes(nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf,cpf) values(?,?,?,?,?,?,?,?,?,?)";
+		String comando = "insert into fornecedores(nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf,cpf) values(?,?,?,?,?,?,?,?,?,?)";
 
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O nome deve ser preenchido");
