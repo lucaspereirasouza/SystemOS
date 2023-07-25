@@ -16,14 +16,6 @@ ___________
 
 
 ## Objetivo
-- criar uma tabela de produtos
-- campos (mínimo necessários):
-- codigo do produto (PK)
+Produtos:
 - barcode 
-- descricao
-- foto (longblob)
-- estoque (int)
-- estoquemin (int)
-- valor
-- unidade de medida (combo box: UN CX PC Kg m)
-- local de armazenagem
+- foto
