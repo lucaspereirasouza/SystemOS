@@ -27,7 +27,7 @@ CREATE TABLE `usuarios` (
 
 CREATE TABLE `clientes` (
   `idclientes` int NOT NULL AUTO_INCREMENT,
-  `fornecedor` varchar(50) NOT NULL,
+  `clientes` varchar(50) NOT NULL,
   `contato` varchar(15) NOT NULL,
   `email` varchar(30) NOT NULL,
   `endereco` varchar(20) NOT NULL,
