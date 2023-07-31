@@ -135,7 +135,7 @@ public class Produtos extends JDialog {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				adicionar();
+				remover();
 			}
 		});
 		btnRemover.setBounds(123, 300, 95, 35);
@@ -271,6 +271,10 @@ public class Produtos extends JDialog {
 		getContentPane().add(cmbmedida);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			editar();}
+		});
 		btnEditar.setBounds(228, 300, 101, 35);
 		getContentPane().add(btnEditar);
 		
@@ -446,5 +450,52 @@ public class Produtos extends JDialog {
 		txtProdutos.setText(null);
 		txtValor.setText(null);
 		
+	}
+	private void remover() {
+		String comando = "delete from produtos where idproduto = ?";
+		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste produto?", "Atenção!",
+				JOptionPane.YES_NO_OPTION);
+		
+		if (confirma == JOptionPane.YES_OPTION) {
+			try {
+				con = dao.conectar();
+
+				pst = con.prepareStatement(comando);
+				pst.setString(1, txtidProdutos.getText());
+				pst.executeUpdate();
+
+				con.close();
+				JOptionPane.showInternalConfirmDialog(null, "Cliente removidos com sucesso");
+				limparcampos();
+
+//			limparCampos();
+			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
+				//
+				JOptionPane.showInternalMessageDialog(null, "Não pode excluir o cliente (Tem registro OS)");
+				System.out.println(se);
+			} catch (Exception e) {
+				//
+				System.out.println(e);
+			}
+		
+	}// fim do remove
+	public void editar() {
+		if (txtProdutos.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O produto deve ser preenchido");
+		} else if (txtEstoque.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O estoque deve ser preenchido");
+		}else if (txtProdutos.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "O nome do produto deve ser preenchido");
+		}else if (txtEstoque.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "As informações do estoque deve ser preenchido");
+		}else if (txtEstoqueMin.getText().isEmpty()) {JOptionPane.showMessageDialog(null, "O estoque minimo deve ser declarado");
+		}else if (txtValor.getText().isEmpty()) {JOptionPane.showMessageDialog(null, "O valor deve ser declrado");}
+		else if (txtLocalArmazenagem.getText().isEmpty()) {JOptionPane.showMessageDialog(null, "Declarar local de armazenagem");
+//		}
+//		else if (lblimg.getIcon().equals("/bin/img/produtosIcon.png")) {JOptionPane.showMessageDialog(null, "Carregar imagem");
+		}else {
+			String update = "update produtos set nome=?,barcode=?,descricao=?,foto=?,estoque=?,estoquemin=?,valor=?,medida=?,armazenagem=?,id=? where idproduto=?";
+		}
+	
 	}
 }

@@ -171,11 +171,14 @@ public class Principal extends JFrame {
 
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Produtos");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 			Produtos prod = new Produtos();
 			prod.setEnabled(true);
+			prod.setVisible(true);
 			}
-		});
+		})
+		;
 		mnNewMenu.add(mntmNewMenuItem_2);
 
 		PanelBarraEsquerda = new JPanel();
