@@ -269,6 +269,14 @@ public class Produtos extends JDialog {
 		cmbmedida.setModel(new DefaultComboBoxModel(new String[] {"", "UN", "CX", "PC ", "Kg ", "m"}));
 		cmbmedida.setBounds(18, 218, 57, 22);
 		getContentPane().add(cmbmedida);
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setBounds(228, 300, 101, 35);
+		getContentPane().add(btnEditar);
+		
+		JButton btnProcurar = new JButton("Procurar");
+		btnProcurar.setBounds(179, 242, 101, 35);
+		getContentPane().add(btnProcurar);
 	}
 
 	private void LoadPhoto() {

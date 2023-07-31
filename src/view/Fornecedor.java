@@ -81,6 +81,7 @@ public class Fornecedor extends JDialog {
 	private JTextField txtSite;
 	private JLabel lblNewLabel_7;
 	private JLabel lblNewLabel_2;
+	private JTextField txtContato;
 
 	/**
 	 * Launch the application.
@@ -388,6 +389,15 @@ public class Fornecedor extends JDialog {
 		lblNewLabel_2 = new JLabel("IE");
 		lblNewLabel_2.setBounds(409, 75, 46, 20);
 		getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Contato");
+		lblNewLabel_3_1.setBounds(400, 109, 56, 14);
+		getContentPane().add(lblNewLabel_3_1);
+		
+		txtContato = new JTextField();
+		txtContato.setColumns(10);
+		txtContato.setBounds(464, 106, 123, 20);
+		getContentPane().add(txtContato);
 
 	}
 
@@ -465,7 +475,7 @@ public class Fornecedor extends JDialog {
 
 	public void adicionar() {
 		String comando = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
+		String comandoTeste = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf,contato) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O nome deve ser preenchido");
 		}
@@ -507,7 +517,7 @@ public class Fornecedor extends JDialog {
 		} else {
 			try {
 				con = dao.conectar();
-				pst = con.prepareStatement(comando);
+				pst = con.prepareStatement(comandoTeste);
 
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtRazao.getText());
@@ -525,7 +535,8 @@ public class Fornecedor extends JDialog {
 				pst.setString(14, txtBairro.getText());
 				pst.setString(15, txtCidade.getText());
 				pst.setString(16, String.valueOf(cboUf.getSelectedItem()));
-
+				pst.setString(17, txtContato.getText());
+				
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
