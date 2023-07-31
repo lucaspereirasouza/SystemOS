@@ -100,8 +100,11 @@ public class Login extends JFrame {
 						principal.lblCargo.setText(rs.getString(5));
 
 						principal.btnUsuarios.setEnabled(true);
+						principal.btnClientes.setEnabled(true);
 						principal.btnRelatorios.setEnabled(true);
-
+						principal.btnServicos.setEnabled(true);
+						
+						
 						// Fechar banco
 						con.close();
 						// Fechar janela

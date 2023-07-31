@@ -75,6 +75,9 @@ public class Principal extends JFrame {
 	public JButton btnRelatorios;
 	public JButton btnServicos;
 	public JButton btnClientes;
+	private JMenuItem btnMenuFornecedor;
+	public JMenuItem btnMenuProdutos;
+	private JMenuItem btnMenuRelatorio;
 
 	/**
 	 * Launch the application.
@@ -150,27 +153,27 @@ public class Principal extends JFrame {
 		JMenu mnNewMenu = new JMenu("Menu");
 		menuBar.add(mnNewMenu);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Relatorio");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		btnMenuRelatorio = new JMenuItem("Relatorio");
+		btnMenuRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Relatorios relatorios = new Relatorios();
 				relatorios.setVisible(true);
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem);
+		mnNewMenu.add(btnMenuRelatorio);
 
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Fornecedor");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+		btnMenuFornecedor = new JMenuItem("Fornecedor");
+		btnMenuFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Fornecedor forn= new Fornecedor();
 				forn.setEnabled(true);
 				forn.setVisible(true);
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem_1);
+		mnNewMenu.add(btnMenuFornecedor);
 
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Produtos");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+		btnMenuProdutos = new JMenuItem("Produtos");
+		btnMenuProdutos.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 			Produtos prod = new Produtos();
@@ -179,7 +182,7 @@ public class Principal extends JFrame {
 			}
 		})
 		;
-		mnNewMenu.add(mntmNewMenuItem_2);
+		mnNewMenu.add(btnMenuProdutos);
 
 		PanelBarraEsquerda = new JPanel();
 		PanelBarraEsquerda.setRequestFocusEnabled(false);
@@ -230,6 +233,7 @@ public class Principal extends JFrame {
 		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/UserIcon.png")));
 
 		btnClientes = new JButton("Clientes");
+		btnClientes.setEnabled(false);
 		btnClientes.setContentAreaFilled(false);
 		btnClientes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
 		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
@@ -249,6 +253,7 @@ public class Principal extends JFrame {
 		btnClientes.setToolTipText("Criação de clientes");
 
 		btnServicos = new JButton("Serviços");
+		btnServicos.setEnabled(false);
 		btnServicos.setContentAreaFilled(false);
 		btnServicos.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
 		btnServicos.setHorizontalAlignment(SwingConstants.LEFT);
@@ -270,17 +275,6 @@ public class Principal extends JFrame {
 		lblNewLabel.setBounds(10, 26, 128, 128);
 		PanelBarraEsquerda.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ConsoleIcon.png")));
-
-		JButton bttnUsers_1_1 = new JButton("");
-		bttnUsers_1_1.setBounds(682, 254, 73, 64);
-		contentPane.add(bttnUsers_1_1);
-		bttnUsers_1_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String value = "fade225f096f9138f98f29887fc1f10d";
-				System.out.println(value.length());
-			}
-		});
-		bttnUsers_1_1.setToolTipText("Clientes");
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(36, 107, 128));
