@@ -1,4 +1,4 @@
-package view;
+package view.prof;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -45,14 +45,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-public class Fornecedor extends JDialog {
+public class FornecedorProf extends JDialog {
 	DAO dao = new DAO();
 	private Connection con;
 	private PreparedStatement pst;
 	private ResultSet rs;
 
 	private JTextField txtCep;
-	private JTextField txtNome;
 	private JTextField txtFone;
 	private JTextField txtEndereco;
 	private JTextField txtNumero;
@@ -87,7 +86,7 @@ public class Fornecedor extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Fornecedor dialog = new Fornecedor();
+			FornecedorProf dialog = new FornecedorProf();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -99,9 +98,9 @@ public class Fornecedor extends JDialog {
 	 * Create the dialog.
 	 */
 	@SuppressWarnings("unchecked")
-	public Fornecedor() {
+	public FornecedorProf() {
 		setTitle("Fornecedor");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Fornecedor.class.getResource("/img/UsersIcon2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FornecedorProf.class.getResource("/img/UsersIcon2.png")));
 		setResizable(false);
 		setBounds(100, 100, 591, 468);
 		getContentPane().setLayout(null);
@@ -142,29 +141,12 @@ public class Fornecedor extends JDialog {
 		txtId.setBounds(30, 11, 80, 21);
 		getContentPane().add(txtId);
 
-		JLabel lblNome = new JLabel("Nome do fornecedor");
-		lblNome.setBounds(10, 43, 100, 21);
-		getContentPane().add(lblNome);
-
-		txtNome = new JTextField();
-		txtNome.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				listarClientes();
-			}
-
-		});
-		txtNome.setColumns(10);
-		txtNome.setBounds(118, 43, 271, 21);
-		txtNome.setDocument(new Validador(50));
-		getContentPane().add(txtNome);
-
 		JLabel lblNewLabel_1_1 = new JLabel("CEP");
 		lblNewLabel_1_1.setBounds(10, 214, 33, 21);
 		getContentPane().add(lblNewLabel_1_1);
 
 		JLabel lblFone = new JLabel("Telefone");
-		lblFone.setBounds(10, 106, 56, 21);
+		lblFone.setBounds(226, 75, 56, 21);
 		getContentPane().add(lblFone);
 
 		txtFone = new JTextField();
@@ -175,7 +157,7 @@ public class Fornecedor extends JDialog {
 			}
 		});
 		txtFone.setColumns(10);
-		txtFone.setBounds(61, 106, 112, 21);
+		txtFone.setBounds(277, 75, 112, 21);
 		getContentPane().add(txtFone);
 		txtFone.setDocument(new Validador(15));
 
@@ -256,7 +238,7 @@ public class Fornecedor extends JDialog {
 				adicionar();
 			}
 		});
-		btnAdicionar.setIcon(new ImageIcon(Fornecedor.class.getResource("/img/cliAdd.png")));
+		btnAdicionar.setIcon(new ImageIcon(FornecedorProf.class.getResource("/img/cliAdd.png")));
 		btnAdicionar.setToolTipText("Adicionar");
 		btnAdicionar.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnAdicionar.setBounds(30, 354, 64, 64);
@@ -268,7 +250,7 @@ public class Fornecedor extends JDialog {
 				editar();
 			}
 		});
-		btnEditar.setIcon(new ImageIcon(Fornecedor.class.getResource("/img/cliEdit.png")));
+		btnEditar.setIcon(new ImageIcon(FornecedorProf.class.getResource("/img/cliEdit.png")));
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setEnabled(false);
 		btnEditar.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -281,7 +263,7 @@ public class Fornecedor extends JDialog {
 				remove();
 			}
 		});
-		btnExcluir.setIcon(new ImageIcon(Fornecedor.class.getResource("/img/cliRemove.png")));
+		btnExcluir.setIcon(new ImageIcon(FornecedorProf.class.getResource("/img/cliRemove.png")));
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setEnabled(false);
 		btnExcluir.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -302,7 +284,7 @@ public class Fornecedor extends JDialog {
 				btnAdicionar.setEnabled(true);
 			}
 		});
-		btnExcluir_1.setIcon(new ImageIcon(Fornecedor.class.getResource("/img/erase.png")));
+		btnExcluir_1.setIcon(new ImageIcon(FornecedorProf.class.getResource("/img/erase.png")));
 		btnExcluir_1.setToolTipText("Excluir");
 		btnExcluir_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnExcluir_1.setBounds(437, 354, 64, 64);
@@ -338,41 +320,41 @@ public class Fornecedor extends JDialog {
 		txtCPFCNPJ.setDocument(new Validador(14));
 
 		lblNewLabel_3 = new JLabel("Nome fantasia");
-		lblNewLabel_3.setBounds(180, 109, 86, 14);
+		lblNewLabel_3.setBounds(10, 78, 86, 14);
 		getContentPane().add(lblNewLabel_3);
 
 		txtFantasia = new JTextField();
-		txtFantasia.setBounds(266, 106, 123, 20);
+		txtFantasia.setBounds(96, 75, 123, 20);
 		getContentPane().add(txtFantasia);
 		txtFantasia.setColumns(10);
 		txtFantasia.setDocument(new Validador(50));
 
 		txtVendedor = new JTextField();
 		txtVendedor.setColumns(10);
-		txtVendedor.setBounds(296, 138, 132, 20);
+		txtVendedor.setBounds(296, 107, 132, 20);
 		txtVendedor.setDocument(new Validador(20));
 		getContentPane().add(txtVendedor);
 
 		lblNewLabel_4 = new JLabel("vendedor");
-		lblNewLabel_4.setBounds(229, 141, 65, 14);
+		lblNewLabel_4.setBounds(229, 110, 65, 14);
 		getContentPane().add(lblNewLabel_4);
 
 		lblNewLabel_5 = new JLabel("Email");
-		lblNewLabel_5.setBounds(10, 140, 46, 14);
+		lblNewLabel_5.setBounds(10, 109, 46, 14);
 		getContentPane().add(lblNewLabel_5);
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(61, 138, 158, 20);
+		txtEmail.setBounds(61, 107, 158, 20);
 		getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
 		txtEmail.setDocument(new Validador(50));
 
 		lblNewLabel_6 = new JLabel("Razão social");
-		lblNewLabel_6.setBounds(10, 78, 65, 14);
+		lblNewLabel_6.setBounds(10, 46, 65, 14);
 		getContentPane().add(lblNewLabel_6);
 
 		txtRazao = new JTextField();
-		txtRazao.setBounds(87, 75, 302, 20);
+		txtRazao.setBounds(87, 43, 302, 20);
 		getContentPane().add(txtRazao);
 		txtRazao.setColumns(10);
 
@@ -574,64 +556,6 @@ public class Fornecedor extends JDialog {
 			}
 		}
 	}// fim do remove
-
-//	private void pesquisar() {
-//		String comando = "select * from clientes where nome = ?";
-//
-//		try {
-//			con = dao.conectar();
-//			pst = con.prepareStatement(comando);
-//			pst.setString(1, txtNome.getText());
-//			rs = pst.executeQuery();
-//
-//			if (rs.next()) {
-//				txtId.setText(rs.getString(1));
-//				txtNome.setText(rs.getString(2));
-//				txtFone.setText(rs.getString(3));
-//				txtCep.setText(rs.getString(4));
-//				txtEndereco.setText(rs.getString(5));
-//				txtNumero.setText(rs.getString(6));
-//				txtBairro.setText(rs.getString(7));
-//				txtComplemento.setText(rs.getString(8));
-//				txtCidade.setText(rs.getString(7));
-//				cboUf.setSelectedItem(rs.getString(9));
-//			}
-//
-//		} catch (SQLException se) {
-//			System.out.println(se);
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
-//	}
-
-	private void listarClientes() {
-		DefaultListModel<String> modelo = new DefaultListModel<>();
-		listClientes.setModel(modelo);
-		String type = "Select * from fornecedores where nome like '" + txtNome.getText() + "%'" + " order by nome ";
-		try {
-
-			con = dao.conectar();
-			pst = con.prepareStatement(type);
-			rs = pst.executeQuery();
-			System.out.println("Conexão");
-			while (rs.next()) {
-				listClientes.setVisible(true);
-				scrollPane.setVisible(true);
-				modelo.addElement(rs.getString(2));
-				if (txtNome.getText().isEmpty()) {
-//					System.out.println("Condição");
-					listClientes.setVisible(false);
-					scrollPane.setVisible(false);
-				}
-			}
-			con.close();
-		} catch (SQLException se) {
-			System.out.println(se);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-	}
 
 	private void ItensClientesLista() {
 		int linha = listClientes.getSelectedIndex();
