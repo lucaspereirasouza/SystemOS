@@ -1,4 +1,4 @@
-package view.prof;
+package view.didatex;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -46,6 +46,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
 public class FornecedorProf extends JDialog {
+	private static final long serialVersionUID = 1L;
 	DAO dao = new DAO();
 	private Connection con;
 	private PreparedStatement pst;
@@ -375,7 +376,7 @@ public class FornecedorProf extends JDialog {
 
 	private void limparcampos() {
 		txtId.setText(null);
-		txtNome.setText(null);
+//		txtNome.setText(null);
 
 		txtRazao.setText(null);
 		txtFantasia.setText(null);
@@ -446,15 +447,19 @@ public class FornecedorProf extends JDialog {
 	}
 
 	public void adicionar() {
-		String comando = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String excomando = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		String comandoTeste = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O nome deve ser preenchido");
-		}
+		/**
+		 * FornecedoresDida e a versao que substitui razao por nome
+		 */
+		String comando = "insert into fornecedoresdida(razao,fantasia,fone,"
+				+ "vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento"
+				+ ",bairro,cidade,uf)"
+				+ "values()";
 //		} else if (txtId.getText().isEmpty()) {
 //			
 //		}
-		else if (txtRazao.getText().isEmpty()) {
+		if (txtRazao.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "A Razao deve ser preenchido");
 		} else if (txtCPFCNPJ.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O CPF/CNPJ deve ser preenchido");
@@ -491,7 +496,11 @@ public class FornecedorProf extends JDialog {
 				con = dao.conectar();
 				pst = con.prepareStatement(comandoTeste);
 
-				pst.setString(1, txtNome.getText());
+				/**
+				 * 
+				 */
+//				pst.setString(1, txtNome.getText());
+				
 				pst.setString(2, txtRazao.getText());
 				pst.setString(3, txtFantasia.getText());
 				pst.setString(4, txtFone.getText());
@@ -571,7 +580,7 @@ public class FornecedorProf extends JDialog {
 					scrollPane.setVisible(false);
 
 					txtId.setText(rs.getString(1));
-					txtNome.setText(rs.getString(2));
+//					txtNome.setText(rs.getString(2));
 					txtRazao.setText(rs.getString(3));
 					txtFantasia.setText(rs.getString(4));
 					txtFone.setText(rs.getString(5));
@@ -607,9 +616,9 @@ public class FornecedorProf extends JDialog {
 	public void editar() {
 		if (txtId.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "ID obrigatorio.");
-		} else if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Nome do cliente obrigatorio.");
-			txtNome.requestFocus();
+//		} else if (txtNome.getText().isEmpty()) {
+//			JOptionPane.showMessageDialog(null, "Nome do cliente obrigatorio.");
+//			txtNome.requestFocus();
 		} else if (txtRazao.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "A Razao deve ser preenchido");
 		} else if (txtCPFCNPJ.getText().isEmpty()) {
