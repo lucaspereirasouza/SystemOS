@@ -1,4 +1,4 @@
-package view.prof;
+package view.didatex;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -48,6 +48,7 @@ import java.awt.ScrollPane;
 
 public class ProdutosProf extends JDialog {
 	
+	private static final long serialVersionUID = 1L;
 	// Instanciar objetos JDBC
 		DAO dao = new DAO();
 		private Connection con;
@@ -69,7 +70,10 @@ public class ProdutosProf extends JDialog {
 	private JTextArea txtaDescricao;
 	private JComboBox cboUnidade;
 	private JTextField txtLote;
-	private JDateChooser dataEntrada;
+	private JDateChooser dateEntrada;
+	private JButton btnNewButton_1;
+	private JButton btnAdicionar;
+	private JDateChooser dateValidade;
 	//private JDateChooser dateEntrada;
 	//private JDateChooser dateValidade;
 
@@ -279,7 +283,7 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(txtLocal);
 		txtLocal.setColumns(10);
 		
-		JButton btnAdicionar = new JButton("");
+		btnAdicionar = new JButton("");
 		btnAdicionar.setContentAreaFilled(false);
 		btnAdicionar.setToolTipText("Adicionar");
 		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -345,15 +349,15 @@ public class ProdutosProf extends JDialog {
 		btnLimparCampos.setBounds(691, 470, 64, 64);
 		getContentPane().add(btnLimparCampos);
 		
-		dataEntrada = new JDateChooser();
-		dataEntrada.setBounds(346, 351, 124, 20);
-		getContentPane().add(dataEntrada);
+		dateEntrada = new JDateChooser();
+		dateEntrada.setBounds(346, 351, 124, 20);
+		getContentPane().add(dateEntrada);
 		
-		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBounds(346, 412, 124, 20);
-		getContentPane().add(dateChooser_1);
+		dateValidade = new JDateChooser();
+		dateValidade.setBounds(346, 412, 124, 20);
+		getContentPane().add(dateValidade);
 		
-		JButton btnNewButton_1 = new JButton("Buscar");
+		btnNewButton_1 = new JButton("Buscar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //			Buscar();
@@ -386,7 +390,7 @@ public class ProdutosProf extends JDialog {
 				String setarDataent = rs.getString(8);
 				
 				Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
-				dataEntrada.setDate(dataEntradex);
+				dateEntrada.setDate(dataEntradex);
 				txtaDescricao.setText(rs.getNString(5));
 				txtEstoque.setText(rs.getString(10));
 				txtEstoquemin.setText(rs.getString(11));
@@ -468,20 +472,30 @@ public class ProdutosProf extends JDialog {
 	}
 	
 	private void inserirProduto() {
-		//valida��o
-		//...
-		String insert = "insert into produtosDida (barcode,produto,descricao,fabricante,dataval,estoque,estoquemin,unidade,localizacao,custo,lucro,idFor) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+		//Fazer validacao
+		
+		//Comando insert para criacao de dados no produtos
+		//Dida = didatico, versao do professor
+		//O banco de dados produtosDida tambem e diferente
+		//Total de 12 colunas
+		String comando = "insert into produtosDida (barcode,produto,descricao,fabricante,dataval,estoque,estoquemin,unidade,localizacao,custo,lucro,idFor) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
+			
 			Connection con = dao.conectar();
-			PreparedStatement pst = con.prepareStatement(insert);
+			PreparedStatement pst = con.prepareStatement(comando);
+			
 			pst.setString(1, txtBarcode.getText());
 			pst.setString(2, txtProduto.getText());
 			pst.setString(3, txtaDescricao.getText());
 			pst.setString(4, txtFabricante.getText());
-			// Formatar o valor do JCalendar para inser��o correta no banco
+			// Formatacao do valor do JCalendar para a insercao correta no banco
 			SimpleDateFormat formatador = new SimpleDateFormat("yyyyMMdd");
-			//String dataFormatada = formatador.format(dateValidade.getDate());
-			//pst.setString(5, dataFormatada); 
+			/**
+			 * Teoricamente a data formada e levada ao setString 5, que e a coluna
+			 *da data privada.
+			*/
+			String dataformada = formatador.format(dateValidade);
+			pst.setString(5, dataformada);
 			pst.setString(6, txtEstoque.getText());
 			pst.setString(7, txtEstoquemin.getText());
 			pst.setString(8, cboUnidade.getSelectedItem().toString());
@@ -500,7 +514,7 @@ public class ProdutosProf extends JDialog {
 			System.out.println(e);
 		}
 	}
-}//fim do c�digo
+}//fim do codigo
 
 
 
