@@ -18,4 +18,3 @@ ___________
 ## Objetivo
 Produtos:
 - barcode 
-- foto
