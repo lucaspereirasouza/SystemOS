@@ -65,7 +65,7 @@ public class Produtos extends JDialog {
 	private JTextField txtFornecedor;
 	private JTextField txtProdutos;
 	private JScrollPane scrollPane;
-	private JList listFornecedor;
+	private JList<String> listFornecedor;
 	private JButton btnCarregarFoto;
 	private JTextField txtBarcode;
 	private JLabel lblNewLabel_5;
@@ -104,7 +104,7 @@ public class Produtos extends JDialog {
 		JButton btnPesquisar = new JButton("Pesquisar por id");
 		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnPesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e) {
 				String es = JOptionPane.showInputDialog("Por favor, insira o ID do produto:");
 				System.out.println(es);
 				String comando = "Select * from produtos inner join fornecedores where idproduto like '" + es.toString()

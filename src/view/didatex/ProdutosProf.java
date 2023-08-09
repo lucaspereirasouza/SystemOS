@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -40,6 +41,7 @@ import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 
 import model.DAO;
 
@@ -524,7 +526,7 @@ public class ProdutosProf extends JDialog {
 		*Dida = didatico, versao do professor
 		*O banco de dados produtosDida tambem e diferente
 		Total de 12 colunas*/
-		String comando = "insert into produtosDida (barcode,produto,descricao,fabricante,dataval,estoque,estoquemin,unidade,localizacao,custo,lucro,idFor) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+		String comando = "insert into produtosDida (barcode,produto,descricao,fabricante,datavalidade,foto,estoque,estoquemin,unidademedida,localarmazenagem,valor,lucro,idFornecedor) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			
 //			Connection con = dao.conectar();
@@ -542,15 +544,16 @@ public class ProdutosProf extends JDialog {
 			 * Teoricamente a data formada e levada ao setString 5, que e a coluna
 			 *da data privada.
 			*/
-			String dataformada = formatador.format(dateValidade);
+			String dataformada = formatador.format(dateValidade.getDate());
 			pst.setString(5, dataformada);
-			pst.setString(6, txtEstoque.getText());
-			pst.setString(7, txtEstoquemin.getText());
-			pst.setString(8, cboUnidade.getSelectedItem().toString());
-			pst.setString(9, txtLocal.getText());
-			pst.setString(10, txtCusto.getText());
-			pst.setString(11, txtLucro.getText());
-			pst.setString(12, txtId.getText());
+			pst.setBlob(6, fis);
+			pst.setString(7, txtEstoque.getText());
+			pst.setString(8, txtEstoquemin.getText());
+			pst.setString(9, cboUnidade.getSelectedItem().toString());
+			pst.setString(10, txtLocal.getText());
+			pst.setString(11, txtCusto.getText());
+			pst.setString(12, txtLucro.getText());
+			pst.setString(13, txtId.getText());
 			int confirma = pst.executeUpdate();
 			if (confirma == 1) {
 				JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
@@ -558,8 +561,10 @@ public class ProdutosProf extends JDialog {
 				JOptionPane.showMessageDialog(null, "Erro ao cadastrar o produto");
 			}
 			con.close();
+		}catch (SQLException SQLe) {
+			SQLe.printStackTrace();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}//
 //	private void editar() {
