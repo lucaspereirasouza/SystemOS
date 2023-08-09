@@ -8,11 +8,13 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +24,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 //import com.toedter.calendar.JDateChooser;
 
@@ -33,6 +37,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+
 import javax.swing.table.DefaultTableModel;
 
 import model.DAO;
@@ -43,18 +49,26 @@ import java.awt.Toolkit;
 import javax.swing.JList;
 import java.awt.SystemColor;
 import java.awt.Cursor;
+
+import com.itextpdf.text.Image;
 import com.toedter.calendar.JDateChooser;
 import java.awt.ScrollPane;
 
 public class ProdutosProf extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
-	// Instanciar objetos JDBC
+	// Instance objects JDBC
 		DAO dao = new DAO();
 		private Connection con;
 		private PreparedStatement pst;
 		private ResultSet rs;
-
+	// Instance explorer for loading files
+	JFileChooser jfc = new JFileChooser();
+	// Instance objects inputs
+	private FileInputStream fis;
+	// Global variable to storage files input sizes
+	private int tamanho;
+	
 	
 	private JTextField txtBarcode;
 	private JTextField txtCodigo;
@@ -74,6 +88,7 @@ public class ProdutosProf extends JDialog {
 	private JButton btnNewButton_1;
 	private JButton btnAdicionar;
 	private JDateChooser dateValidade;
+	private JLabel lblimg;
 	//private JDateChooser dateEntrada;
 	//private JDateChooser dateValidade;
 
@@ -300,7 +315,7 @@ public class ProdutosProf extends JDialog {
 		JButton btnAlterar = new JButton("");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			editar();
+//			editar();
 			}
 		});
 		btnAlterar.setToolTipText("Editar");
@@ -329,13 +344,18 @@ public class ProdutosProf extends JDialog {
 		txtLote.setBounds(90, 283, 121, 20);
 		getContentPane().add(txtLote);
 		
-		JLabel lblimg = new JLabel("");
+		lblimg = new JLabel("");
 		lblimg.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		lblimg.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/produtosIcon.png")));
 		lblimg.setBounds(496, 129, 256, 256);
 		getContentPane().add(lblimg);
 		
 		JButton btnImg = new JButton("Carregar imagem");
+		btnImg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			loadImage();
+			}
+		});
 		btnImg.setForeground(SystemColor.textHighlight);
 		btnImg.setBounds(611, 395, 141, 23);
 		getContentPane().add(btnImg);
@@ -542,15 +562,46 @@ public class ProdutosProf extends JDialog {
 			System.out.println(e);
 		}
 	}//
-	private void editar() {
-		//Validacao dos campos
+//	private void editar() {
+//		//Validacao dos campos
+//		
+//		
+//		//Comando SQL
+//		String comando = "update * from produtos set=?";
+//		//Preparacao da conexao com o banco de dados
+//		con = dao.conectar();
+//		pst = con.prepareStatement(comando);
+//	}
+	private void loadImage() {
+		/**
+		 * This method opens an internal File explorer from java (JFileChooser)
+		 * 
+		 */
+		jfc.setDialogTitle("Selecione o arquivo de imagem");
+		jfc.setFileFilter(new FileNameExtensionFilter("Arquivo de imagens(*.PNG,*.JPG,*.JPEG)", "png", "jpg", "jpeg"));
 		
+//		System.out.println(jfc.getFileFilter());
 		
-		//Comando SQL
-		String comando = "";
-		//Preparacao da conexao com o banco de dados
-		con = dao.conectar();
-		pst = con.prepareStatement(comando);
+		 //File explorer execution and stores File explorer selected file to result
+		int result = jfc.showOpenDialog(this);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			try {
+				// Catches the file
+				fis = new FileInputStream(jfc.getSelectedFile());
+				// Storages file size by length, converts long to int
+				tamanho = (int) jfc.getSelectedFile().length();
+				
+				//na via das duvidas, trocar para java.awt
+				java.awt.Image image = ImageIO.read(jfc.getSelectedFile()).getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),java.awt.Image.SCALE_SMOOTH);
+				
+				//set Jlabel
+				lblimg.setIcon(new ImageIcon(image));
+				lblimg.updateUI();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			//			lblimg
+		}
 	}
 }//fim do codigo
 

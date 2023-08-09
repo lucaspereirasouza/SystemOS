@@ -566,7 +566,7 @@ public class FornecedorProf extends JDialog {
 		}
 	}// fim do remove
 
-	private void ItensClientesLista() {
+	private void ItensFornecedoresLista() {
 		int linha = listClientes.getSelectedIndex();
 		String comando = "Select * from fornecedores where nome like '" + txtNome.getText() + "%'"
 				+ " order by nome limit " + (linha) + ", 1";
