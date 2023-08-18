@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -103,8 +104,7 @@ public class Login extends JFrame {
 						principal.btnClientes.setEnabled(true);
 						principal.btnRelatorios.setEnabled(true);
 						principal.btnServicos.setEnabled(true);
-						
-						
+
 						// Fechar banco
 						con.close();
 						// Fechar janela
@@ -118,13 +118,13 @@ public class Login extends JFrame {
 						// Memória solta para o Sistema
 						this.dispose();
 					} else {
-						System.out.println("Sem cargo");
+
 					}
 				} else {
 					JOptionPane.showInternalMessageDialog(null, "Login ou senha invalida");
 				}
 			} catch (Exception e) {
-				System.out.println(e);// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 	}
@@ -193,21 +193,52 @@ public class Login extends JFrame {
 		lblEsqueciMinhaSenha.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Label Clicado");
-				EsqueciMinhaSenha esquecisenha = new EsqueciMinhaSenha();
+
+				String name = JOptionPane.showInputDialog("Por favor, insira o nome de usuario com administrador:");
+				String pass = JOptionPane.showInputDialog("Insira a senha:");
+
+				try {
+					String comando = "SELECT * FROM usuarios where nome=? and senha=md5(?)";
+					con = dao.conectar();
+					pst = con.prepareStatement(comando);
+					pst.setString(1, name);
+					pst.setString(2, pass);
+
+					rs = pst.executeQuery();
+
+					if (rs.next()) {
+
+						String perfil = rs.getString(5);
+						if (perfil.equals("admin")) {
+							var esqueci = new EsqueciMinhaSenha();
+							esqueci.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "Login não autorizado");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Erro no login");
+					}
+
+				} catch (SQLException SQLe) {
+					// TODO: handle exception
+					SQLe.printStackTrace();
+				} catch (Exception ex) {
+					// TODO: handle exception
+					ex.printStackTrace();
+				}
+
+				var esquecisenha = new EsqueciMinhaSenha();
 				esquecisenha.setVisible(true);
 
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				System.out.println("Label mouse entrado");
 				lblEsqueciMinhaSenha.setForeground(Color.BLUE);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				System.out.println("Label mouse saido ?");
 				lblEsqueciMinhaSenha.setForeground(Color.BLACK);
 			}
 		});
@@ -220,20 +251,17 @@ public class Login extends JFrame {
 
 	private void status() {
 		try {
-			// abrir a conexão
-
 			con = dao.conectar();
 			if (con == null) {
-				// System.out.println("Erro de conexão");
+			
 				dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
 			} else {
-				// System.out.println("Banco conectado");
+				
 				dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dbon.png")));
 			}
-			// NUNCA esquecer de fechar a conexão
 			con.close();
 		} catch (Exception e) {
-			System.out.println(e);
+
 		}
-	}// fim do método status()
+	}//
 }

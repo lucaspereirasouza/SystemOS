@@ -32,11 +32,6 @@ public class EsqueciMinhaSenha extends JDialog {
 	public EsqueciMinhaSenha() {
 		setBounds(100, 100, 547, 270);
 		getContentPane().setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("SE LASCOUK");
-		lblNewLabel.setFont(new Font("Felix Titling", Font.BOLD | Font.ITALIC, 54));
-		lblNewLabel.setBounds(10, 36, 502, 148);
-		getContentPane().add(lblNewLabel);
 
 	}
 
