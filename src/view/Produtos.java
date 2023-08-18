@@ -50,9 +50,7 @@ public class Produtos extends JDialog {
 	private PreparedStatement pst;
 	private ResultSet rs;
 
-	@SuppressWarnings("unused")
 	private FileInputStream fis;
-	@SuppressWarnings("unused")
 	private int fisSize;
 
 	private JLabel lblimg;

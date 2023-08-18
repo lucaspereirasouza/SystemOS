@@ -2,10 +2,12 @@ package view.didatex;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,8 +31,6 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 //import com.toedter.calendar.JDateChooser;
-
-
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -57,27 +57,26 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.ScrollPane;
 
 public class ProdutosProf extends JDialog {
-	
+
 	private static final long serialVersionUID = 1L;
 	// Instance objects JDBC
-		DAO dao = new DAO();
-		private Connection con;
-		private PreparedStatement pst;
-		private ResultSet rs;
+	DAO dao = new DAO();
+	private Connection con;
+	private PreparedStatement pst;
+	private ResultSet rs;
 	// Instance explorer for loading files
 	JFileChooser jfc = new JFileChooser();
 	// Instance objects inputs
 	private FileInputStream fis;
 	// Global variable to storage files input sizes
 	private int tamanho;
-	
-	
+
 	private JTextField txtBarcode;
 	private JTextField txtCodigo;
 	private JTextField txtFornecedor;
 	private JTextField txtId;
 	private JTextField txtProduto;
-	private JTextField txtCusto;
+	private JTextField txtValor;
 	private JTextField txtLucro;
 	private JTextField txtFabricante;
 	private JTextField txtEstoque;
@@ -89,10 +88,10 @@ public class ProdutosProf extends JDialog {
 	private JDateChooser dateEntrada;
 	private JButton btnNewButton_1;
 	private JButton btnAdicionar;
-	private JDateChooser dateValidade;
+	private JDateChooser dataValidade;
 	private JLabel lblimg;
-	//private JDateChooser dateEntrada;
-	//private JDateChooser dateValidade;
+	// private JDateChooser dateEntrada;
+	// private JDateChooser dateValidade;
 
 	/**
 	 * Launch the application.
@@ -120,27 +119,27 @@ public class ProdutosProf extends JDialog {
 			public void windowActivated(WindowEvent e) {
 				txtBarcode.requestFocus();
 			}
-			
+
 		});
 		setTitle("Produtos");
 		setResizable(false);
 		setModal(true);
 		setBounds(100, 100, 800, 600);
 		getContentPane().setLayout(null);
-		
-		//dateEntrada = new JDateChooser();
-		//dateEntrada.setBounds(379, 226, 147, 20);
-		//getContentPane().add(dateEntrada);
-		
+
+		// dateEntrada = new JDateChooser();
+		// dateEntrada.setBounds(379, 226, 147, 20);
+		// getContentPane().add(dateEntrada);
+
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/barcode.png")));
 		lblNewLabel.setBounds(22, 31, 64, 45);
 		getContentPane().add(lblNewLabel);
-		
+
 		txtBarcode = new JTextField();
 		txtBarcode.addKeyListener(new KeyAdapter() {
-			//leitor de c�digo de barras
-			//evento ao pressionar uma tecla espec�fica (ENTER)
+			// leitor de c�digo de barras
+			// evento ao pressionar uma tecla espec�fica (ENTER)
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -151,16 +150,16 @@ public class ProdutosProf extends JDialog {
 		txtBarcode.setBounds(96, 43, 240, 20);
 		getContentPane().add(txtBarcode);
 		txtBarcode.setColumns(10);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("C\u00F3digo");
 		lblNewLabel_1.setBounds(33, 91, 46, 14);
 		getContentPane().add(lblNewLabel_1);
-		
+
 		txtCodigo = new JTextField();
 		txtCodigo.setBounds(90, 88, 103, 20);
 		getContentPane().add(txtCodigo);
 		txtCodigo.setColumns(10);
-		
+
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setForeground(SystemColor.textHighlight);
 		btnPesquisar.addActionListener(new ActionListener() {
@@ -170,13 +169,13 @@ public class ProdutosProf extends JDialog {
 		});
 		btnPesquisar.setBounds(203, 87, 95, 23);
 		getContentPane().add(btnPesquisar);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Fornecedor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(380, 25, 375, 67);
 		getContentPane().add(panel);
 		panel.setLayout(null);
-		
+
 		txtFornecedor = new JTextField();
 		txtFornecedor.addKeyListener(new KeyAdapter() {
 			@Override
@@ -187,119 +186,119 @@ public class ProdutosProf extends JDialog {
 		txtFornecedor.setBounds(25, 26, 152, 20);
 		panel.add(txtFornecedor);
 		txtFornecedor.setColumns(10);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/search.png")));
 		lblNewLabel_2.setBounds(185, 22, 24, 24);
 		panel.add(lblNewLabel_2);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("ID");
 		lblNewLabel_3.setBounds(243, 29, 24, 14);
 		panel.add(lblNewLabel_3);
-		
+
 		txtId = new JTextField();
 		txtId.setBounds(268, 26, 86, 20);
 		panel.add(txtId);
 		txtId.setColumns(10);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Produto");
 		lblNewLabel_4.setBounds(33, 140, 46, 14);
 		getContentPane().add(lblNewLabel_4);
-		
+
 		txtProduto = new JTextField();
 		txtProduto.setBounds(90, 137, 360, 20);
 		getContentPane().add(txtProduto);
 		txtProduto.setColumns(10);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Descri\u00E7\u00E3o");
 		lblNewLabel_5.setBounds(22, 201, 58, 14);
 		getContentPane().add(lblNewLabel_5);
-		
+
 		txtDescricao = new JTextArea();
 		txtDescricao.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtDescricao.setBounds(90, 185, 360, 74);
 		getContentPane().add(txtDescricao);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Entrada");
 		lblNewLabel_6.setBounds(385, 326, 58, 14);
 		getContentPane().add(lblNewLabel_6);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("Validade");
 		lblNewLabel_7.setBounds(386, 387, 64, 14);
 		getContentPane().add(lblNewLabel_7);
-		
-		//dateValidade = new JDateChooser();
-		//dateValidade.setBounds(577, 226, 147, 20);
-		//getContentPane().add(dateValidade);
-		
-		JLabel lblNewLabel_8 = new JLabel("Custo");
+
+		// dateValidade = new JDateChooser();
+		// dateValidade.setBounds(577, 226, 147, 20);
+		// getContentPane().add(dateValidade);
+
+		JLabel lblNewLabel_8 = new JLabel("Valor");
 		lblNewLabel_8.setBounds(50, 382, 46, 14);
 		getContentPane().add(lblNewLabel_8);
-		
-		txtCusto = new JTextField();
-		txtCusto.setBounds(89, 379, 103, 20);
-		getContentPane().add(txtCusto);
-		txtCusto.setColumns(10);
-		
+
+		txtValor = new JTextField();
+		txtValor.setBounds(89, 379, 103, 20);
+		getContentPane().add(txtValor);
+		txtValor.setColumns(10);
+
 		JLabel lblNewLabel_9 = new JLabel("Lucro");
 		lblNewLabel_9.setBounds(217, 379, 46, 14);
 		getContentPane().add(lblNewLabel_9);
-		
+
 		txtLucro = new JTextField();
 		txtLucro.setBounds(260, 376, 38, 20);
 		getContentPane().add(txtLucro);
 		txtLucro.setColumns(10);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("%");
 		lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_10.setBounds(308, 378, 28, 14);
 		getContentPane().add(lblNewLabel_10);
-		
+
 		JLabel lblNewLabel_11 = new JLabel("Fabricante");
 		lblNewLabel_11.setBounds(234, 286, 64, 14);
 		getContentPane().add(lblNewLabel_11);
-		
+
 		txtFabricante = new JTextField();
 		txtFabricante.setBounds(303, 283, 147, 20);
 		getContentPane().add(txtFabricante);
 		txtFabricante.setColumns(10);
-		
+
 		JLabel lblNewLabel_12 = new JLabel("Estoque");
 		lblNewLabel_12.setBounds(33, 332, 46, 14);
 		getContentPane().add(lblNewLabel_12);
-		
+
 		txtEstoque = new JTextField();
 		txtEstoque.setBounds(89, 329, 51, 20);
 		getContentPane().add(txtEstoque);
 		txtEstoque.setColumns(10);
-		
+
 		JLabel lblNewLabel_13 = new JLabel("Estoque m\u00EDnimo");
 		lblNewLabel_13.setBounds(171, 332, 95, 14);
 		getContentPane().add(lblNewLabel_13);
-		
+
 		txtEstoquemin = new JTextField();
 		txtEstoquemin.setColumns(10);
 		txtEstoquemin.setBounds(267, 329, 51, 20);
 		getContentPane().add(txtEstoquemin);
-		
+
 		JLabel lblNewLabel_14 = new JLabel("Unidade");
 		lblNewLabel_14.setBounds(39, 430, 58, 14);
 		getContentPane().add(lblNewLabel_14);
-		
+
 		cboUnidade = new JComboBox();
-		cboUnidade.setModel(new DefaultComboBoxModel(new String[] {"", "UN", "PC", "CX", "KG", "g", "M", "CM"}));
+		cboUnidade.setModel(new DefaultComboBoxModel(new String[] { "", "UN", "PC", "CX", "KG", "g", "M", "CM" }));
 		cboUnidade.setBounds(90, 426, 51, 22);
 		getContentPane().add(cboUnidade);
-		
+
 		JLabel lblNewLabel_15 = new JLabel("Local");
 		lblNewLabel_15.setBounds(161, 430, 38, 14);
 		getContentPane().add(lblNewLabel_15);
-		
+
 		txtLocal = new JTextField();
 		txtLocal.setBounds(203, 427, 116, 20);
 		getContentPane().add(txtLocal);
 		txtLocal.setColumns(10);
-		
+
 		btnAdicionar = new JButton("");
 		btnAdicionar.setContentAreaFilled(false);
 		btnAdicionar.setToolTipText("Adicionar");
@@ -313,7 +312,7 @@ public class ProdutosProf extends JDialog {
 		});
 		btnAdicionar.setBounds(422, 470, 64, 64);
 		getContentPane().add(btnAdicionar);
-		
+
 		JButton btnAlterar = new JButton("");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -327,7 +326,7 @@ public class ProdutosProf extends JDialog {
 		btnAlterar.setBorder(null);
 		btnAlterar.setBounds(500, 470, 64, 64);
 		getContentPane().add(btnAlterar);
-		
+
 		JButton btnExcluir = new JButton("");
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/cliRemove.png")));
@@ -336,32 +335,32 @@ public class ProdutosProf extends JDialog {
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setBounds(577, 470, 64, 64);
 		getContentPane().add(btnExcluir);
-		
+
 		JLabel lblNewLabel_4_1 = new JLabel("Lote");
 		lblNewLabel_4_1.setBounds(40, 286, 46, 14);
 		getContentPane().add(lblNewLabel_4_1);
-		
+
 		txtLote = new JTextField();
 		txtLote.setColumns(10);
 		txtLote.setBounds(90, 283, 121, 20);
 		getContentPane().add(txtLote);
-		
+
 		lblimg = new JLabel("");
 		lblimg.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		lblimg.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/produtosIcon.png")));
 		lblimg.setBounds(496, 129, 256, 256);
 		getContentPane().add(lblimg);
-		
+
 		JButton btnImg = new JButton("Carregar imagem");
 		btnImg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			loadImage();
+				loadImage();
 			}
 		});
 		btnImg.setForeground(SystemColor.textHighlight);
 		btnImg.setBounds(611, 395, 141, 23);
 		getContentPane().add(btnImg);
-		
+
 		JButton btnLimparCampos = new JButton("");
 		btnLimparCampos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -375,15 +374,16 @@ public class ProdutosProf extends JDialog {
 		btnLimparCampos.setBorder(null);
 		btnLimparCampos.setBounds(691, 470, 64, 64);
 		getContentPane().add(btnLimparCampos);
-		
+
 		dateEntrada = new JDateChooser();
+		dateEntrada.setEnabled(false);
 		dateEntrada.setBounds(346, 351, 124, 20);
 		getContentPane().add(dateEntrada);
-		
-		dateValidade = new JDateChooser();
-		dateValidade.setBounds(346, 412, 124, 20);
-		getContentPane().add(dateValidade);
-		
+
+		dataValidade = new JDateChooser();
+		dataValidade.setBounds(346, 412, 124, 20);
+		getContentPane().add(dataValidade);
+
 		btnNewButton_1 = new JButton("Buscar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -394,40 +394,42 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(btnNewButton_1);
 
 	}// fim do construtor
-	
-	
-	
+
 	private void pesquisarFornecedor() {
-		
+
 	}
-	
+
 	private void pesquisarProduto() {
-		//System.out.println("teste bot�o pesquisar produto");
-		String comando = "select * from produtosDida where codigo = ?";		
+		// System.out.println("teste bot�o pesquisar produto");
+		String comando = "select * from produtosDida where idproduto = ?";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(comando);
 			pst.setString(1, txtCodigo.getText());
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
+				txtCodigo.setText(rs.getString(1));
 				txtProduto.setText(rs.getString(2));
 				txtBarcode.setText(rs.getString(3));
-				txtLote.setText(rs.getNString(5));
+				txtFabricante.setText(rs.getString(4));
+				txtDescricao.setText(rs.getString(5));
+//				dateEntrada.setDate(rs.getDate(6));
+				dataValidade.setDate(rs.getDate(7));
+
+				Blob blob = (Blob) rs.getBlob(8);
 				
-				String setarDataent = rs.getString(8);
-				
+				String setarDataent = rs.getString(6);
 				Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
 				dateEntrada.setDate(dataEntradex);
-				txtDescricao.setText(rs.getNString(5));
-				txtEstoque.setText(rs.getString(10));
-				txtEstoquemin.setText(rs.getString(11));
+				txtEstoque.setText(rs.getString(9));
+				txtEstoquemin.setText(rs.getString(10));	
+				
 				cboUnidade.setSelectedItem(rs.getString(12));
-				txtCusto.setText(rs.getString(14));
+				txtValor.setText(rs.getString(14));
 				txtLucro.setText(rs.getString(15));
 				txtFornecedor.setText(rs.getString(16));
-				
-				
-				//				txtBarcode.setText(rs.getString(2));
+
+				// txtBarcode.setText(rs.getString(2));
 //				txtProduto.setText(rs.getString(3));
 //				txtaDescricao.setText(rs.getString(4));
 //				//etar a data do JCalendar
@@ -458,10 +460,10 @@ public class ProdutosProf extends JDialog {
 			System.out.println(e);
 		}
 	}
-	
+
 	private void pesquisarProdutoBarcode() {
-		//System.out.println("teste bot�o pesquisar produto");
-		String read = "select * from produtos where barcode = ?";		
+		// System.out.println("teste bot�o pesquisar produto");
+		String read = "select * from produtos where barcode = ?";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(read);
@@ -477,17 +479,17 @@ public class ProdutosProf extends JDialog {
 				cboUnidade.setSelectedItem(rs.getString(10));
 				txtLocal.setText(rs.getString(11));
 				txtId.setText(rs.getString(14));
-				//formata��o da data recebida pelo MySQL
+				// formata��o da data recebida pelo MySQL
 				// JCalendar - formata��o para exibi��o
 				String setarData = rs.getString(6);
-				//apoio a l�gica
-				//System.out.println(setarData);
+				// apoio a l�gica
+				// System.out.println(setarData);
 				Date dataFormatada = new SimpleDateFormat("yyyy-MM-dd").parse(setarData);
-				//dateEntrada.setDate(dataFormatada);
+				// dateEntrada.setDate(dataFormatada);
 				String setarData2 = rs.getString(7);
 				Date dataFormatada2 = new SimpleDateFormat("yyyy-MM-dd").parse(setarData2);
-				//dateValidade.setDate(dataFormatada2);
-				txtCusto.setText(rs.getString(12));
+				// dateValidade.setDate(dataFormatada2);
+				txtValor.setText(rs.getString(12));
 				txtLucro.setText(rs.getString(13));
 			} else {
 				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
@@ -497,74 +499,89 @@ public class ProdutosProf extends JDialog {
 			System.out.println(e);
 		}
 	}
-	
+
 	private void inserirProduto() {
-		//Fazer validacao
+		// Fazer validacao
 		
-//		txtBarcode
-//		txtCodigo
-//		txtProduto
-//		txtaDescricao
-//		txtLote
-//		txtFabricante
-//		txtEstoque
-//		txtEstoquemin
-//		txtCusto
-//		txtLucro
-//		cboUnidade
-//		txtLocal
-//
-//		//
-//		dateEntrada
-//		dateValidade
-//		//
-//
-//		txtId
-		
-		
-		/**Comando insert para criacao de dados no produtos
-		*Dida = didatico, versao do professor
-		*O banco de dados produtosDida tambem e diferente
-		Total de 12 colunas*/
-		String comando = "insert into produtosDida (barcode,produto,descricao,fabricante,datavalidade,foto,estoque,estoquemin,unidademedida,localarmazenagem,valor,lucro,idFornecedor) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		try {
+		if (txtBarcode.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o barcode");
+		} else if (txtCodigo.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o codigo");
+		} else if (txtProduto.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Produtp");
+		} else if (txtDescricao.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher a Descrição");
+		} else if (txtLote.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Lote");
+		} else if (txtFabricante.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Fabricante");
+		} else if (txtEstoque.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Estoque");
+		} else if (txtEstoquemin.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Estoque minimo");
+		} else if (txtValor.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Estoque minimo");
+		} else if (txtLucro.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Estoque minimo");
+		} else if (cboUnidade.getSelectedItem().equals("")) {
+			JOptionPane.showMessageDialog(null, "Preencher o Estoque minimo");
+		} else if (txtLocal.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o Estoque minimo");
 			
+		}else if (dataValidade.getDate()==null) {
+			JOptionPane.showMessageDialog(null, "Preencher a data de validade");
+			System.out.println("Date empty");
+//		else if (lblimg.getIcon().equals("/bin/img/produtosIcon.png")) {JOptionPane.showMessageDialog(null, "Carregar imagem");
+		} else {
+
+
+			/**
+			 * Comando insert para criacao de dados no produtos Dida = didatico, versao do
+			 * professor O banco de dados produtosDida tambem e diferente Total de 12
+			 * colunas
+			 */
+			String comando = "insert into produtosDida (barcode,produto,descricao,fabricante,datavalidade,foto,estoque,estoquemin,unidademedida,localarmazenagem,valor,lucro,idFornecedor) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			try {
+
 //			Connection con = dao.conectar();
 //			PreparedStatement pst = con.prepareStatement(comando);
-			con = dao.conectar();
-			pst = con.prepareStatement(comando);
-			
-			pst.setString(1, txtBarcode.getText());
-			pst.setString(2, txtProduto.getText());
-			pst.setString(3, txtDescricao.getText());
-			pst.setString(4, txtFabricante.getText());
-			// Formatacao do valor do JCalendar para a insercao correta no banco
-			SimpleDateFormat formatador = new SimpleDateFormat("yyyyMMdd");
-			/**
-			 * Teoricamente a data formada e levada ao setString 5, que e a coluna
-			 *da data privada.
-			*/
-			String dataformada = formatador.format(dateValidade.getDate());
-			pst.setString(5, dataformada);
-			pst.setBlob(6, fis);
-			pst.setString(7, txtEstoque.getText());
-			pst.setString(8, txtEstoquemin.getText());
-			pst.setString(9, cboUnidade.getSelectedItem().toString());
-			pst.setString(10, txtLocal.getText());
-			pst.setString(11, txtCusto.getText());
-			pst.setString(12, txtLucro.getText());
-			pst.setString(13, txtId.getText());
-			int confirma = pst.executeUpdate();
-			if (confirma == 1) {
-				JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
-			} else {
-				JOptionPane.showMessageDialog(null, "Erro ao cadastrar o produto");
+				con = dao.conectar();
+				pst = con.prepareStatement(comando);
+
+				pst.setString(1, txtBarcode.getText());
+				pst.setString(2, txtProduto.getText());
+				pst.setString(3, txtDescricao.getText());
+				pst.setString(4, txtFabricante.getText());
+				// Formatacao do valor do JCalendar para a insercao correta no banco
+				SimpleDateFormat formatador = new SimpleDateFormat("yyyyMMdd");
+				/**
+				 * Teoricamente a data formada e levada ao setString 5, que e a coluna da data
+				 * privada.
+				 */
+				String dataformada = formatador.format(dataValidade.getDate());
+				pst.setString(5, dataformada);
+				pst.setBlob(6, fis);
+				pst.setString(7, txtEstoque.getText());
+				pst.setString(8, txtEstoquemin.getText());
+				pst.setString(9, cboUnidade.getSelectedItem().toString());
+				pst.setString(10, txtLocal.getText());
+				pst.setString(11, txtValor.getText());
+				pst.setString(12, txtLucro.getText());
+				pst.setString(13, txtId.getText());
+				int confirma = pst.executeUpdate();
+				if (confirma == 1) {
+					JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
+				} else {
+					JOptionPane.showMessageDialog(null, "Erro ao cadastrar o produto");
+				}
+				con.close();
+			}catch (SQLIntegrityConstraintViolationException SQLIe) {
+				JOptionPane.showMessageDialog(null,"Erro ao utilizar o fornecedor");
+			}catch (SQLException SQLe) {
+				SQLe.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			con.close();
-		}catch (SQLException SQLe) {
-			SQLe.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}//
 //	private void editar() {
@@ -577,6 +594,7 @@ public class ProdutosProf extends JDialog {
 //		con = dao.conectar();
 //		pst = con.prepareStatement(comando);
 //	}
+
 	private void loadImage() {
 		/**
 		 * This method opens an internal File explorer from java (JFileChooser)
@@ -584,34 +602,29 @@ public class ProdutosProf extends JDialog {
 		 */
 		jfc.setDialogTitle("Selecione o arquivo de imagem");
 		jfc.setFileFilter(new FileNameExtensionFilter("Arquivo de imagens(*.PNG,*.JPG,*.JPEG)", "png", "jpg", "jpeg"));
-		
+
 //		System.out.println(jfc.getFileFilter());
-		
-		 //File explorer execution and stores File explorer selected file to result
+
+		// File explorer execution and stores File explorer selected file to result
 		int result = jfc.showOpenDialog(this);
-		if(result == JFileChooser.APPROVE_OPTION) {
+		if (result == JFileChooser.APPROVE_OPTION) {
 			try {
 				// Catches the file
 				fis = new FileInputStream(jfc.getSelectedFile());
 				// Storages file size by length, converts long to int
 				tamanho = (int) jfc.getSelectedFile().length();
-				
-				//na via das duvidas, trocar para java.awt
-				java.awt.Image image = ImageIO.read(jfc.getSelectedFile()).getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),java.awt.Image.SCALE_SMOOTH);
-				
-				//set Jlabel
+
+				// na via das duvidas, trocar para java.awt
+				java.awt.Image image = ImageIO.read(jfc.getSelectedFile()).getScaledInstance(lblimg.getWidth(),
+						lblimg.getHeight(), java.awt.Image.SCALE_SMOOTH);
+
+				// set Jlabel
 				lblimg.setIcon(new ImageIcon(image));
 				lblimg.updateUI();
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			//			lblimg
+			// lblimg
 		}
 	}
-}//fim do codigo
-
-
-
-
-
-
+}// fim do codigo

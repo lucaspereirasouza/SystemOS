@@ -210,8 +210,16 @@ public class Login extends JFrame {
 
 						String perfil = rs.getString(5);
 						if (perfil.equals("admin")) {
-							var esqueci = new EsqueciMinhaSenha();
-							esqueci.setVisible(true);
+								String nam = txtLogin.getText();
+								
+								var esquecisenha = new EsqueciMinhaSenha();
+								esquecisenha.setVisible(true);
+								esquecisenha.txtNome.setText(nam);
+								
+								
+							
+//							var esqueci = new EsqueciMinhaSenha();
+//							esqueci.setVisible(true);
 						} else {
 							JOptionPane.showMessageDialog(null, "Login não autorizado");
 						}
@@ -227,8 +235,7 @@ public class Login extends JFrame {
 					ex.printStackTrace();
 				}
 
-				var esquecisenha = new EsqueciMinhaSenha();
-				esquecisenha.setVisible(true);
+				
 
 			}
 

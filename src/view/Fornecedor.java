@@ -613,7 +613,6 @@ public class Fornecedor extends JDialog {
 			con = dao.conectar();
 			pst = con.prepareStatement(type);
 			rs = pst.executeQuery();
-			System.out.println("Conexão");
 			while (rs.next()) {
 				listClientes.setVisible(true);
 				scrollPane.setVisible(true);

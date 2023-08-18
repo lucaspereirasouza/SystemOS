@@ -65,7 +65,7 @@ public class FornecedorProf extends JDialog {
 	private JButton btnAdicionar;
 	private JButton btnEditar;
 	private JButton btnExcluir;
-	private JList listClientes;
+	private JList listFornecedores;
 	private JButton btnExcluir_1;
 	private JTextField txtCPFCNPJ;
 	private JLabel lblNewLabel_1_1_1_3;
@@ -111,12 +111,12 @@ public class FornecedorProf extends JDialog {
 		scrollPane.setBounds(330, 169, 235, 67);
 		getContentPane().add(scrollPane);
 
-		listClientes = new JList();
-		scrollPane.setViewportView(listClientes);
-		listClientes.addMouseListener(new MouseAdapter() {
+		listFornecedores = new JList();
+		scrollPane.setViewportView(listFornecedores);
+		listFornecedores.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ItensClientesLista();
+				ItensFornecedoresLista();
 			}
 		});
 
@@ -355,6 +355,57 @@ public class FornecedorProf extends JDialog {
 		getContentPane().add(lblNewLabel_6);
 
 		txtRazao = new JTextField();
+		txtRazao.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				var<String> model = new DefaultListModel<>();
+				listFornecedores.setModel(model);
+				String keyRelease = "Select * from fornecedoresDida where razao like'"+ txtRazao.getText()+"%'"+"order by razao";
+				
+				try {
+					con = dao.conectar();
+					pst = con.prepareStatement(keyRelease);
+					rs = pst.executeQuery();
+					while (rs.next()) {
+						listFornecedores.setVisible(true);
+						scrollPane.setVisible(true);
+						model.addElement(rs.getString(2));
+						if (txtRazao.getText().isEmpty()) {
+							listFornecedores.setVisible(false);
+							scrollPane.setVisible(false);
+						}
+					}
+				} catch (SQLException SQLe) {
+					// TODO: handle exception
+					SQLe.printStackTrace();
+				} catch (Exception se) {
+					// TODO: handle exception
+					se.printStackTrace();
+				}
+//				try {
+//
+//					con = dao.conectar();
+//					pst = con.prepareStatement(type);
+//					rs = pst.executeQuery();
+//					System.out.println("Conexão");
+//					while (rs.next()) {
+//						listClientes.setVisible(true);
+//						scrollPane.setVisible(true);
+//						modelo.addElement(rs.getString(2));
+//						if (txtNome.getText().isEmpty()) {
+////							System.out.println("Condição");
+//							listClientes.setVisible(false);
+//							scrollPane.setVisible(false);
+//						}
+//					}
+//					con.close();
+//				} catch (SQLException se) {
+//					System.out.println(se);
+//				} catch (Exception e) {
+//					System.out.println(e);
+//				}
+			}
+		});
 		txtRazao.setBounds(87, 43, 302, 20);
 		getContentPane().add(txtRazao);
 		txtRazao.setColumns(10);
@@ -447,15 +498,10 @@ public class FornecedorProf extends JDialog {
 	}
 
 	public void adicionar() {
-		String excomando = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		String comandoTeste = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		/**
-		 * FornecedoresDida e a versao que substitui razao por nome
-		 */
-		String comando = "insert into fornecedoresdida(razao,fantasia,fone,"
+		String comando = "insert into fornecedoresDida(razao,fantasia,fone,"
 				+ "vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento"
 				+ ",bairro,cidade,uf)"
-				+ "values()";
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //		} else if (txtId.getText().isEmpty()) {
 //			
 //		}
@@ -463,8 +509,6 @@ public class FornecedorProf extends JDialog {
 			JOptionPane.showMessageDialog(null, "A Razao deve ser preenchido");
 		} else if (txtCPFCNPJ.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O CPF/CNPJ deve ser preenchido");
-		} else if (txtRazao.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "A razão social deve ser preenchido");
 		} else if (txtCep.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
 		} else if (txtIe.getText().isEmpty()) {
@@ -475,8 +519,6 @@ public class FornecedorProf extends JDialog {
 			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
 		} else if (txtVendedor.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O vendedor deve ser preenchido");
-//		} else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O Complemento deve ser preenchido");
 		} else if (txtEmail.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O email deve ser preenchida");
 		} else if (txtSite.getText().isEmpty()) {
@@ -487,36 +529,34 @@ public class FornecedorProf extends JDialog {
 			JOptionPane.showMessageDialog(null, "O numero deve ser preenchida");
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O bairro deve ser preenchida");
-//		}else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O  deve ser preenchida");
 		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
 			JOptionPane.showMessageDialog(null, "O UF deve ser selecionado");
 		} else {
 			try {
 				con = dao.conectar();
-				pst = con.prepareStatement(comandoTeste);
+				pst = con.prepareStatement(comando);
 
 				/**
 				 * 
 				 */
 //				pst.setString(1, txtNome.getText());
 				
-				pst.setString(2, txtRazao.getText());
-				pst.setString(3, txtFantasia.getText());
-				pst.setString(4, txtFone.getText());
-				pst.setString(5, txtVendedor.getText());
-				pst.setString(6, txtEmail.getText());
-				pst.setString(7, txtSite.getText());
-				pst.setString(8, txtCep.getText());
-				pst.setString(9, txtCPFCNPJ.getText());
-				pst.setString(10, txtIe.getText());
-				pst.setString(11, txtEndereco.getText());
-				pst.setString(12, txtNumero.getText());
-				pst.setString(13, txtComplemento.getText());
-				pst.setString(14, txtBairro.getText());
-				pst.setString(15, txtCidade.getText());
-				pst.setString(16, String.valueOf(cboUf.getSelectedItem()));
-				
+				pst.setString(1, txtRazao.getText());
+				pst.setString(2, txtFantasia.getText());
+				pst.setString(3, txtFone.getText());
+				pst.setString(4, txtVendedor.getText());
+				pst.setString(5, txtEmail.getText());
+				pst.setString(6, txtSite.getText());
+				pst.setString(7, txtCep.getText());
+				pst.setString(8, txtCPFCNPJ.getText());
+				pst.setString(9, txtIe.getText());
+				pst.setString(10, txtEndereco.getText());
+				pst.setString(11, txtNumero.getText());
+				pst.setString(12, txtComplemento.getText());
+				pst.setString(13, txtBairro.getText());
+				pst.setString(14, txtCidade.getText());
+				pst.setString(15, String.valueOf(cboUf.getSelectedItem()));
+			
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso!");
@@ -540,7 +580,7 @@ public class FornecedorProf extends JDialog {
 				JOptionPane.YES_NO_OPTION);
 		if (confirma == JOptionPane.YES_OPTION) {
 			try {
-				String delete = "delete from fornecedores where idfornecedores = ?;";
+				String delete = "delete from fornecedoresDida where idfornecedores = ?;";
 				con = dao.conectar();
 
 				pst = con.prepareStatement(delete);
@@ -548,7 +588,7 @@ public class FornecedorProf extends JDialog {
 				pst.executeUpdate();
 
 				con.close();
-				JOptionPane.showInternalConfirmDialog(null, "Fornecedor removido com sucesso");
+				JOptionPane.showMessageDialog(null, "removido com sucesso");
 				limparcampos();
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
@@ -557,7 +597,7 @@ public class FornecedorProf extends JDialog {
 //			limparCampos();
 			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
 				//
-				JOptionPane.showInternalMessageDialog(null, "removido com sucesso");
+				
 				System.out.println(se);
 			} catch (Exception e) {
 				//
@@ -567,9 +607,9 @@ public class FornecedorProf extends JDialog {
 	}// fim do remove
 
 	private void ItensFornecedoresLista() {
-		int linha = listClientes.getSelectedIndex();
-		String comando = "Select * from fornecedores where nome like '" + txtNome.getText() + "%'"
-				+ " order by nome limit " + (linha) + ", 1";
+		int linha = listFornecedores.getSelectedIndex();
+		String comando = "Select * from fornecedoresDida where razao like '" + txtRazao.getText() + "%'"
+				+ " order by razao limit " + (linha) + ", 1";
 		if (linha >= 0) {
 			try {
 				con = dao.conectar();
@@ -581,30 +621,30 @@ public class FornecedorProf extends JDialog {
 
 					txtId.setText(rs.getString(1));
 //					txtNome.setText(rs.getString(2));
-					txtRazao.setText(rs.getString(3));
-					txtFantasia.setText(rs.getString(4));
-					txtFone.setText(rs.getString(5));
-					txtVendedor.setText(rs.getString(6));
-					txtEmail.setText(rs.getString(7));
-					txtSite.setText(rs.getString(8));
-					txtCep.setText(rs.getString(9));
-					txtCPFCNPJ.setText(rs.getString(10));
-					txtIe.setText(rs.getString(11));
-					txtEndereco.setText(rs.getString(12));
-					txtNumero.setText(rs.getString(13));
-					txtComplemento.setText(rs.getString(14));
-					txtBairro.setText(rs.getString(15));
-					txtCidade.setText(rs.getString(16));
-					cboUf.setSelectedItem(rs.getString(17));
+					txtRazao.setText(rs.getString(2));
+					txtFantasia.setText(rs.getString(3));
+					txtFone.setText(rs.getString(4));
+					txtVendedor.setText(rs.getString(5));
+					txtEmail.setText(rs.getString(6));
+					txtSite.setText(rs.getString(7));
+					txtCep.setText(rs.getString(8));
+					txtCPFCNPJ.setText(rs.getString(9));
+					txtIe.setText(rs.getString(10));
+					txtEndereco.setText(rs.getString(11));
+					txtNumero.setText(rs.getString(12));
+					txtComplemento.setText(rs.getString(13));
+					txtBairro.setText(rs.getString(14));
+					txtCidade.setText(rs.getString(15));
+					cboUf.setSelectedItem(rs.getString(16));
 
 					btnEditar.setEnabled(true);
 					btnExcluir.setEnabled(true);
 					btnAdicionar.setEnabled(false);
 				}
 			} catch (SQLException se) {
-
+				se.printStackTrace();
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		} else {
 			scrollPane.setVisible(false);
@@ -614,17 +654,10 @@ public class FornecedorProf extends JDialog {
 	}
 
 	public void editar() {
-		if (txtId.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "ID obrigatorio.");
-//		} else if (txtNome.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "Nome do cliente obrigatorio.");
-//			txtNome.requestFocus();
-		} else if (txtRazao.getText().isEmpty()) {
+		if (txtRazao.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "A Razao deve ser preenchido");
 		} else if (txtCPFCNPJ.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O CPF/CNPJ deve ser preenchido");
-		} else if (txtRazao.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "A razão social deve ser preenchido");
 		} else if (txtCep.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
 		} else if (txtIe.getText().isEmpty()) {
@@ -635,8 +668,6 @@ public class FornecedorProf extends JDialog {
 			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
 		} else if (txtVendedor.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O vendedor deve ser preenchido");
-//		} else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O Complemento deve ser preenchido");
 		} else if (txtEmail.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O email deve ser preenchida");
 		} else if (txtSite.getText().isEmpty()) {
@@ -647,34 +678,32 @@ public class FornecedorProf extends JDialog {
 			JOptionPane.showMessageDialog(null, "O numero deve ser preenchida");
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O bairro deve ser preenchida");
-//		}else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O  deve ser preenchida");
 		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
 			JOptionPane.showMessageDialog(null, "O UF deve ser selecionado");
 		} else {
-			String update = "update fornecedores set nome=?,razao=?,fantasia=?,fone=?,vendedor=?,email=?,site=?,cep=?,cpfcnpj=?,ie=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=? where idfornecedores=?";
+			String update = "update fornecedoresDida set razao=?,fantasia=?,fone=?,vendedor=?,email=?,site=?,cep=?,cpfcnpj=?,ie=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=? where idfornecedores=?";
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(update);
 
-				pst.setString(17, txtId.getText());
+				pst.setString(16, txtId.getText());
 					
-				pst.setString(1, txtNome.getText());
-				pst.setString(2, txtRazao.getText());
-				pst.setString(3, txtFantasia.getText());
-				pst.setString(4, txtFone.getText());
-				pst.setString(5, txtVendedor.getText());
-				pst.setString(6, txtEmail.getText());
-				pst.setString(7, txtSite.getText());
-				pst.setString(8, txtCep.getText());
-				pst.setString(9, txtCPFCNPJ.getText());
-				pst.setString(10, txtIe.getText());
-				pst.setString(11, txtEndereco.getText());
-				pst.setString(12, txtNumero.getText());
-				pst.setString(13, txtComplemento.getText());
-				pst.setString(14, txtBairro.getText());
-				pst.setString(15, txtCidade.getText());
-				pst.setString(16, String.valueOf(cboUf.getSelectedItem()));
+				
+				pst.setString(1, txtRazao.getText());
+				pst.setString(2, txtFantasia.getText());
+				pst.setString(3, txtFone.getText());
+				pst.setString(4, txtVendedor.getText());
+				pst.setString(5, txtEmail.getText());
+				pst.setString(6, txtSite.getText());
+				pst.setString(7, txtCep.getText());
+				pst.setString(8, txtCPFCNPJ.getText());
+				pst.setString(9, txtIe.getText());
+				pst.setString(10, txtEndereco.getText());
+				pst.setString(11, txtNumero.getText());
+				pst.setString(12, txtComplemento.getText());
+				pst.setString(13, txtBairro.getText());
+				pst.setString(14, txtCidade.getText());
+				pst.setString(15, String.valueOf(cboUf.getSelectedItem()));
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados do fornecedor contato editados com sucesso.");
