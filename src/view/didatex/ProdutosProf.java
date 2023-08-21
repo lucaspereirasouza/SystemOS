@@ -855,7 +855,6 @@ public class ProdutosProf extends JDialog {
 
 			} catch (SQLException SQLe) {
 				// TODO: handle exception
-
 				SQLe.printStackTrace();
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -907,6 +906,8 @@ public class ProdutosProf extends JDialog {
 		txtLucro.setText(null);
 		cboUnidade.setSelectedItem("");
 		txtLocal.setText(null);
+		
+		lblimg.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/produtosIcon.png")));
 //		dataEntrada.setText(null);
 //		dataValidade.setText(null);
 	}
