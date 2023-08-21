@@ -11,7 +11,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.DAO;
 import util.Validador;
-import view.produtoCRUD.AddProduto;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
@@ -713,7 +712,6 @@ public class Produtos extends JDialog {
 			JOptionPane.showMessageDialog(null, "O estoque minimo deve ser declarado");
 		} else if (txtValor.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O valor deve ser declrado");
-
 		} else if (txtLocalArmazenagem.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Declarar local de armazenagem");
 		} else if (cmbmedida.getSelectedItem() == "") {
@@ -744,7 +742,6 @@ public class Produtos extends JDialog {
 
 				pst.executeUpdate();
 				JOptionPane.showInternalMessageDialog(null, "Editado com sucesso!");
-				System.out.println("editado");
 				limparcampos();
 			} catch (SQLException se) {
 				se.printStackTrace();

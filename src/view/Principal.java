@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
-import view.OS.ClienteMain;
 import view.suporte.Contato;
 import view.suporte.SuporteMenu;
 

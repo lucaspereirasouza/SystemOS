@@ -360,8 +360,9 @@ public class FornecedorProf extends JDialog {
 			public void keyReleased(KeyEvent e) {
 				var<String> model = new DefaultListModel<>();
 				listFornecedores.setModel(model);
-				String keyRelease = "Select * from fornecedoresDida where razao like'"+ txtRazao.getText()+"%'"+"order by razao";
-				
+				String keyRelease = "Select * from fornecedoresDida where razao like'" + txtRazao.getText() + "%'"
+						+ "order by razao";
+
 				try {
 					con = dao.conectar();
 					pst = con.prepareStatement(keyRelease);
@@ -499,8 +500,7 @@ public class FornecedorProf extends JDialog {
 
 	public void adicionar() {
 		String comando = "insert into fornecedoresDida(razao,fantasia,fone,"
-				+ "vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento"
-				+ ",bairro,cidade,uf)"
+				+ "vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento" + ",bairro,cidade,uf)"
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //		} else if (txtId.getText().isEmpty()) {
 //			
@@ -540,7 +540,7 @@ public class FornecedorProf extends JDialog {
 				 * 
 				 */
 //				pst.setString(1, txtNome.getText());
-				
+
 				pst.setString(1, txtRazao.getText());
 				pst.setString(2, txtFantasia.getText());
 				pst.setString(3, txtFone.getText());
@@ -556,7 +556,7 @@ public class FornecedorProf extends JDialog {
 				pst.setString(13, txtBairro.getText());
 				pst.setString(14, txtCidade.getText());
 				pst.setString(15, String.valueOf(cboUf.getSelectedItem()));
-			
+
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso!");
@@ -597,7 +597,7 @@ public class FornecedorProf extends JDialog {
 //			limparCampos();
 			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
 				//
-				
+
 				System.out.println(se);
 			} catch (Exception e) {
 				//
@@ -687,8 +687,7 @@ public class FornecedorProf extends JDialog {
 				pst = con.prepareStatement(update);
 
 				pst.setString(16, txtId.getText());
-					
-				
+
 				pst.setString(1, txtRazao.getText());
 				pst.setString(2, txtFantasia.getText());
 				pst.setString(3, txtFone.getText());

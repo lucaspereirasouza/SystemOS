@@ -359,7 +359,7 @@ public class ProdutosProf extends JDialog {
 
 		btnAdicionar = new JButton("");
 		btnAdicionar.setContentAreaFilled(false);
-		btnAdicionar.setToolTipText("Adicionar");
+		btnAdicionar.setToolTipText("Adicionar produto");
 		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/cliAdd.png")));
 		btnAdicionar.setBorder(null);
@@ -369,7 +369,7 @@ public class ProdutosProf extends JDialog {
 				IsImageLoaded = false;
 			}
 		});
-		btnAdicionar.setBounds(422, 470, 64, 64);
+		btnAdicionar.setBounds(536, 470, 64, 64);
 		getContentPane().add(btnAdicionar);
 
 		JButton btnAlterar = new JButton("");
@@ -380,12 +380,12 @@ public class ProdutosProf extends JDialog {
 
 			}
 		});
-		btnAlterar.setToolTipText("Editar");
+		btnAlterar.setToolTipText("Editar produto");
 		btnAlterar.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/cliEdit.png")));
 		btnAlterar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAlterar.setContentAreaFilled(false);
 		btnAlterar.setBorder(null);
-		btnAlterar.setBounds(500, 470, 64, 64);
+		btnAlterar.setBounds(614, 470, 64, 64);
 		getContentPane().add(btnAlterar);
 
 		JButton btnExcluir = new JButton("");
@@ -395,12 +395,12 @@ public class ProdutosProf extends JDialog {
 				IsImageLoaded = false;
 			}
 		});
-		btnExcluir.setToolTipText("Excluir");
+		btnExcluir.setToolTipText("Excluir produto");
 		btnExcluir.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/cliRemove.png")));
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setBorder(null);
 		btnExcluir.setContentAreaFilled(false);
-		btnExcluir.setBounds(577, 470, 64, 64);
+		btnExcluir.setBounds(691, 470, 64, 64);
 		getContentPane().add(btnExcluir);
 
 		JLabel lblNewLabel_4_1 = new JLabel("Lote");
@@ -438,10 +438,10 @@ public class ProdutosProf extends JDialog {
 		});
 		btnLimparCampos.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/erase.png")));
 		btnLimparCampos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnLimparCampos.setToolTipText("Limpar");
+		btnLimparCampos.setToolTipText("Limpar campos");
 		btnLimparCampos.setContentAreaFilled(false);
 		btnLimparCampos.setBorder(null);
-		btnLimparCampos.setBounds(691, 470, 64, 64);
+		btnLimparCampos.setBounds(22, 470, 64, 64);
 		getContentPane().add(btnLimparCampos);
 
 		dataEntrada = new JDateChooser();
@@ -454,6 +454,7 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(dataValidade);
 
 		scrollprodutos = new JScrollPane();
+		scrollprodutos.setVisible(false);
 		scrollprodutos.setBounds(91, 157, 359, 64);
 		getContentPane().add(scrollprodutos);
 
@@ -467,7 +468,7 @@ public class ProdutosProf extends JDialog {
 		scrollprodutos.setViewportView(listProdutos);
 
 		txtDescricao = new JTextArea();
-		txtDescricao.setBounds(91, 195, 357, 20);
+		txtDescricao.setBounds(91, 195, 357, 77);
 		getContentPane().add(txtDescricao);
 		txtDescricao.addMouseListener(new MouseAdapter() {
 			@Override
@@ -525,25 +526,27 @@ public class ProdutosProf extends JDialog {
 				txtFabricante.setText(rs.getString(4));
 				txtDescricao.setText(rs.getString(5));
 				dataEntrada.setDate(rs.getDate(6));
-				dataValidade.setDate(rs.getDate(7));
 				// via das duvidas
+//				String setarDataent = rs.getString(6);
+//				Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
+//				dataEntrada.setDate(dataEntradex);
+				dataValidade.setDate(rs.getDate(7));
 				Blob blob = (Blob) rs.getBlob(8);
-				String setarDataent = rs.getString(6);
-				Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
-				dataEntrada.setDate(dataEntradex);
 				txtEstoque.setText(rs.getString(9));
 				txtEstoquemin.setText(rs.getString(10));
+				txtValor.setText(rs.getString(11));
 				cboUnidade.setSelectedItem(rs.getString(12));
-				txtValor.setText(rs.getString(13));
+				
+				txtLocal.setText(rs.getString(13));
 				txtLote.setText(rs.getString(14));
 				txtLucro.setText(rs.getString(15));
-				txtFornecedor.setText(rs.getString(16));
-
+				txtId.setText(rs.getString(16));
 				byte[] img = blob.getBytes(1, (int) blob.length());
 				BufferedImage imagem = null;
 				try {
 					imagem = ImageIO.read(new ByteArrayInputStream(img));
-				} catch (Exception e1) {
+				}
+				catch (Exception e1) {
 					e1.printStackTrace();
 				}
 
@@ -556,7 +559,14 @@ public class ProdutosProf extends JDialog {
 				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
 			}
 			con.close();
-		} catch (Exception e) {
+		}catch (SQLException SQLe) {
+			// TODO: handle exception
+			SQLe.printStackTrace();
+		}
+		catch (NullPointerException Nulle) {
+			// TODO: handle exception
+			Nulle.printStackTrace();
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -670,7 +680,7 @@ public class ProdutosProf extends JDialog {
 		} else if (txtCodigo.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencher o codigo");
 		} else if (txtProduto.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencher o Produtp");
+			JOptionPane.showMessageDialog(null, "Preencher o Produto");
 		} else if (txtDescricao.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencher a Descrição");
 		} else if (txtLote.getText().isEmpty()) {
@@ -825,40 +835,48 @@ public class ProdutosProf extends JDialog {
 
 			try {
 
-				String comando = "update produtosDida set produto=?,barcode=?,fabricante=?"
-						+ ",descricao=?,dataentrada=?,datavalidade=?,foto=?,estoque=?,estoquemin=?"
-						+ ",valor=?,unidademedida=?,localarmazenagem=?,lucro=? where idproduto=?;";
+				String comando = "update produtosDida set barcode=?,produto=?,fabricante=?"
+						+ ",descricao=?,datavalidade=?,foto=?,estoque=?,estoquemin=?"
+						+ ",valor=?,unidademedida=?,localarmazenagem=?,lote=?,lucro=? where idproduto=?;";
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
 
 				// id por ultimo
-				pst.setString(14, txtCodigo.getText());
+				pst.setString(14, txtProduto.getText());
 				// resto
 
 				SimpleDateFormat formatador = new SimpleDateFormat("yyyyMMdd");
 				String dataformada = formatador.format(dataValidade.getDate());
 
-				pst.setString(1, txtProduto.getText());
-				pst.setString(2, txtBarcode.getText());
+			
+				pst.setString(1, txtBarcode.getText());
+				pst.setString(2, txtProduto.getText());
 				pst.setString(3, txtFabricante.getText());
 				pst.setString(4, txtDescricao.getText());
-				pst.setString(5, txtLote.getText());
-				pst.setString(6, txtFabricante.getText());
-				pst.setBlob(7, fis);
+				pst.setString(5, dataformada);
+				pst.setBlob(6,fis);				
+				pst.setString(7, txtEstoque.getText());
 				pst.setString(8, txtEstoquemin.getText());
 				pst.setString(9, txtValor.getText());
-				pst.setString(10, txtLucro.getText());
-				pst.setString(11, (String) cboUnidade.getSelectedItem());
-				pst.setString(12, txtLocal.getText());
-//				pst.setString(12, dataEntrada.getText());
-				pst.setString(13, dataformada);
+				pst.setString(10, (String) cboUnidade.getSelectedItem());
+				pst.setString(11, txtLocal.getText());
+				pst.setString(12, txtLote.getText());
+				pst.setString(13, txtLucro.getText());
 
+//				pst.setString(12, dataEntrada.getText());
+				
+				pst.executeUpdate();
+				limparCampos();
+				JOptionPane.showMessageDialog(null, "Edição feita com sucesso");
+				
 			} catch (SQLException SQLe) {
 				// TODO: handle exception
 				SQLe.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Falha no banco de dados");
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Falha geral");
 			}
 		}
 	}
@@ -906,7 +924,6 @@ public class ProdutosProf extends JDialog {
 		txtLucro.setText(null);
 		cboUnidade.setSelectedItem("");
 		txtLocal.setText(null);
-		
 		lblimg.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/produtosIcon.png")));
 //		dataEntrada.setText(null);
 //		dataValidade.setText(null);
@@ -938,6 +955,7 @@ public class ProdutosProf extends JDialog {
 					dataEntrada.setDate(dataEntradex);
 					txtEstoque.setText(rs.getString(9));
 					txtEstoquemin.setText(rs.getString(10));
+					
 					cboUnidade.setSelectedItem(rs.getString(12));
 					txtValor.setText(rs.getString(13));
 					txtLote.setText(rs.getString(14));
