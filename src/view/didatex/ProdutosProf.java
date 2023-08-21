@@ -130,7 +130,6 @@ public class ProdutosProf extends JDialog {
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("FODA-SE");
 				scrollprodutos.setVisible(false);
 				scrollPane.setVisible(false);
 			}
@@ -171,9 +170,6 @@ public class ProdutosProf extends JDialog {
 
 							txtId.setText(rs.getString(1));
 							txtFornecedor.setText(rs.getString(2));
-
-							System.out.println("saida com sucesso");
-
 						}
 
 					} catch (SQLException SQLe) {
@@ -510,12 +506,6 @@ public class ProdutosProf extends JDialog {
 		txtDescricao = new JTextArea();
 		txtDescricao.setBounds(91, 195, 357, 77);
 		getContentPane().add(txtDescricao);
-		txtDescricao.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				listarProdutos();
-			}
-		});
 		txtDescricao.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
 	}// fim do construtor
@@ -549,14 +539,12 @@ public class ProdutosProf extends JDialog {
 	}
 
 	private void pesquisarProduto() {
-		// System.out.println("teste bot�o pesquisar produto");
-		String comando = "SELECT produtosDida.*,razao\r\n"
-				+ "FROM produtosDida\r\n"
-				+ "INNER JOIN fornecedoresDida\r\n"
-				+ "ON produtosDida.idfornecedor = fornecedoresDida.idfornecedores;";
+		String comando = "SELECT produtosDida.*,razao\r\n" + "FROM produtosDida\r\n" + "INNER JOIN fornecedoresDida\r\n"
+				+ "ON produtosDida.idfornecedor = fornecedoresDida.idfornecedores where idproduto=?;";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(comando);
+			pst.setString(1, txtCodigo.getText());
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 
@@ -601,7 +589,7 @@ public class ProdutosProf extends JDialog {
 				lblimg.setIcon(foto);
 
 			} else {
-				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
+				JOptionPane.showMessageDialog(null, "Produto não cadastrado");
 			}
 			con.close();
 		} catch (SQLException SQLe) {
@@ -616,7 +604,7 @@ public class ProdutosProf extends JDialog {
 	}
 
 //	private void pesquisarBarcode() {
-//		// System.out.println("teste bot�o pesquisar produto");
+//		// System.out.println("teste botão pesquisar produto");
 //		String comando = "select * from produtosDida where barcode = ?";
 //		try {
 //			Connection con = dao.conectar();
@@ -656,10 +644,10 @@ public class ProdutosProf extends JDialog {
 ////				cboUnidade.setSelectedItem(rs.getString(10));
 ////				txtLocal.setText(rs.getString(11));
 ////				txtId.setText(rs.getString(14));
-////				//formata��o da data recebida pelo MySQL
-////				// JCalendar - formata��o para exibi��o
+////				//formataãão da data recebida pelo MySQL
+////				// JCalendar - formataãão para exibiãão
 ////				String setarData = rs.getString(6);
-////				//apoio a l�gica
+////				//apoio a lãgica
 ////				//System.out.println(setarData);
 ////				Date dataFormatada = new SimpleDateFormat("yyyy-MM-dd").parse(setarData);
 ////				//dateEntrada.setDate(dataFormatada);
@@ -678,7 +666,7 @@ public class ProdutosProf extends JDialog {
 //	}
 
 	private void pesquisarProdutoBarcode() {
-		// System.out.println("teste bot�o pesquisar produto");
+		// System.out.println("teste botão pesquisar produto");
 		String read = "select * from produtos where barcode = ?";
 		try {
 			Connection con = dao.conectar();
@@ -695,10 +683,10 @@ public class ProdutosProf extends JDialog {
 				cboUnidade.setSelectedItem(rs.getString(10));
 				txtLocal.setText(rs.getString(11));
 				txtId.setText(rs.getString(14));
-				// formata��o da data recebida pelo MySQL
-				// JCalendar - formata��o para exibi��o
+				// formataãão da data recebida pelo MySQL
+				// JCalendar - formataãão para exibiãão
 				String setarData = rs.getString(6);
-				// apoio a l�gica
+				// apoio a lãgica
 				// System.out.println(setarData);
 				Date dataFormatada = new SimpleDateFormat("yyyy-MM-dd").parse(setarData);
 				// dateEntrada.setDate(dataFormatada);
@@ -893,7 +881,7 @@ public class ProdutosProf extends JDialog {
 				con = dao.conectar();
 
 				if (IsImageLoaded) {
-					
+
 					pst = con.prepareStatement(comando);
 
 					pst.setString(1, txtBarcode.getText());
@@ -915,7 +903,7 @@ public class ProdutosProf extends JDialog {
 					pst.setString(14, txtCodigo.getText());
 				} else {
 					pst = con.prepareStatement(comandoWithoutImg);
-					
+
 					pst.setString(1, txtBarcode.getText());
 					pst.setString(2, txtProduto.getText());
 					pst.setString(3, txtFabricante.getText());
@@ -997,7 +985,6 @@ public class ProdutosProf extends JDialog {
 		txtLocal.setText(null);
 		lblimg.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/produtosIcon.png")));
 		IsImageLoaded = false;
-		
 
 		// Validação
 		btnAdicionar.setEnabled(true);
@@ -1012,17 +999,20 @@ public class ProdutosProf extends JDialog {
 		// validação
 
 		int linha = listProdutos.getSelectedIndex();
-		String comando = "Select * from produtosDida where produto like '" + txtProduto.getText() + "%'"
+		String comando = "SELECT produtosDida.*,razao " + "FROM produtosDida " + "INNER JOIN fornecedoresDida "
+				+ "ON produtosDida.idfornecedor = fornecedoresDida.idfornecedores where produto like '"
+				+ txtProduto.getText() + "%'" + " order by produto limit " + (linha) + ", 1";
+
+		String comando2 = "Select * from produtosDida where produto like '" + txtProduto.getText() + "%'"
 				+ " order by produto limit " + (linha) + ", 1";
 		if (linha >= 0) {
 			try {
-				con = dao.conectar();
-				pst = con.prepareStatement(comando);
-				rs = pst.executeQuery();
-
+				Connection con = dao.conectar();
+				PreparedStatement pst = con.prepareStatement(comando);
+				ResultSet rs = pst.executeQuery();
 				if (rs.next()) {
-					scrollprodutos.setVisible(false);
 
+					scrollprodutos.setVisible(false);
 					// validação
 					btnAlterar.setEnabled(true);
 					btnExcluir.setEnabled(true);
@@ -1033,36 +1023,45 @@ public class ProdutosProf extends JDialog {
 					txtFabricante.setText(rs.getString(4));
 					txtDescricao.setText(rs.getString(5));
 					dataEntrada.setDate(rs.getDate(6));
+					// via das duvidas
+//					String setarDataent = rs.getString(6);
+//					Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
+//					dataEntrada.setDate(dataEntradex);
 					dataValidade.setDate(rs.getDate(7));
 					Blob blob = (Blob) rs.getBlob(8);
-					String setarDataent = rs.getString(6);
-					Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
-					dataEntrada.setDate(dataEntradex);
 					txtEstoque.setText(rs.getString(9));
 					txtEstoquemin.setText(rs.getString(10));
 					txtValor.setText(rs.getString(11));
 					cboUnidade.setSelectedItem(rs.getString(12));
+
 					txtLocal.setText(rs.getString(13));
 					txtLote.setText(rs.getString(14));
 					txtLucro.setText(rs.getString(15));
 					txtId.setText(rs.getString(16));
-
+					txtFornecedor.setText(rs.getString(17));
 					byte[] img = blob.getBytes(1, (int) blob.length());
 					BufferedImage imagem = null;
 					try {
-
 						imagem = ImageIO.read(new ByteArrayInputStream(img));
 					} catch (Exception e1) {
-						System.out.println(e1);
+						e1.printStackTrace();
 					}
 
 					ImageIcon icone = new ImageIcon(imagem);
 					Icon foto = new ImageIcon(icone.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
 							Image.SCALE_SMOOTH));
 					lblimg.setIcon(foto);
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Produto não cadastrado");
 				}
-			} catch (SQLException se) {
-				se.printStackTrace();
+				con.close();
+			} catch (SQLException SQLe) {
+				// TODO: handle exception
+				SQLe.printStackTrace();
+			} catch (NullPointerException Nulle) {
+				// TODO: handle exception
+				Nulle.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1104,23 +1103,24 @@ public class ProdutosProf extends JDialog {
 	}//
 
 	private void pesquisarBarcode() {
-		// System.out.println("teste bot�o pesquisar produto");
-		String comando = "select * from produtosDida where barcode = ?";
-		// validação
-
+//		String comando2 = "select * from produtosDida where barcode = ?";
+		String comando = "SELECT produtosDida.*,razao\r\n" + "FROM produtosDida\r\n" + "INNER JOIN fornecedoresDida\r\n"
+				+ "ON produtosDida.idfornecedor = fornecedoresDida.idfornecedores where barcode=?;";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(comando);
 			pst.setString(1, txtBarcode.getText());
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
+
+				scrollprodutos.setVisible(false);
+				// validação
 				btnAlterar.setEnabled(true);
 				btnExcluir.setEnabled(true);
-				scrollprodutos.setVisible(false);
 
 				txtCodigo.setText(rs.getString(1));
 				txtProduto.setText(rs.getString(2));
-//				txtBarcode.setText(rs.getString(3));
+				txtBarcode.setText(rs.getString(3));
 				txtFabricante.setText(rs.getString(4));
 				txtDescricao.setText(rs.getString(5));
 				dataEntrada.setDate(rs.getDate(6));
@@ -1139,6 +1139,7 @@ public class ProdutosProf extends JDialog {
 				txtLote.setText(rs.getString(14));
 				txtLucro.setText(rs.getString(15));
 				txtId.setText(rs.getString(16));
+				txtFornecedor.setText(rs.getString(17));
 				byte[] img = blob.getBytes(1, (int) blob.length());
 				BufferedImage imagem = null;
 				try {
@@ -1151,9 +1152,8 @@ public class ProdutosProf extends JDialog {
 				Icon foto = new ImageIcon(
 						icone.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(), Image.SCALE_SMOOTH));
 				lblimg.setIcon(foto);
-
 			} else {
-//				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
+				JOptionPane.showMessageDialog(null, "Produto não cadastrado");
 			}
 			con.close();
 		} catch (SQLException SQLe) {
@@ -1170,12 +1170,12 @@ public class ProdutosProf extends JDialog {
 	public void onlyNum(KeyEvent e) {
 		Character c = e.getKeyChar();
 		String etcer = ".";
-
+		int count = 3;
 		System.out.println(c);
+		System.out.println(count);
 		char dotchar = etcer.charAt(0);
 		if (c.equals(dotchar) || Character.isLetter(c)) {
-
-			System.out.println("Caractere é um '.'");
+			System.out.println("Caractere é um " + e.getKeyChar());
 			e.consume();
 		}
 	}
