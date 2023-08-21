@@ -101,6 +101,8 @@ public class ProdutosProf extends JDialog {
 	private JScrollPane scrollPane;
 	private JList listProdutos;
 	private JScrollPane scrollprodutos;
+	private JButton btnAlterar;
+	private JButton btnExcluir;
 	// private JDateChooser dateEntrada;
 	// private JDateChooser dateValidade;
 
@@ -186,7 +188,8 @@ public class ProdutosProf extends JDialog {
 		lblButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				System.out.println("s");
+				pesquisarBarcode();
 			}
 		});
 		lblButton.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/barcode.png")));
@@ -372,7 +375,8 @@ public class ProdutosProf extends JDialog {
 		btnAdicionar.setBounds(536, 470, 64, 64);
 		getContentPane().add(btnAdicionar);
 
-		JButton btnAlterar = new JButton("");
+		btnAlterar = new JButton("");
+		btnAlterar.setEnabled(false);
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editar();
@@ -388,7 +392,8 @@ public class ProdutosProf extends JDialog {
 		btnAlterar.setBounds(614, 470, 64, 64);
 		getContentPane().add(btnAlterar);
 
-		JButton btnExcluir = new JButton("");
+		btnExcluir = new JButton("");
+		btnExcluir.setEnabled(false);
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				excluir();
@@ -571,67 +576,67 @@ public class ProdutosProf extends JDialog {
 		}
 	}
 
-	private void pesquisarBarcode() {
-		// System.out.println("teste bot�o pesquisar produto");
-		String comando = "select * from produtosDida where barcode = ?";
-		try {
-			Connection con = dao.conectar();
-			PreparedStatement pst = con.prepareStatement(comando);
-			pst.setString(1, txtCodigo.getText());
-			ResultSet rs = pst.executeQuery();
-			if (rs.next()) {
-				txtCodigo.setText(rs.getString(1));
-				txtProduto.setText(rs.getString(2));
-				txtBarcode.setText(rs.getString(3));
-				txtFabricante.setText(rs.getString(4));
-				txtDescricao.setText(rs.getString(5));
-				dataEntrada.setDate(rs.getDate(6));
-				dataValidade.setDate(rs.getDate(7));
-
-				Blob blob = (Blob) rs.getBlob(8);
-
-				String setarDataent = rs.getString(6);
-				Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
-				dataEntrada.setDate(dataEntradex);
-				txtEstoque.setText(rs.getString(9));
-				txtEstoquemin.setText(rs.getString(10));
-
-				cboUnidade.setSelectedItem(rs.getString(12));
-				txtValor.setText(rs.getString(14));
-				txtLucro.setText(rs.getString(15));
-				txtFornecedor.setText(rs.getString(16));
-
-				// txtBarcode.setText(rs.getString(2));
-//				txtProduto.setText(rs.getString(3));
-//				txtaDescricao.setText(rs.getString(4));
-//				//etar a data do JCalendar
-//				String setardataEnt = rs.getString(8);
-//				txtFabricante.setText(rs.getString(5));
-//				txtEstoque.setText(rs.getString(8));
-//				txtEstoquemin.setText(rs.getNString(9));
-//				cboUnidade.setSelectedItem(rs.getString(10));
-//				txtLocal.setText(rs.getString(11));
-//				txtId.setText(rs.getString(14));
-//				//formata��o da data recebida pelo MySQL
-//				// JCalendar - formata��o para exibi��o
-//				String setarData = rs.getString(6);
-//				//apoio a l�gica
-//				//System.out.println(setarData);
-//				Date dataFormatada = new SimpleDateFormat("yyyy-MM-dd").parse(setarData);
-//				//dateEntrada.setDate(dataFormatada);
-//				String setarData2 = rs.getString(7);
-//				Date dataFormatada2 = new SimpleDateFormat("yyyy-MM-dd").parse(setarData2);
-//				//dateValidade.setDate(dataFormatada2);
-//				txtCusto.setText(rs.getString(12));
-//				txtLucro.setText(rs.getString(13));
-			} else {
-				JOptionPane.showMessageDialog(null, "Produto não cadastrado");
-			}
-			con.close();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
+//	private void pesquisarBarcode() {
+//		// System.out.println("teste bot�o pesquisar produto");
+//		String comando = "select * from produtosDida where barcode = ?";
+//		try {
+//			Connection con = dao.conectar();
+//			PreparedStatement pst = con.prepareStatement(comando);
+//			pst.setString(1, txtCodigo.getText());
+//			ResultSet rs = pst.executeQuery();
+//			if (rs.next()) {
+//				txtCodigo.setText(rs.getString(1));
+//				txtProduto.setText(rs.getString(2));
+//				txtBarcode.setText(rs.getString(3));
+//				txtFabricante.setText(rs.getString(4));
+//				txtDescricao.setText(rs.getString(5));
+//				dataEntrada.setDate(rs.getDate(6));
+//				dataValidade.setDate(rs.getDate(7));
+//
+//				Blob blob = (Blob) rs.getBlob(8);
+//
+//				String setarDataent = rs.getString(6);
+//				Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
+//				dataEntrada.setDate(dataEntradex);
+//				txtEstoque.setText(rs.getString(9));
+//				txtEstoquemin.setText(rs.getString(10));
+//
+//				cboUnidade.setSelectedItem(rs.getString(12));
+//				txtValor.setText(rs.getString(14));
+//				txtLucro.setText(rs.getString(15));
+//				txtFornecedor.setText(rs.getString(16));
+//
+//				// txtBarcode.setText(rs.getString(2));
+////				txtProduto.setText(rs.getString(3));
+////				txtaDescricao.setText(rs.getString(4));
+////				//etar a data do JCalendar
+////				String setardataEnt = rs.getString(8);
+////				txtFabricante.setText(rs.getString(5));
+////				txtEstoque.setText(rs.getString(8));
+////				txtEstoquemin.setText(rs.getNString(9));
+////				cboUnidade.setSelectedItem(rs.getString(10));
+////				txtLocal.setText(rs.getString(11));
+////				txtId.setText(rs.getString(14));
+////				//formata��o da data recebida pelo MySQL
+////				// JCalendar - formata��o para exibi��o
+////				String setarData = rs.getString(6);
+////				//apoio a l�gica
+////				//System.out.println(setarData);
+////				Date dataFormatada = new SimpleDateFormat("yyyy-MM-dd").parse(setarData);
+////				//dateEntrada.setDate(dataFormatada);
+////				String setarData2 = rs.getString(7);
+////				Date dataFormatada2 = new SimpleDateFormat("yyyy-MM-dd").parse(setarData2);
+////				//dateValidade.setDate(dataFormatada2);
+////				txtCusto.setText(rs.getString(12));
+////				txtLucro.setText(rs.getString(13));
+//			} else {
+//				JOptionPane.showMessageDialog(null, "Produto não cadastrado");
+//			}
+//			con.close();
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+//	}
 
 	private void pesquisarProdutoBarcode() {
 		// System.out.println("teste bot�o pesquisar produto");
@@ -742,6 +747,7 @@ public class ProdutosProf extends JDialog {
 				int confirma = pst.executeUpdate();
 				if (confirma == 1) {
 					JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
+					limparCampos();
 				} else {
 					JOptionPane.showMessageDialog(null, "Erro ao cadastrar o produto");
 				}
@@ -866,9 +872,9 @@ public class ProdutosProf extends JDialog {
 //				pst.setString(12, dataEntrada.getText());
 				
 				pst.executeUpdate();
-				limparCampos();
-				JOptionPane.showMessageDialog(null, "Edição feita com sucesso");
 				
+				JOptionPane.showMessageDialog(null, "Edição feita com sucesso");
+				limparCampos();
 			} catch (SQLException SQLe) {
 				// TODO: handle exception
 				SQLe.printStackTrace();
@@ -925,10 +931,15 @@ public class ProdutosProf extends JDialog {
 		cboUnidade.setSelectedItem("");
 		txtLocal.setText(null);
 		lblimg.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/produtosIcon.png")));
+		
+		// Validação
+		btnAdicionar.setEnabled(true);
+		btnAlterar.setEnabled(false);
+		btnExcluir.setEnabled(false);
+		
 //		dataEntrada.setText(null);
 //		dataValidade.setText(null);
 	}
-
 	private void listarProdutos() {
 		int linha = listProdutos.getSelectedIndex();
 		String comando = "Select * from produtosDida where produto like '" + txtProduto.getText() + "%'"
@@ -941,7 +952,12 @@ public class ProdutosProf extends JDialog {
 
 				if (rs.next()) {
 					scrollprodutos.setVisible(false);
-
+					
+					//validação
+					btnAlterar.setEnabled(true);
+					btnExcluir.setEnabled(true);
+//					btnAdicionar
+					
 					txtCodigo.setText(rs.getString(1));
 					txtProduto.setText(rs.getString(2));
 					txtBarcode.setText(rs.getString(3));
@@ -955,12 +971,12 @@ public class ProdutosProf extends JDialog {
 					dataEntrada.setDate(dataEntradex);
 					txtEstoque.setText(rs.getString(9));
 					txtEstoquemin.setText(rs.getString(10));
-					
+					txtValor.setText(rs.getString(11));
 					cboUnidade.setSelectedItem(rs.getString(12));
-					txtValor.setText(rs.getString(13));
+					txtLocal.setText(rs.getString(13));
 					txtLote.setText(rs.getString(14));
 					txtLucro.setText(rs.getString(15));
-					txtFornecedor.setText(rs.getString(16));
+					txtId.setText(rs.getString(16));
 
 					byte[] img = blob.getBytes(1, (int) blob.length());
 					BufferedImage imagem = null;
@@ -1017,4 +1033,66 @@ public class ProdutosProf extends JDialog {
 		}
 
 	}//
+	private void pesquisarBarcode() {
+		// System.out.println("teste bot�o pesquisar produto");
+		String comando = "select * from produtosDida where barcode = ?";
+		try {
+			Connection con = dao.conectar();
+			PreparedStatement pst = con.prepareStatement(comando);
+			pst.setString(1, txtBarcode.getText());
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+
+				scrollprodutos.setVisible(false);
+
+				txtCodigo.setText(rs.getString(1));
+				txtProduto.setText(rs.getString(2));
+//				txtBarcode.setText(rs.getString(3));
+				txtFabricante.setText(rs.getString(4));
+				txtDescricao.setText(rs.getString(5));
+				dataEntrada.setDate(rs.getDate(6));
+				// via das duvidas
+//				String setarDataent = rs.getString(6);
+//				Date dataEntradex = new SimpleDateFormat("yyyy-MM-dd").parse(setarDataent);
+//				dataEntrada.setDate(dataEntradex);
+				dataValidade.setDate(rs.getDate(7));
+				Blob blob = (Blob) rs.getBlob(8);
+				txtEstoque.setText(rs.getString(9));
+				txtEstoquemin.setText(rs.getString(10));
+				txtValor.setText(rs.getString(11));
+				cboUnidade.setSelectedItem(rs.getString(12));
+				
+				txtLocal.setText(rs.getString(13));
+				txtLote.setText(rs.getString(14));
+				txtLucro.setText(rs.getString(15));
+				txtId.setText(rs.getString(16));
+				byte[] img = blob.getBytes(1, (int) blob.length());
+				BufferedImage imagem = null;
+				try {
+					imagem = ImageIO.read(new ByteArrayInputStream(img));
+				}
+				catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+				ImageIcon icone = new ImageIcon(imagem);
+				Icon foto = new ImageIcon(
+						icone.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(), Image.SCALE_SMOOTH));
+				lblimg.setIcon(foto);
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
+			}
+			con.close();
+		}catch (SQLException SQLe) {
+			// TODO: handle exception
+			SQLe.printStackTrace();
+		}
+		catch (NullPointerException Nulle) {
+			// TODO: handle exception
+			Nulle.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }// fim do codigo
