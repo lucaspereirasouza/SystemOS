@@ -127,6 +127,14 @@ public class ProdutosProf extends JDialog {
 	 * Create the dialog.
 	 */
 	public ProdutosProf() {
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			System.out.println("FODA-SE");
+			scrollprodutos.setVisible(false);
+			scrollPane.setVisible(false);
+			}
+		});
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -141,6 +149,7 @@ public class ProdutosProf extends JDialog {
 		getContentPane().setLayout(null);
 
 		scrollPane = new JScrollPane();
+		scrollPane.setVisible(false);
 		scrollPane.setBounds(405, 71, 153, 64);
 		getContentPane().add(scrollPane);
 
@@ -197,14 +206,10 @@ public class ProdutosProf extends JDialog {
 
 		txtBarcode = new JTextField();
 		txtBarcode.addKeyListener(new KeyAdapter() {
-			// leitor de c�digo de barras
-			// evento ao pressionar uma tecla espec�fica (ENTER)
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				
 					pesquisarBarcode();
-					
 				}
 			}
 		});
@@ -298,6 +303,11 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(lblNewLabel_8);
 
 		txtValor = new JTextField();
+		txtValor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				onlyNum(e);}
+		});
 		txtValor.setBounds(89, 379, 103, 20);
 		getContentPane().add(txtValor);
 		txtValor.setColumns(10);
@@ -307,6 +317,11 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(lblNewLabel_9);
 
 		txtLucro = new JTextField();
+		txtLucro.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				onlyNum(e);}
+		});
 		txtLucro.setBounds(260, 376, 38, 20);
 		getContentPane().add(txtLucro);
 		txtLucro.setColumns(10);
@@ -330,6 +345,12 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(lblNewLabel_12);
 
 		txtEstoque = new JTextField();
+		txtEstoque.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				onlyNum(e);
+			}
+		});
 		txtEstoque.setBounds(89, 329, 51, 20);
 		getContentPane().add(txtEstoque);
 		txtEstoque.setColumns(10);
@@ -339,6 +360,12 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(lblNewLabel_13);
 
 		txtEstoquemin = new JTextField();
+		txtEstoquemin.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				onlyNum(e);
+			}
+		});
 		txtEstoquemin.setColumns(10);
 		txtEstoquemin.setBounds(267, 329, 51, 20);
 		getContentPane().add(txtEstoquemin);
@@ -370,7 +397,7 @@ public class ProdutosProf extends JDialog {
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				inserirProduto();
-				IsImageLoaded = false;
+				
 			}
 		});
 		btnAdicionar.setBounds(536, 470, 64, 64);
@@ -381,7 +408,7 @@ public class ProdutosProf extends JDialog {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editar();
-				IsImageLoaded = false;
+				
 
 			}
 		});
@@ -398,7 +425,7 @@ public class ProdutosProf extends JDialog {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				excluir();
-				IsImageLoaded = false;
+			
 			}
 		});
 		btnExcluir.setToolTipText("Excluir produto");
@@ -414,8 +441,14 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(lblNewLabel_4_1);
 
 		txtLote = new JTextField();
+		txtLote.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			onlyNum(e);
+			}
+		});
 		txtLote.setColumns(10);
-		txtLote.setBounds(90, 283, 121, 20);
+		txtLote.setBounds(90, 283, 50, 20);
 		getContentPane().add(txtLote);
 
 		lblimg = new JLabel("");
@@ -710,6 +743,9 @@ public class ProdutosProf extends JDialog {
 		} else if (dataValidade.getDate() == null) {
 			JOptionPane.showMessageDialog(null, "Preencher a data de validade");
 			System.out.println("Date empty");
+		} else if (txtId.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencher o fornecedor");
+			System.out.println("Date empty");
 //		else if (lblimg.getIcon().equals("/bin/img/produtosIcon.png")) {JOptionPane.showMessageDialog(null, "Carregar imagem");
 		} else {
 
@@ -847,6 +883,10 @@ public class ProdutosProf extends JDialog {
 				String comando = "update produtosDida set barcode=?,produto=?,fabricante=?"
 						+ ",descricao=?,datavalidade=?,foto=?,estoque=?,estoquemin=?"
 						+ ",valor=?,unidademedida=?,localarmazenagem=?,lote=?,lucro=? where idproduto=?;";
+				String comandoWithoutImg = "update produtosDida set barcode=?,produto=?,fabricante=?"
+						+ ",descricao=?,datavalidade=?,estoque=?,estoquemin=?"
+						+ ",valor=?,unidademedida=?,localarmazenagem=?,lote=?,lucro=? where idproduto=?;";
+				
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
 
@@ -857,20 +897,51 @@ public class ProdutosProf extends JDialog {
 				SimpleDateFormat formatador = new SimpleDateFormat("yyyyMMdd");
 				String dataformada = formatador.format(dataValidade.getDate());
 
-			
+				
 				pst.setString(1, txtBarcode.getText());
 				pst.setString(2, txtProduto.getText());
 				pst.setString(3, txtFabricante.getText());
 				pst.setString(4, txtDescricao.getText());
 				pst.setString(5, dataformada);
-				pst.setBlob(6,fis);				
-				pst.setString(7, txtEstoque.getText());
-				pst.setString(8, txtEstoquemin.getText());
-				pst.setString(9, txtValor.getText());
-				pst.setString(10, (String) cboUnidade.getSelectedItem());
-				pst.setString(11, txtLocal.getText());
-				pst.setString(12, txtLote.getText());
-				pst.setString(13, txtLucro.getText());
+				
+				if(IsImageLoaded) {
+					System.out.println("modified");
+					
+					pst.setBlob(6,fis);
+					pst.setString(7, txtEstoque.getText());
+					pst.setString(8, txtEstoquemin.getText());
+					pst.setString(9, txtValor.getText());
+					pst.setString(10, (String) cboUnidade.getSelectedItem());
+					pst.setString(11, txtLocal.getText());
+					pst.setString(12, txtLote.getText());
+					pst.setString(13, txtLucro.getText());
+				}else {
+					System.out.println("not modified");
+					
+					pst.setString(6, txtEstoque.getText());
+					pst.setString(7, txtEstoquemin.getText());
+					pst.setString(8, txtValor.getText());
+					pst.setString(11, (String) cboUnidade.getSelectedItem());
+					pst.setString(12, txtLocal.getText());
+					pst.setString(13, txtLote.getText());
+					pst.setString(14, txtLucro.getText());
+				}
+				
+				
+				
+//				pst.setString(1, txtBarcode.getText());
+//				pst.setString(2, txtProduto.getText());
+//				pst.setString(3, txtFabricante.getText());
+//				pst.setString(4, txtDescricao.getText());
+//				pst.setString(5, dataformada);
+//								
+//				pst.setString(7, txtEstoque.getText());
+//				pst.setString(8, txtEstoquemin.getText());
+//				pst.setString(9, txtValor.getText());
+//				pst.setString(10, (String) cboUnidade.getSelectedItem());
+//				pst.setString(11, txtLocal.getText());
+//				pst.setString(12, txtLote.getText());
+//				pst.setString(13, txtLucro.getText());
 
 //				pst.setString(12, dataEntrada.getText());
 				
@@ -934,6 +1005,7 @@ public class ProdutosProf extends JDialog {
 		cboUnidade.setSelectedItem("");
 		txtLocal.setText(null);
 		lblimg.setIcon(new ImageIcon(ProdutosProf.class.getResource("/img/produtosIcon.png")));
+		IsImageLoaded = false;
 		
 		// Validação
 		btnAdicionar.setEnabled(true);
@@ -945,8 +1017,7 @@ public class ProdutosProf extends JDialog {
 	}
 	private void listarProdutos() {
 		//validação
-		btnAlterar.setEnabled(true);
-		btnExcluir.setEnabled(true);
+		
 		
 		int linha = listProdutos.getSelectedIndex();
 		String comando = "Select * from produtosDida where produto like '" + txtProduto.getText() + "%'"
@@ -1044,15 +1115,15 @@ public class ProdutosProf extends JDialog {
 		// System.out.println("teste bot�o pesquisar produto");
 		String comando = "select * from produtosDida where barcode = ?";
 		//validação
-		btnAlterar.setEnabled(true);
-		btnExcluir.setEnabled(true);
+		
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(comando);
 			pst.setString(1, txtBarcode.getText());
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
-
+				btnAlterar.setEnabled(true);
+				btnExcluir.setEnabled(true);
 				scrollprodutos.setVisible(false);
 
 				txtCodigo.setText(rs.getString(1));

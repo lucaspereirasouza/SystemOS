@@ -446,8 +446,7 @@ public class Produtos extends JDialog {
 	}
 
 	public void onlyNum(KeyEvent e) {
-		char c = e.getKeyChar();
-		if (Character.isLetter(c)) {
+		if (Character.isLetter(e.getKeyChar())) {
 			e.consume();
 		}
 	}
