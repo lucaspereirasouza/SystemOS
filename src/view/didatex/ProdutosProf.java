@@ -842,7 +842,7 @@ public class ProdutosProf extends JDialog {
 				pst = con.prepareStatement(comando);
 
 				// id por ultimo
-				pst.setString(14, txtProduto.getText());
+				pst.setString(14, txtCodigo.getText());
 				// resto
 
 				SimpleDateFormat formatador = new SimpleDateFormat("yyyyMMdd");
