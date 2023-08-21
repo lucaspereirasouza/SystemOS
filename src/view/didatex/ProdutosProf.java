@@ -188,7 +188,6 @@ public class ProdutosProf extends JDialog {
 		lblButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("s");
 				pesquisarBarcode();
 			}
 		});
@@ -203,7 +202,9 @@ public class ProdutosProf extends JDialog {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					pesquisarProdutoBarcode();
+				
+					pesquisarBarcode();
+					
 				}
 			}
 		});
@@ -216,7 +217,7 @@ public class ProdutosProf extends JDialog {
 		getContentPane().add(lblNewLabel_1);
 
 		txtCodigo = new JTextField();
-		txtCodigo.setBounds(90, 88, 103, 20);
+		txtCodigo.setBounds(102, 88, 103, 20);
 		getContentPane().add(txtCodigo);
 		txtCodigo.setColumns(10);
 
@@ -524,7 +525,10 @@ public class ProdutosProf extends JDialog {
 			if (rs.next()) {
 
 				scrollprodutos.setVisible(false);
-
+				//validação
+				btnAlterar.setEnabled(true);
+				btnExcluir.setEnabled(true);
+				
 				txtCodigo.setText(rs.getString(1));
 				txtProduto.setText(rs.getString(2));
 				txtBarcode.setText(rs.getString(3));
@@ -669,7 +673,6 @@ public class ProdutosProf extends JDialog {
 				txtValor.setText(rs.getString(12));
 				txtLucro.setText(rs.getString(13));
 			} else {
-				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
 			}
 			con.close();
 		} catch (Exception e) {
@@ -682,8 +685,8 @@ public class ProdutosProf extends JDialog {
 
 		if (txtBarcode.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencher o barcode");
-		} else if (txtCodigo.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencher o codigo");
+//		} else if (txtCodigo.getText().isEmpty()) {
+//			JOptionPane.showMessageDialog(null, "Preencher o codigo");
 		} else if (txtProduto.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencher o Produto");
 		} else if (txtDescricao.getText().isEmpty()) {
@@ -941,6 +944,10 @@ public class ProdutosProf extends JDialog {
 //		dataValidade.setText(null);
 	}
 	private void listarProdutos() {
+		//validação
+		btnAlterar.setEnabled(true);
+		btnExcluir.setEnabled(true);
+		
 		int linha = listProdutos.getSelectedIndex();
 		String comando = "Select * from produtosDida where produto like '" + txtProduto.getText() + "%'"
 				+ " order by produto limit " + (linha) + ", 1";
@@ -956,7 +963,7 @@ public class ProdutosProf extends JDialog {
 					//validação
 					btnAlterar.setEnabled(true);
 					btnExcluir.setEnabled(true);
-//					btnAdicionar
+					
 					
 					txtCodigo.setText(rs.getString(1));
 					txtProduto.setText(rs.getString(2));
@@ -1036,6 +1043,9 @@ public class ProdutosProf extends JDialog {
 	private void pesquisarBarcode() {
 		// System.out.println("teste bot�o pesquisar produto");
 		String comando = "select * from produtosDida where barcode = ?";
+		//validação
+		btnAlterar.setEnabled(true);
+		btnExcluir.setEnabled(true);
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(comando);
@@ -1081,7 +1091,7 @@ public class ProdutosProf extends JDialog {
 				lblimg.setIcon(foto);
 
 			} else {
-				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
+//				JOptionPane.showMessageDialog(null, "Produto n�o cadastrado");
 			}
 			con.close();
 		}catch (SQLException SQLe) {
@@ -1093,6 +1103,12 @@ public class ProdutosProf extends JDialog {
 			Nulle.printStackTrace();
 		}catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	public void onlyNum(KeyEvent e) {
+		char c = e.getKeyChar();
+		if (Character.isLetter(c)) {
+			e.consume();
 		}
 	}
 }// fim do codigo
