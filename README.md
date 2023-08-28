@@ -13,7 +13,7 @@ ___________
 
 
 ![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
-sob licença MIT
+##### sob licença MIT
 
 
 ## Objetivo
