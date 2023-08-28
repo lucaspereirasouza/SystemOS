@@ -238,6 +238,15 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblNewLabel_1);
 
 		btnAdicionar = new JButton("");
+		btnAdicionar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			if(!btnAdicionar.isEnabled()) {
+				JOptionPane.showMessageDialog(null, "Por favor, clique para apagar campos para adicionar");
+				System.out.println("Desativado");
+			}
+			}
+		});
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adicionar();
@@ -290,7 +299,7 @@ public class Clientes extends JDialog {
 			}
 		});
 		btnExcluir_1.setIcon(new ImageIcon(Clientes.class.getResource("/img/erase.png")));
-		btnExcluir_1.setToolTipText("Excluir");
+		btnExcluir_1.setToolTipText("Apagar campos");
 		btnExcluir_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnExcluir_1.setBounds(437, 256, 64, 64);
 		getContentPane().add(btnExcluir_1);
