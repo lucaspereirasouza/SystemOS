@@ -10,10 +10,10 @@ ___________________
 #### lucas pereira de souza
 ___________
 #### para fins didáticos
-#### sob licença MIT
+
 
 ![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
-
+sob licença MIT
 
 
 ## Objetivo
