@@ -302,7 +302,7 @@ public class FornecedorProf extends JDialog {
 		txtCPFCNPJ.setBounds(464, 43, 101, 20);
 		getContentPane().add(txtCPFCNPJ);
 		txtCPFCNPJ.setColumns(10);
-		txtCPFCNPJ.setDocument(new Validador(11));
+		txtCPFCNPJ.setDocument(new Validador(15));
 
 		lblNewLabel_1_1_1_3 = new JLabel("CPF/CNPJ");
 		lblNewLabel_1_1_1_3.setBounds(399, 43, 56, 21);

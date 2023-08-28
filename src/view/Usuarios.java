@@ -392,6 +392,8 @@ public class Usuarios extends JDialog {
 		listaUsuarios.setVisible(false);
 		//
 		cbPerfil.setSelectedItem("");
+		checkSenha.setSelected(false);
+		txtSenha.setBackground(Color.WHITE);
 	}//
 
 	@SuppressWarnings("deprecation")
@@ -521,6 +523,7 @@ public class Usuarios extends JDialog {
 					txtLogin.setText(rs.getString(3));
 					txtSenha.setText(rs.getString(4));
 					cbPerfil.setSelectedItem(rs.getString(5));
+					bttnAdd.setEnabled(false);
 					bttnRemove.setEnabled(true);
 					bttnEditar.setEnabled(true);
 				}

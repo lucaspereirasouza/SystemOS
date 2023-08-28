@@ -44,6 +44,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import java.awt.Cursor;
 
 public class Clientes extends JDialog {
 	DAO dao = new DAO();
@@ -90,7 +91,7 @@ public class Clientes extends JDialog {
 		setTitle("Clientes");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/img/UsersIcon2.png")));
 		setResizable(false);
-		setBounds(100, 100, 591, 370);
+		setBounds(100, 100, 591, 374);
 		getContentPane().setLayout(null);
 
 		scrollPane = new JScrollPane();
@@ -238,6 +239,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblNewLabel_1);
 
 		btnAdicionar = new JButton("");
+		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -259,6 +261,15 @@ public class Clientes extends JDialog {
 		getContentPane().add(btnAdicionar);
 
 		btnEditar = new JButton("");
+		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnEditar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!btnEditar.isEnabled()) {
+					JOptionPane.showMessageDialog(null, "Por favor, insira um cliente para poder editar");
+				}
+			}
+		});
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editar();
@@ -272,6 +283,15 @@ public class Clientes extends JDialog {
 		getContentPane().add(btnEditar);
 
 		btnExcluir = new JButton("");
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnExcluir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!btnExcluir.isEnabled()) {
+					JOptionPane.showMessageDialog(null, "Por favor, insira um cliente para poder editar");
+				}
+			}
+		});
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove();
