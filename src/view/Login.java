@@ -123,7 +123,10 @@ public class Login extends JFrame {
 				} else {
 					JOptionPane.showInternalMessageDialog(null, "Login ou senha invalida");
 				}
-			} catch (Exception e) {
+			}catch(java.lang.NullPointerException Nulle) {
+				JOptionPane.showMessageDialog(null, "Falha no banco de dados, Por favor, reinicie o aplicativo.");
+			}catch(SQLException SQLe) {SQLe.printStackTrace();}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

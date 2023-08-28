@@ -306,7 +306,7 @@ public class Clientes extends JDialog {
 		txtCPF.setBounds(440, 43, 112, 20);
 		getContentPane().add(txtCPF);
 		txtCPF.setColumns(10);
-		txtCPF.setDocument(new Validador(11));
+		txtCPF.setDocument(new Validador(15));
 
 		JLabel lblNewLabel_2 = new JLabel("CPF");
 		lblNewLabel_2.setBounds(399, 46, 41, 14);
