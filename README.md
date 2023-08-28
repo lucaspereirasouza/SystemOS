@@ -11,6 +11,7 @@ ___________________
 ___________
 #### para fins didáticos
 #### sob licença MIT
+
 ![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
 
 
