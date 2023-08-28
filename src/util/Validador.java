@@ -19,6 +19,9 @@ public class Validador extends PlainDocument {
 	public void insertString(int ofs, String str, AttributeSet e) throws BadLocationException{
 		if((getLength() + str.length())<=limite) {
 			super.insertString(ofs, str, e);
+		}else {
+			
 		}
 	}
+	
 }

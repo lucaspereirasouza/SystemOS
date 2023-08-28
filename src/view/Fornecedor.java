@@ -388,7 +388,7 @@ public class Fornecedor extends JDialog {
 		lblNewLabel_2 = new JLabel("IE");
 		lblNewLabel_2.setBounds(409, 75, 46, 20);
 		getContentPane().add(lblNewLabel_2);
-
+		setLocationRelativeTo(null);
 	}
 
 	private void limparcampos() {

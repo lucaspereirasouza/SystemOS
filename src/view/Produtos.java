@@ -361,6 +361,7 @@ public class Produtos extends JDialog {
 		JLabel lblNewLabel_6 = new JLabel("Descricao");
 		lblNewLabel_6.setBounds(18, 100, 46, 14);
 		getContentPane().add(lblNewLabel_6);
+		setLocationRelativeTo(null);
 	}
 
 	private void LoadPhoto() {

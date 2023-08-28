@@ -100,10 +100,9 @@ public class Principal extends JFrame {
 	 */
 	public Principal() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/IconMonitor.png")));
-		setResizable(false);
 		setTitle("ConsoleX Ordens de Serviço");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 781, 423);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(UIManager.getColor("CheckBox.background"));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -141,12 +140,12 @@ public class Principal extends JFrame {
 		bttnHome.setIcon(new ImageIcon(Principal.class.getResource("/img/MenuIcon.png")));
 
 		dbicon = new JLabel("");
-		dbicon.setBounds(704, 329, 57, 48);
+		dbicon.setBounds(717, 502, 57, 48);
 		contentPane.add(dbicon);
 		dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
 
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 761, 22);
+		menuBar.setBounds(0, 0, 801, 22);
 		contentPane.add(menuBar);
 
 		JMenu mnNewMenu = new JMenu("Menu");
@@ -187,7 +186,8 @@ public class Principal extends JFrame {
 		PanelBarraEsquerda.setRequestFocusEnabled(false);
 		PanelBarraEsquerda.setLayout(null);
 		PanelBarraEsquerda.setBackground(new Color(36, 107, 128));
-		PanelBarraEsquerda.setBounds(0, 0, 241, 384);
+		PanelBarraEsquerda.setBounds(0, 0, 241, 579);
+		
 		contentPane.add(PanelBarraEsquerda);
 
 		btnRelatorios = new JButton("Relatório");
@@ -300,29 +300,30 @@ public class Principal extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Usuario:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 17));
-		lblNewLabel_1.setBounds(500, 309, 67, 33);
+		lblNewLabel_1.setBounds(513, 482, 67, 33);
 		contentPane.add(lblNewLabel_1);
 		
 		lblUsuario = new JLabel("[]");
 		lblUsuario.setHorizontalAlignment(SwingConstants.LEFT);
 		lblUsuario.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 15));
-		lblUsuario.setBounds(577, 309, 67, 33);
+		lblUsuario.setBounds(590, 482, 67, 33);
 		contentPane.add(lblUsuario);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Cargo:");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 17));
-		lblNewLabel_1_1.setBounds(511, 340, 67, 33);
+		lblNewLabel_1_1.setBounds(524, 513, 67, 33);
 		contentPane.add(lblNewLabel_1_1);
 		
 		lblCargo = new JLabel("[]");
 		lblCargo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCargo.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 15));
-		lblCargo.setBounds(577, 340, 67, 33);
+		lblCargo.setBounds(590, 513, 67, 33);
 		contentPane.add(lblCargo);
 		status();
 		setardata();
 		comeco();
+		setLocationRelativeTo(null);
 	}
 
 	/*

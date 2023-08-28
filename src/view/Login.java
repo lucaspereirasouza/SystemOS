@@ -257,6 +257,7 @@ public class Login extends JFrame {
 		lblEsqueciMinhaSenha.setBounds(139, 197, 114, 17);
 		contentPane.add(lblEsqueciMinhaSenha);
 		status();
+		setLocationRelativeTo(null);
 	}
 
 	private void status() {

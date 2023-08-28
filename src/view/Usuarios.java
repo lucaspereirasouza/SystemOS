@@ -31,6 +31,8 @@ import util.Validador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.Document;
+
 import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.JComboBox;
@@ -110,7 +112,6 @@ public class Usuarios extends JDialog {
 //					}
 		});
 		txtLogin.setDocument(new Validador(50));
-
 		scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
 		scrollPane.setBorder(null);
@@ -188,7 +189,7 @@ public class Usuarios extends JDialog {
 		});
 		bttnBuscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bttnBuscar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/search.png")));
-		bttnBuscar.setBounds(364, 112, 64, 64);
+		bttnBuscar.setBounds(457, 261, 64, 64);
 		getContentPane().add(bttnBuscar);
 
 		JButton btnNewButton_1 = new JButton("");
@@ -280,6 +281,7 @@ public class Usuarios extends JDialog {
 		});
 		checkSenha.setBounds(90, 320, 135, 23);
 		getContentPane().add(checkSenha);
+		setLocationRelativeTo(null);
 	}
 
 	private void search() {
@@ -307,7 +309,9 @@ public class Usuarios extends JDialog {
 				bttnBuscar.setEnabled(true);
 				bttnRemove.setEnabled(true);
 			} else {
-				JOptionPane.showMessageDialog(null, "Usuario inexistente");
+				String msg = "Usuario inexistente, gostaria de procurar por id?";
+				int conf = JOptionPane.showConfirmDialog(null, msg);
+//				
 				bttnAdd.setEnabled(true);
 
 //				bttnBuscar.setEnabled(false);

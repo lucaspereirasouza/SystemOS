@@ -113,6 +113,7 @@ public class Sobre extends JDialog {
 			}
 		});
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		setLocationRelativeTo(null);
 	}
 	private void link(String url) {
 		Desktop desktop = Desktop.getDesktop();

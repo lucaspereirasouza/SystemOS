@@ -340,6 +340,7 @@ public class Clientes extends JDialog {
 		JLabel lblNewLabel_2 = new JLabel("CPF");
 		lblNewLabel_2.setBounds(399, 46, 41, 14);
 		getContentPane().add(lblNewLabel_2);
+		setLocationRelativeTo(null);
 	}
 
 	private void limparcampos() {

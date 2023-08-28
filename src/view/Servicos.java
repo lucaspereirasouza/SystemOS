@@ -272,7 +272,7 @@ public class Servicos extends JDialog {
 		});
 		btnNewButton.setBounds(469, 217, 107, 23);
 		getContentPane().add(btnNewButton);
-
+		setLocationRelativeTo(null);
 	}
 
 	public void limparcampos() {

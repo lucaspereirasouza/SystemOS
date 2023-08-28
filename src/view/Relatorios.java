@@ -51,7 +51,7 @@ public class Relatorios extends JDialog {
 	// Dialog
 	public Relatorios() {
 		setResizable(false);
-		setTitle("Relatorios");
+		setTitle("Relatórios");
 		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Relatorios.class.getResource("/img/ReportIcon.png")));
 		setBounds(100, 100, 461, 207);
@@ -80,6 +80,7 @@ public class Relatorios extends JDialog {
 		btnClientes_1.setBorder(UIManager.getBorder("ComboBox.editorBorder"));
 		btnClientes_1.setBounds(44, 55, 137, 50);
 		getContentPane().add(btnClientes_1);
+		setLocationRelativeTo(null);
 	}
 
 	/**
