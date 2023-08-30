@@ -23,6 +23,9 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 
 import javax.swing.UIManager;
+
+import org.w3c.dom.css.Rect;
+
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -167,6 +170,7 @@ public class Relatorios extends JDialog {
 				//adicionar a data atual
 				Date dataRelatorio = new Date();
 				DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+				
 				document.add(new Paragraph(formatador.format(dataRelatorio)));
 				//adicionar um páragrafo
 				document.add(new Paragraph("Equipamento console:"));
@@ -212,6 +216,11 @@ public class Relatorios extends JDialog {
 						tabela.addCell(rs.getString(4));
 						tabela.addCell(rs.getString(5));
 						tabela.addCell(rs.getString(6));
+						
+						Image imagem = Image.getInstance(Relatorios.class.getResource("/img/ConsoleIcon.png"));
+						imagem.scaleToFit(128,128);
+						imagem.setAbsolutePosition(20,20);
+						document.add(imagem);
 					}				
 					//adicionar a tabela ao documento pdf
 					document.add(tabela);

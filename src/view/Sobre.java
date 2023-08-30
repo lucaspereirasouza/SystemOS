@@ -48,49 +48,48 @@ public class Sobre extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/img/AboutIcon.png")));
 		setResizable(false);
 		setModal(true);
-		setBounds(100, 100, 495, 350);
+		setBounds(100, 100, 334, 403);
 		getContentPane().setLayout(null);
-		contentPanel.setBounds(0, 0, 434, 261);
+		contentPanel.setBounds(0, 0, 479, 364);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("");
-		lblNewLabel_2_1.setBounds(307, 61, 145, 117);
+		lblNewLabel_2_1.setBounds(10, 127, 145, 117);
 		contentPanel.add(lblNewLabel_2_1);
 		lblNewLabel_2_1.setIcon(new ImageIcon(Sobre.class.getResource("/img/ConsoleIcon.png")));
-		
-		JLabel lblNewLabel_3 = new JLabel("Sob licença MIT");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblNewLabel_3.setBounds(148, 108, 126, 60);
-		contentPanel.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("Feito por:");
-		lblNewLabel_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));
-		lblNewLabel_1_1.setBounds(10, 229, 126, 46);
-		contentPanel.add(lblNewLabel_1_1);
 		
 		JTextArea txtrEsseAplicativoTem = new JTextArea();
 		txtrEsseAplicativoTem.setFont(new Font("MS Gothic", Font.BOLD, 13));
 		txtrEsseAplicativoTem.setBackground(new Color(240, 240, 240));
 		txtrEsseAplicativoTem.setEditable(false);
-		txtrEsseAplicativoTem.setText("Este aplicativo tem função de formar \r\nordens de serviços e cadastro do usuario \r\nno banco de dados do Console X.");
-		txtrEsseAplicativoTem.setBounds(10, 11, 306, 54);
+		txtrEsseAplicativoTem.setText("Esse aplicativo tem função de administrar \r\nordens de serviço pela criação, remoção, \r\nedição e pesquisa do Usuario, cliente,\r\nfornecedor e produtos. Com funções\r\nfundamentais como impressão do sistema,\r\ncompatibilidade com barcode scanner, etc.\r\n");
+		txtrEsseAplicativoTem.setBounds(10, 11, 306, 105);
 		contentPanel.add(txtrEsseAplicativoTem);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setBounds(10, 76, 128, 128);
+		lblNewLabel_2.setToolTipText("sob licença mit");
+		lblNewLabel_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				link("https://github.com/lucaspereirasouza/ConsoleX/blob/master/LICENSE");
+			}
+		});
+		lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_2.setBounds(168, 133, 128, 128);
 		contentPanel.add(lblNewLabel_2);
 		lblNewLabel_2.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-icon.png")));
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Lucas pereira");
+		lblNewLabel_1_1_1.setBounds(10, 305, 126, 23);
+		contentPanel.add(lblNewLabel_1_1_1);
 		lblNewLabel_1_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));
-		lblNewLabel_1_1_1.setBounds(10, 254, 126, 46);
-		getContentPane().add(lblNewLabel_1_1_1);
 		
 		JLabel lblNewLabel = new JLabel("github.com/lucaspereirasouza");
-		lblNewLabel.setBounds(214, 255, 242, 46);
-		getContentPane().add(lblNewLabel);
+		lblNewLabel.setBounds(59, 318, 243, 46);
+		contentPanel.add(lblNewLabel);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -102,17 +101,20 @@ public class Sobre extends JDialog {
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				System.out.println("Label mouse entrado");
 				lblNewLabel.setForeground(Color.BLUE);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				System.out.println("Label mouse saido ?");
 				lblNewLabel.setForeground(Color.BLACK);
 			}
 		});
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Feito por:");
+		lblNewLabel_1_1.setBounds(10, 268, 126, 46);
+		contentPanel.add(lblNewLabel_1_1);
+		lblNewLabel_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));
 		setLocationRelativeTo(null);
 	}
 	private void link(String url) {

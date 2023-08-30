@@ -136,6 +136,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		setResizable(false);
 		setTitle("Login");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/ConsoleIcon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -198,48 +199,46 @@ public class Login extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 
 				String name = JOptionPane.showInputDialog("Por favor, insira o nome de usuario com administrador:");
-				String pass = JOptionPane.showInputDialog("Insira a senha:");
+				String pass;
+				if(name==null) {}
+				else {
+					pass = JOptionPane.showInputDialog("Insira a senha:");
+					try {
+						String comando = "SELECT * FROM usuarios where nome=? and senha=md5(?)";
+						pst = dao.conectar().prepareStatement(comando);
+					
+						pst.setString(1, name);
+						pst.setString(2, pass);
 
-				try {
-					String comando = "SELECT * FROM usuarios where nome=? and senha=md5(?)";
-					con = dao.conectar();
-					pst = con.prepareStatement(comando);
-					pst.setString(1, name);
-					pst.setString(2, pass);
-
-					rs = pst.executeQuery();
-
-					if (rs.next()) {
-
-						String perfil = rs.getString(5);
-						if (perfil.equals("admin")) {
-								String nam = txtLogin.getText();
-								
-								var esquecisenha = new EsqueciMinhaSenha();
-								esquecisenha.setVisible(true);
-								esquecisenha.txtNome.setText(nam);
-								
-								
-							
-//							var esqueci = new EsqueciMinhaSenha();
-//							esqueci.setVisible(true);
+						rs = pst.executeQuery();
+						/**
+						 * rs.next tem função de checar o perfil do usuario para a mudança de senha
+						 */
+						if (rs.next()) {
+							//rs.getString 5 = Perfil, admin ou usuario
+							if (rs.getString(5).equals("admin")) {
+									
+									String nam = txtLogin.getText();
+									var esquecisenha = new EsqueciMinhaSenha();
+									esquecisenha.setVisible(true);
+									esquecisenha.txtNome.setText(nam);
+							} else {
+								JOptionPane.showMessageDialog(null, "Login não autorizado");
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Login não autorizado");
+							JOptionPane.showMessageDialog(null, "Erro no login");
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Erro no login");
+
+					} catch (SQLException SQLe) {
+						// TODO: handle exception
+						SQLe.printStackTrace();
+					} catch (Exception ex) {
+						// TODO: handle exception
+						ex.printStackTrace();
 					}
 
-				} catch (SQLException SQLe) {
-					// TODO: handle exception
-					SQLe.printStackTrace();
-				} catch (Exception ex) {
-					// TODO: handle exception
-					ex.printStackTrace();
+					
 				}
-
-				
-
 			}
 
 			@Override
@@ -262,17 +261,15 @@ public class Login extends JFrame {
 
 	private void status() {
 		try {
-			con = dao.conectar();
-			if (con == null) {
-			
+			if (dao.conectar() == null) {
 				dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
 			} else {
-				
 				dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dbon.png")));
 			}
-			con.close();
-		} catch (Exception e) {
-
+			dao.conectar().close();
+		} catch (Exception SQLe) {
+			JOptionPane.showMessageDialog(null, "Erro ao se conectar ao Banco de dados (MySQL), por favor, cheque sua conexão");
+			SQLe.printStackTrace();
 		}
 	}//
 }
