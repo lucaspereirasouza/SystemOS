@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
--- Host: 10.26.44.241    Database: dbsistema
+-- Host: 10.26.45.241    Database: dbsistema
 -- ------------------------------------------------------
--- Server version	8.0.33-0ubuntu0.22.04.2
+-- Server version	8.0.34-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,12 +33,12 @@ CREATE TABLE `clientes` (
   `bairro` varchar(30) NOT NULL,
   `cidade` varchar(30) NOT NULL,
   `uf` char(2) NOT NULL,
-  `cpf` varchar(11) DEFAULT NULL,
+  `cpf` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`idcli`),
   UNIQUE KEY `cpf` (`cpf`),
   UNIQUE KEY `cpf_2` (`cpf`),
   UNIQUE KEY `cpf_3` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (16,'Vila Granada','Vila Granada','03654020 ','Rua Filipe Galvão','123','Vila Granada','Vila Granada','São paulo','SP',NULL),(23,'Admin','011','03307000','Rua Tuiuti','21','','Tatuapé','São Paulo','SP',NULL),(24,'Bob esponja','192041-4','2394-03492',' 1321313','123','123','123','São paulo','AC','12345678901'),(26,'Patrick','patrick12345678','03307000','Fenda do biquini ?','1','Pedra','Biquini','São Paulo','SP',NULL),(28,'Carlos','12345678-102024','03081-003','Rua Tuiuti - de 32/33 a 590/591','21','24','Tatuapé ','São Paulo','SP',NULL),(29,'Patrick da silva','12345','03081-003','Rua Tuiuti - de 32/33 a 590/591','12','não','Tatuapé ','São Paulo','SP',NULL),(30,'teste','teste','teste','testeteste','teste','teste','teste','teste','AC','teste'),(31,'1','1','1','Caminho 11 (Condor)','1','1','Águas Claras','Salvador','BA','2'),(33,'Usuario01','123456788890000','03081-003','Rua Tuiuti - de 32/33 a 590/591','21','','Tatuapé ','São Paulo','SP','12345678900'),(34,'lucas','125125125','79052-650','Rua Doutor José Vilela Bastos','242','','Parque Residencial Rita Vieira','Campo Grande','MS','51566515');
+INSERT INTO `clientes` VALUES (16,'Vila Granada','Vila Granada','03654020 ','Rua Filipe Galvão','123','Vila Granada','Vila Granada','São paulo','SP',NULL),(23,'Admin','011','03307000','Rua Tuiuti','21','','Tatuapé','São Paulo','SP',NULL),(24,'Bob esponja','192041-4','2394-03492',' 1321313','123','123','123','São paulo','AC','12345678901'),(26,'Patrick','patrick12345678','03307000','Fenda do biquini ?','1','Pedra','Biquini','São Paulo','SP',NULL),(28,'Carlos','12345678-102024','03081-003','Rua Tuiuti - de 32/33 a 590/591','21','24','Tatuapé ','São Paulo','SP',NULL),(29,'Patrick da silva','12345','03081-003','Rua Tuiuti - de 32/33 a 590/591','12','não','Tatuapé ','São Paulo','SP',NULL),(31,'1','1','1','Caminho 11 (Condor)','1','1','Águas Claras','Salvador','BA','2'),(33,'Usuario01','123456788890000','03081-003','Rua Tuiuti - de 32/33 a 590/591','21','','Tatuapé ','São Paulo','SP','12345678900'),(35,'Kamilly Carolina Baptista','41.659.965-5','12061-400','Rua Jarbas dos Santos Toledo','116','','Parque São Luis','Taubaté','SP','53278707583'),(36,'Pedro Henrique Marcos Vinicius Oliveira','(65) 99452-7084','78135-229','Rua Véu das Noivas (Lot S João)','276','','Canelas ','Várzea Grande','MT','71963758587'),(37,'Manoel Tomás Renan Bernardes','(65) 99362-0167','78049-919','Rua Cinco, 14','118','','Centro Político Administrativo','Cuiabá','MT','623.885.439-16'),(38,'Sophia Maria Evelyn Almeida','(79) 99711-7030','49091-043','Rua Manoel de Oliveira França','453','','Jardim Centenário ','Aracaju','SE','302.874.057-53');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-26 14:05:37
+-- Dump completed on 2023-08-30 14:32:59

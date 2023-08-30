@@ -16,31 +16,41 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `fornecedoresDida`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
+DROP TABLE IF EXISTS `fornecedoresDida`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `usuarios` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) NOT NULL,
-  `login` varchar(15) NOT NULL,
-  `senha` varchar(250) NOT NULL,
-  `perfil` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `fornecedoresDida` (
+  `idfornecedores` int NOT NULL AUTO_INCREMENT,
+  `razao` varchar(50) NOT NULL,
+  `fantasia` varchar(50) NOT NULL,
+  `fone` varchar(15) NOT NULL,
+  `vendedor` varchar(20) DEFAULT NULL,
+  `email` varchar(50) NOT NULL,
+  `site` varchar(50) DEFAULT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  `cpfcnpj` varchar(15) NOT NULL,
+  `ie` varchar(20) DEFAULT NULL,
+  `endereco` varchar(50) NOT NULL,
+  `numero` varchar(10) NOT NULL,
+  `complemento` varchar(20) DEFAULT NULL,
+  `bairro` varchar(30) NOT NULL,
+  `cidade` varchar(30) NOT NULL,
+  `uf` char(2) NOT NULL,
+  PRIMARY KEY (`idfornecedores`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `fornecedoresDida`
 --
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Admin','Admin','21232f297a57a5a743894a0e4a801fc3','admin'),(2,'Lucas P. Souza','Lucaspereira','fad5f295ee1b464a6b4bc5b3a01b3c5f','user'),(7,'cleide','cleide','b8816cde542f47aec36434cddcbfa04f','user'),(10,'lalau','lalau','1e1b5e91304675ec29740a09492bf1ad','admin'),(11,'teste','teste','202cb962ac59075b964b07152d234b70','admin'),(12,'josédeassis','ze','202cb962ac59075b964b07152d234b70','admin'),(13,'usuario','usuario teste','202cb962ac59075b964b07152d234b70','user'),(14,'jose de assis','user','202cb962ac59075b964b07152d234b70','user'),(15,'Kamily Carolina','kamily','202cb962ac59075b964b07152d234b70','user'),(16,'Sophia Maria','Sophia','ef3dd8f09960cb63809575f67a1b9824','user'),(19,'teste2','teste2','202cb962ac59075b964b07152d234b70','admin');
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+LOCK TABLES `fornecedoresDida` WRITE;
+/*!40000 ALTER TABLE `fornecedoresDida` DISABLE KEYS */;
+INSERT INTO `fornecedoresDida` VALUES (12,'Admin','Administrador','9999Admin','Admin','Admin@Admin','https://Admin.com','0000','00000','0000','000','00','0','0','0','0'),(13,'Lucas pereira','Lucas games','00','Nulo','lucaspereiradesouza2163@outlook.com','https://lucasgames.com','03654-020','51166827810','123','Rua Filipe Galvão','633','','Vila Granada','São Paulo','SP');
+/*!40000 ALTER TABLE `fornecedoresDida` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
