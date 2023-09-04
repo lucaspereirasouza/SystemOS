@@ -5,13 +5,13 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 public class Validador extends PlainDocument {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	//variavel que ira armzenar o numero maximo de caracteres permirtos
 	private int limite;
 	
+	/**
+	 * Utilidade responavel para limitar a quantidade de caracteres em Jtext
+	 * @param Validador
+	 */
 	public Validador(int limite) {
 		super();
 		this.limite = limite;

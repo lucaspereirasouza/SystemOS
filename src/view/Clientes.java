@@ -1,16 +1,9 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import java.awt.Font;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,9 +12,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Iterator;
 
-import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.border.EtchedBorder;
 
 import org.dom4j.Document;
@@ -47,6 +38,7 @@ import java.awt.Toolkit;
 import java.awt.Cursor;
 
 public class Clientes extends JDialog {
+	private static final long serialVersionUID = 1L;
 	DAO dao = new DAO();
 	private Connection con;
 	private PreparedStatement pst;
@@ -61,11 +53,13 @@ public class Clientes extends JDialog {
 	private JTextField txtComplemento;
 	private JTextField txtCidade;
 	private JTextField txtId;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cboUf;
 	private JScrollPane scrollPane;
 	private JButton btnAdicionar;
 	private JButton btnEditar;
 	private JButton btnExcluir;
+	@SuppressWarnings("rawtypes")
 	private JList listClientes;
 	private JButton btnExcluir_1;
 	private JTextField txtCPF;
@@ -82,11 +76,11 @@ public class Clientes extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
-	 * Create the dialog.
+	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Clientes() {
 		setTitle("Clientes");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/img/UsersIcon2.png")));
@@ -193,7 +187,6 @@ public class Clientes extends JDialog {
 
 		txtNumero = new JTextField();
 		txtNumero.addKeyListener(new KeyAdapter() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 				onlyNum(e);
@@ -343,6 +336,9 @@ public class Clientes extends JDialog {
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Method that sets each Jtext field to null.
+	 */
 	private void limparcampos() {
 		txtId.setText(null);
 		txtNome.setText(null);
@@ -361,7 +357,10 @@ public class Clientes extends JDialog {
 
 		scrollPane.setVisible(false);
 	}
-
+	
+	/**
+	 * Method to find CEP (ZIP code) via "republica virtual"
+	 */
 	private void buscarCep() {
 		String logradouro = "";
 		String tipoLogradouro = "";
@@ -403,19 +402,18 @@ public class Clientes extends JDialog {
 			}
 			txtEndereco.setText(tipoLogradouro + " " + logradouro);
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Method to validate every JtextField and submit to database
+	 */
 	public void adicionar() {
 		String comando = "insert into clientes(nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf,cpf) values(?,?,?,?,?,?,?,?,?,?)";
 
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O nome deve ser preenchido");
 		}
-//		} else if (txtId.getText().isEmpty()) {
-//			
-//		}
 		else if (txtCPF.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O CPF deve ser preenchido");
 		} else if (txtFone.getText().isEmpty()) {
@@ -428,8 +426,6 @@ public class Clientes extends JDialog {
 			JOptionPane.showMessageDialog(null, "O Numero deve ser preenchido");
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O Bairro deve ser preenchido");
-//		} else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O Complemento deve ser preenchido");
 		} else if (txtCidade.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
 		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
@@ -455,22 +451,18 @@ public class Clientes extends JDialog {
 				JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
 				limparcampos();
 				con.close();
-			} catch (SQLIntegrityConstraintViolationException se1) {
+			} catch (SQLIntegrityConstraintViolationException SQLIntegry) {
 				JOptionPane.showInternalMessageDialog(null, "CPF já em uso");
-			} catch (SQLException se) {
-				System.out.println(se);
-
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-
+			} catch (SQLException SQLIntegry) {SQLIntegry.printStackTrace();} 
+			catch (Exception e) {e.printStackTrace();};
 		}
 	}
-
+	/**
+	 * Method to remove Client from Id
+	 */
 	private void remove() {
 		con = dao.conectar();
-		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste Cliente?", "Atenção!",
-				JOptionPane.YES_NO_OPTION);
+		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste Cliente?", "Atenção!",JOptionPane.YES_NO_OPTION);
 		if (confirma == JOptionPane.YES_OPTION) {
 			try {
 				String delete = "delete from clientes where idcli = ?;";
@@ -486,48 +478,17 @@ public class Clientes extends JDialog {
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);
-
-//			limparCampos();
-			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
-				//
-				JOptionPane.showInternalMessageDialog(null, "Não pode excluir o cliente (Tem registro OS)");
-				System.out.println(se);
-			} catch (Exception e) {
-				//
-				System.out.println(e);
-			}
+				
+			} catch (java.sql.SQLIntegrityConstraintViolationException SQLInteg) {
+				JOptionPane.showInternalMessageDialog(null, "Não pode excluir o cliente, pois Tem registro OS");
+				System.out.println(SQLInteg);
+			} catch (Exception e) {e.printStackTrace();}
 		}
-	}// fim do remove
-
-//	private void pesquisar() {
-//		String comando = "select * from clientes where nome = ?";
-//
-//		try {
-//			con = dao.conectar();
-//			pst = con.prepareStatement(comando);
-//			pst.setString(1, txtNome.getText());
-//			rs = pst.executeQuery();
-//
-//			if (rs.next()) {
-//				txtId.setText(rs.getString(1));
-//				txtNome.setText(rs.getString(2));
-//				txtFone.setText(rs.getString(3));
-//				txtCep.setText(rs.getString(4));
-//				txtEndereco.setText(rs.getString(5));
-//				txtNumero.setText(rs.getString(6));
-//				txtBairro.setText(rs.getString(7));
-//				txtComplemento.setText(rs.getString(8));
-//				txtCidade.setText(rs.getString(7));
-//				cboUf.setSelectedItem(rs.getString(9));
-//			}
-//
-//		} catch (SQLException se) {
-//			System.out.println(se);
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
-//	}
-
+	}
+	/**
+	 * Method to list clients by name in DefaultListModel
+	 */
+	@SuppressWarnings("unchecked")
 	private void listarClientes() {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 		listClientes.setModel(modelo);
@@ -543,7 +504,6 @@ public class Clientes extends JDialog {
 				scrollPane.setVisible(true);
 				modelo.addElement(rs.getString(2));
 				if (txtNome.getText().isEmpty()) {
-//					System.out.println("Condição");
 					listClientes.setVisible(false);
 					scrollPane.setVisible(false);
 				}
@@ -552,7 +512,7 @@ public class Clientes extends JDialog {
 		} catch (SQLException se) {
 			System.out.println(se);
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 	}
@@ -568,8 +528,8 @@ public class Clientes extends JDialog {
 				rs = pst.executeQuery();
 
 				if (rs.next()) {
+					
 					scrollPane.setVisible(false);
-
 					txtId.setText(rs.getString(1));
 					txtNome.setText(rs.getString(2));
 					txtFone.setText(rs.getString(3));
@@ -581,23 +541,22 @@ public class Clientes extends JDialog {
 					txtCidade.setText(rs.getString(9));
 					cboUf.setSelectedItem(rs.getString(10));
 					txtCPF.setText(rs.getString(11));
-
 					btnEditar.setEnabled(true);
 					btnExcluir.setEnabled(true);
 					btnAdicionar.setEnabled(false);
 				}
 			} catch (SQLException se) {
-
+				se.printStackTrace();
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		} else {
 			scrollPane.setVisible(false);
 		}
-
-		System.out.println(linha);
 	}
-
+	/**
+	 * Method to update an entire data by id
+	 */
 	public void editar() {
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Nome do cliente obrigatorio.");
@@ -614,8 +573,6 @@ public class Clientes extends JDialog {
 			JOptionPane.showMessageDialog(null, "O Numero deve ser preenchido");
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "O Bairro deve ser preenchido");
-//		} else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O Complemento deve ser preenchido");
 		} else if (txtCidade.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
 		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
@@ -625,7 +582,7 @@ public class Clientes extends JDialog {
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(update);
-
+				
 				pst.setString(11, txtId.getText());
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtFone.getText());
@@ -637,17 +594,6 @@ public class Clientes extends JDialog {
 				pst.setString(8, txtCidade.getText());
 				pst.setString(9, String.valueOf(cboUf.getSelectedItem()));
 				pst.setString(10, txtCPF.getText());
-//				txtId.setText(rs.getString(1));
-//				txtNome.setText(rs.getString(2));
-//				txtFone.setText(rs.getString(3));
-//				txtCep.setText(rs.getString(4));
-//				txtEndereco.setText(rs.getString(5));
-//				txtNumero.setText(rs.getString(6));
-//				txtComplemento.setText(rs.getString(7));
-//				txtBairro.setText(rs.getString(8));
-//				txtCidade.setText(rs.getString(4));
-//				cboUf.setSelectedItem(rs.getString(9));
-
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
 				limparcampos();
@@ -664,14 +610,14 @@ public class Clientes extends JDialog {
 			}
 		}
 	}
-
+	/**
+	 * Method to define only Number chars
+	 * @param only
+	 */
 	public void onlyNum(KeyEvent e) {
 		char c = e.getKeyChar();
 		if (Character.isLetter(c)) {
 			e.consume();
 		}
 	}
-}// Fim do codigo
-/**
- * buscarCep
- */
+}
