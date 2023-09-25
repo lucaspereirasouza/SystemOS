@@ -417,7 +417,13 @@ public class UsuariosRefactor extends JDialog {
 		//
 		cbPerfil.setSelectedItem("");
 		checkSenha.setSelected(false);
-		txtSenha.setBackground(Color.WHITE);
+		
+		for(JTextField obj : listTxt) {
+			obj.setBackground(Color.WHITE);
+		}
+		
+//		txtSenha.setBackground(Color.WHITE);
+		
 	}//
 
 	@SuppressWarnings("deprecation")
@@ -502,7 +508,7 @@ public class UsuariosRefactor extends JDialog {
 			e.printStackTrace();
 		}
 
-	}//
+	}
 
 	public void ItensUsuariosLista() {
 		int linha = listaUsuarios.getSelectedIndex();
@@ -547,8 +553,9 @@ public class UsuariosRefactor extends JDialog {
 		for (JTextField obj : JListtxt) {
 			if (obj.getText().isEmpty() || obj.getText().equals("")) {
 				System.out.println("vazio");
+				obj.setBackground(Color.yellow);
 				isFilledcb = false;
-				break;
+				
 			} else {
 				System.out.println("Preenchido");
 				isFilledcb = true;
@@ -559,7 +566,7 @@ public class UsuariosRefactor extends JDialog {
 			if (obj.getSelectedItem().equals("")) {
 				System.out.println("vazio");
 				isFilledtxt = false;
-				break;
+				
 			} else {
 				System.out.println("Preenchido");
 				isFilledtxt = true;
@@ -569,7 +576,6 @@ public class UsuariosRefactor extends JDialog {
 		if (isFilledtxt && isFilledcb) {
 			isFilled = true;
 		} else {
-
 			JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
 			isFilled = false;
 		}
