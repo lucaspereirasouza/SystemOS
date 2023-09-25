@@ -69,6 +69,9 @@ public class UsuariosRefactor extends JDialog {
 	private JComboBox cbPerfil;
 	private JCheckBox checkSenha;
 
+	private List<JTextField> listTxt = new ArrayList<JTextField>();
+	private List<JComboBox> listCb = new ArrayList<JComboBox>();
+
 	/**
 	 * Launch the application.
 	 */
@@ -90,6 +93,7 @@ public class UsuariosRefactor extends JDialog {
 	 * Create the dialog.
 	 */
 	public UsuariosRefactor() {
+
 		getContentPane().setBackground(SystemColor.menu);
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
@@ -290,22 +294,22 @@ public class UsuariosRefactor extends JDialog {
 		JButton btnNewButton = new JButton("Checker");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				emptyBoxChecker();
+				emptyBoxChecker(listTxt, listCb);
 			}
 		});
 		btnNewButton.setBounds(290, 261, 115, 55);
 		getContentPane().add(btnNewButton);
 		setLocationRelativeTo(null);
+		//
+		listTxt.add(txtLogin);
+		listTxt.add(txtNome);
+		listTxt.add(txtSenha);
+		listCb.add(cbPerfil);
 	}
 
 	private void search() {
-		// dica - testar o evento primeiro
-		// System.out.println("teste do botão buscar");
-
-		// Criar uma variável com a query (instrução do banco)
 		String read = "select * from usuarios where login = ?";
 		String Value = "      ";
-		// tratamento de exceções
 		try {
 			con = dao.conectar();
 			pst = con.prepareStatement(read);
@@ -334,7 +338,7 @@ public class UsuariosRefactor extends JDialog {
 			// fechar a conexão (IMPORTANTE!)
 			con.close();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	} // fim do metodo buscar
 
@@ -362,7 +366,7 @@ public class UsuariosRefactor extends JDialog {
 //		} else {
 //			// adicionar contato
 //			// usar dao e pst via con
-		if (emptyBoxChecker()) {
+		if (emptyBoxChecker(listTxt, listCb)) {
 			try {
 
 				con = dao.conectar();
@@ -421,42 +425,18 @@ public class UsuariosRefactor extends JDialog {
 		String update = "update usuarios set nome=?,senha=md5(?),login=?,perfil=? where id=?";
 		String updatemd5 = "update usuarios set nome=?,senha=?,login=?,perfil=? where id=?";
 
-		if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
-			txtLogin.requestFocus();
-		} else if (txtSenha.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Senha obrigatoria.");
-			txtSenha.requestFocus();
-		} else if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
-			txtLogin.requestFocus();
-		} else if (cbPerfil.getSelectedItem().equals("")) {
-			JOptionPane.showMessageDialog(null, "Perfil obrigatorio.");
-			cbPerfil.requestFocus();
-
-		} else {
-
+		if (emptyBoxChecker(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
 				if (checkSenha.isSelected())
 					pst = con.prepareStatement(update);
-//				if (txtSenha.getText().length()>=30) {
-//					pst = con.prepareStatement(updatemd5);
-//				}else {
+
 				else {
 					pst = con.prepareStatement(updatemd5);
 				}
-//				}
 				pst.setString(1, txtNome.getText());
-
-//				if(txtSenha.getText().length()>=30) {
-//				pst.setString(2, rs.getString(4));
-//				System.out.println("mudado");
-//				}else{
 				pst.setString(2, txtSenha.getText());
-
 				pst.setString(3, txtLogin.getText());
-
 				pst.setString(4, (String) cbPerfil.getSelectedItem());
 				pst.setString(5, txtId.getText());
 
@@ -466,7 +446,7 @@ public class UsuariosRefactor extends JDialog {
 
 				con.close();
 			} catch (Exception e) {
-				// TODO: handle exception
+
 				JOptionPane.showMessageDialog(null, e);
 			}
 		}
@@ -488,8 +468,8 @@ public class UsuariosRefactor extends JDialog {
 				limparCampos();
 				bttnAdd.setEnabled(true);
 			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println(e);
+
+				e.printStackTrace();
 			}
 
 		}
@@ -511,16 +491,15 @@ public class UsuariosRefactor extends JDialog {
 				scrollPane.setVisible(true);
 				modelo.addElement(rs.getString(2));
 				if (txtNome.getText().isEmpty()) {
-//					System.out.println("Condição");
 					listaUsuarios.setVisible(false);
 					scrollPane.setVisible(false);
 				}
 			}
 			con.close();
 		} catch (SQLException se) {
-			System.out.println(se);
+			se.printStackTrace();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 	}//
@@ -559,43 +538,42 @@ public class UsuariosRefactor extends JDialog {
 		System.out.println(linha);
 	}
 
-	public boolean emptyBoxChecker() {
-		List<JTextField> JListtxt = new ArrayList<JTextField>();
-		List<JComboBox> JlistCb = new ArrayList<JComboBox>();
-		// isFilled
+	public boolean emptyBoxChecker(List<JTextField> JListtxt, List<JComboBox> JlistCb) {
 		boolean isFilled = false;
 
-		JListtxt.add(txtLogin);
-		JListtxt.add(txtNome);
-		JListtxt.add(txtSenha);
-		
-		JlistCb.add(cbPerfil);
-		
+		boolean isFilledtxt = false;
+		boolean isFilledcb = false;
+
 		for (JTextField obj : JListtxt) {
-			if (obj.getText().isEmpty()) {
+			if (obj.getText().isEmpty() || obj.getText().equals("")) {
 				System.out.println("vazio");
-				isFilled = false;
+				isFilledcb = false;
 				break;
 			} else {
 				System.out.println("Preenchido");
-				isFilled = true;
+				isFilledcb = true;
 			}
 		}
+
 		for (JComboBox obj : JlistCb) {
 			if (obj.getSelectedItem().equals("")) {
 				System.out.println("vazio");
-				isFilled = false;
+				isFilledtxt = false;
 				break;
 			} else {
 				System.out.println("Preenchido");
-				isFilled = true;
+				isFilledtxt = true;
 			}
 		}
-		
-		if(!isFilled) {
+
+		if (isFilledtxt && isFilledcb) {
+			isFilled = true;
+		} else {
+
 			JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
+			isFilled = false;
 		}
-		
+
 		System.out.println("---");
 		System.out.println("once");
 		System.out.println(isFilled);
