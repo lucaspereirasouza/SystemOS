@@ -26,7 +26,7 @@ import org.dom4j.io.SAXReader;
 import model.DAO;
 import util.LimparCampos;
 import util.Validador;
-import util.EmptyBoxChecker;
+import util.JListTextValidate;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -76,7 +76,7 @@ public class ClientesRefactor extends JDialog {
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	private JButton btnNewButton;
 	
-	private EmptyBoxChecker checkerBox;
+	private JListTextValidate jlistvalidate;
 	/**
 	 * Launch the application.
 	 */
@@ -350,8 +350,8 @@ public class ClientesRefactor extends JDialog {
 		btnNewButton = new JButton("Checker");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			checkerBox = new EmptyBoxChecker();
-			checkerBox.BoxChecker(listTxt, listCb);
+			jlistvalidate = new JListTextValidate(listTxt, listCb);
+			jlistvalidate.IsEmpty(listTxt, listCb);
 			}
 		});
 		btnNewButton.setBounds(317, 269, 115, 55);
@@ -425,8 +425,9 @@ public class ClientesRefactor extends JDialog {
 	public void adicionar() {
 		String comando = "insert into clientes(nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf,cpf) values(?,?,?,?,?,?,?,?,?,?)";
 
-		checkerBox = new EmptyBoxChecker();
-		if(checkerBox.BoxChecker(listTxt, listCb))
+		jlistvalidate = new JListTextValidate(listTxt, listCb);
+		if(jlistvalidate.IsEmpty(listTxt, listCb)){
+			
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
@@ -452,6 +453,7 @@ public class ClientesRefactor extends JDialog {
 			} catch (SQLException SQLIntegry) {SQLIntegry.printStackTrace();} 
 			catch (Exception e) {e.printStackTrace();};
 		}
+	}
 	
 	
 	/**
@@ -555,7 +557,7 @@ public class ClientesRefactor extends JDialog {
 	 * Method to update an entire data by id
 	 */
 	public void editar() {
-		if (checkerBox.BoxChecker(listTxt, listCb)) {
+		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,cpf=? where idcli=?";
 			try {
 				con = dao.conectar();

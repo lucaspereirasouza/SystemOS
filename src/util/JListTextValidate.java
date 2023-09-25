@@ -7,15 +7,40 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class EmptyBoxChecker {
+public class JListTextValidate {
 	boolean isFilled = false;
 	boolean isFilledtxt = false;
 	boolean isFilledcb = false;
-	
-	public EmptyBoxChecker() {
+
+	private List<JTextField> JListtxt;
+	private List<JComboBox> JlistCb;
+
+	public JListTextValidate(List<JTextField> jListtxt, List<JComboBox> jlistCb) {
 		super();
+		JListtxt = jListtxt;
+		JlistCb = jlistCb;
 	}
-	public boolean BoxChecker(List<JTextField> JListtxt, List<JComboBox> JlistCb) {
+
+	public boolean IsEmpty(List<JTextField> JListtxt) {
+		for (JTextField obj : JListtxt) {
+			if (obj.getText().isEmpty() || obj.getText().equals("")) {
+				System.out.println("vazio");
+				obj.setBackground(Color.YELLOW);
+				isFilled = false;
+//				break;
+			} else {
+				System.out.println("Preenchido");
+				isFilled = true;
+			}
+		}
+
+		System.out.println("---");
+		System.out.println("once");
+		System.out.println(isFilled);
+		return isFilled;
+	}
+
+	public boolean IsEmpty(List<JTextField> JListtxt, List<JComboBox> JlistCb) {
 		for (JTextField obj : JListtxt) {
 			if (obj.getText().isEmpty() || obj.getText().equals("")) {
 				System.out.println("vazio");
@@ -46,7 +71,6 @@ public class EmptyBoxChecker {
 			JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
 			isFilled = false;
 		}
-
 		System.out.println("---");
 		System.out.println("once");
 		System.out.println(isFilled);

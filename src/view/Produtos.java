@@ -11,7 +11,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.DAO;
 import util.Validador;
-import util.EmptyBoxChecker;
+import util.JListTextValidate;
 import util.LimparCampos;
 
 import javax.imageio.ImageIO;
@@ -55,13 +55,12 @@ public class Produtos extends JDialog {
 
 	private FileInputStream fis;
 	private int fisSize;
-
-	private EmptyBoxChecker Checker;
 	
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	
 	private LimparCampos limparcampos;
+	private JListTextValidate jlistvalidate;
 	
 	private JLabel lblimg;
 	private JTextField txtidProdutos;
@@ -387,7 +386,8 @@ public class Produtos extends JDialog {
 		listTxt.add(txtValor);
 		
 		listCb.add(cmbmedida);
-
+		
+		limparcampos = new LimparCampos(listTxt, listCb);
 	}
 
 	private void LoadPhoto() {
@@ -413,8 +413,7 @@ public class Produtos extends JDialog {
 
 		String comando = "insert into produtos(produto,barcode,foto,estoque,estoquemin,valor,unidademedida,localarmazenagem,idfornecedor) values(?,?,?,?,?,?,?,?,?)";
 		String numOs = "SELECT idfornecedores FROM fornecedores WHERE idfornecedores =" + txtIdFornecedor.getText();
-		Checker = new EmptyBoxChecker();
-		if(Checker.BoxChecker(listTxt, listCb)) {
+		if(jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
@@ -677,7 +676,7 @@ public class Produtos extends JDialog {
 
 				con.close();
 				JOptionPane.showInternalMessageDialog(null, "Removido com sucesso");
-				limparcampos();
+				limparcampos.clear(listTxt, listCb);
 
 //			limparCampos();
 			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
@@ -693,8 +692,7 @@ public class Produtos extends JDialog {
 	}// fim do remove
 
 	public void editar() {
-		Checker = new EmptyBoxChecker();
-		if(Checker.BoxChecker(listTxt, listCb)) {
+		if(jlistvalidate.IsEmpty(listTxt, listCb)) {
 			String update = "update produtos set produto=?,barcode=?,descricao=?,foto=?,estoque=?,estoquemin=?,valor=?,unidademedida=?,localarmazenagem=? where idproduto=?";
 			try {
 
@@ -717,7 +715,7 @@ public class Produtos extends JDialog {
 
 				pst.executeUpdate();
 				JOptionPane.showInternalMessageDialog(null, "Editado com sucesso!");
-				limparcampos();
+				limparcampos.clear(listTxt, listCb);
 			} catch (SQLException se) {
 				se.printStackTrace();
 			} catch (Exception e) {

@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 
 import model.DAO;
 import util.Validador;
+import util.JListTextValidate;
 import util.LimparCampos;
 
 import java.awt.event.MouseAdapter;
@@ -73,6 +74,8 @@ public class UsuariosRefactor extends JDialog {
 
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
+	
+	private JListTextValidate jlistvalidate;
 
 	private LimparCampos limparcampos;
 	/**
@@ -297,7 +300,7 @@ public class UsuariosRefactor extends JDialog {
 		JButton btnNewButton = new JButton("Checker");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				emptyBoxChecker(listTxt, listCb);
+				jlistvalidate.IsEmpty(listTxt, listCb);
 			}
 		});
 		btnNewButton.setBounds(290, 261, 115, 55);
@@ -309,6 +312,7 @@ public class UsuariosRefactor extends JDialog {
 		listTxt.add(txtSenha);
 		listCb.add(cbPerfil);
 		
+		jlistvalidate	= new JListTextValidate(listTxt, listCb);
 		limparcampos = new LimparCampos(listTxt, listCb);
 	}
 
@@ -371,7 +375,7 @@ public class UsuariosRefactor extends JDialog {
 //		} else {
 //			// adicionar contato
 //			// usar dao e pst via con
-		if (emptyBoxChecker(listTxt, listCb)) {
+		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
 
 				con = dao.conectar();
@@ -409,7 +413,7 @@ public class UsuariosRefactor extends JDialog {
 		String update = "update usuarios set nome=?,senha=md5(?),login=?,perfil=? where id=?";
 		String updatemd5 = "update usuarios set nome=?,senha=?,login=?,perfil=? where id=?";
 
-		if (emptyBoxChecker(listTxt, listCb)) {
+		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
 				if (checkSenha.isSelected())
@@ -522,45 +526,4 @@ public class UsuariosRefactor extends JDialog {
 		System.out.println(linha);
 	}
 
-	public boolean emptyBoxChecker(List<JTextField> JListtxt, List<JComboBox> JlistCb) {
-		boolean isFilled = false;
-
-		boolean isFilledtxt = false;
-		boolean isFilledcb = false;
-
-		for (JTextField obj : JListtxt) {
-			if (obj.getText().isEmpty() || obj.getText().equals("")) {
-				System.out.println("vazio");
-				obj.setBackground(Color.yellow);
-				isFilledcb = false;
-				
-			} else {
-				System.out.println("Preenchido");
-				isFilledcb = true;
-			}
-		}
-
-		for (JComboBox obj : JlistCb) {
-			if (obj.getSelectedItem().equals("")) {
-				System.out.println("vazio");
-				isFilledtxt = false;
-				
-			} else {
-				System.out.println("Preenchido");
-				isFilledtxt = true;
-			}
-		}
-
-		if (isFilledtxt && isFilledcb) {
-			isFilled = true;
-		} else {
-			JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
-			isFilled = false;
-		}
-
-		System.out.println("---");
-		System.out.println("once");
-		System.out.println(isFilled);
-		return isFilled;
-	}
 }
