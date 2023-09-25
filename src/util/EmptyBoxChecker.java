@@ -1,26 +1,27 @@
 package util;
 
+import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class emptyBoxChecker {
+public class EmptyBoxChecker {
 	boolean isFilled = false;
 	boolean isFilledtxt = false;
 	boolean isFilledcb = false;
 	
-	public emptyBoxChecker() {
+	public EmptyBoxChecker() {
 		super();
 	}
 	public boolean BoxChecker(List<JTextField> JListtxt, List<JComboBox> JlistCb) {
-
 		for (JTextField obj : JListtxt) {
 			if (obj.getText().isEmpty() || obj.getText().equals("")) {
 				System.out.println("vazio");
+				obj.setBackground(Color.YELLOW);
 				isFilledcb = false;
-				break;
+//				break;
 			} else {
 				System.out.println("Preenchido");
 				isFilledcb = true;

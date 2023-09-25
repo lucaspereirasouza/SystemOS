@@ -11,6 +11,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.DAO;
 import util.Validador;
+import util.EmptyBoxChecker;
+import util.LimparCampos;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
@@ -26,6 +28,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
@@ -52,6 +56,13 @@ public class Produtos extends JDialog {
 	private FileInputStream fis;
 	private int fisSize;
 
+	private EmptyBoxChecker Checker;
+	
+	private List<JTextField> listTxt = new ArrayList<JTextField>();
+	private List<JComboBox> listCb = new ArrayList<JComboBox>();
+	
+	private LimparCampos limparcampos;
+	
 	private JLabel lblimg;
 	private JTextField txtidProdutos;
 	private JTextField txtValor;
@@ -347,7 +358,7 @@ public class Produtos extends JDialog {
 		btnLimparCampos.setIcon(new ImageIcon(Produtos.class.getResource("/img/erase.png")));
 		btnLimparCampos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparcampos();
+				limparcampos.clear(listTxt);
 			}
 		});
 		btnLimparCampos.setBounds(391, 333, 192, 35);
@@ -362,6 +373,21 @@ public class Produtos extends JDialog {
 		lblNewLabel_6.setBounds(18, 100, 46, 14);
 		getContentPane().add(lblNewLabel_6);
 		setLocationRelativeTo(null);
+	
+	
+		listTxt.add(txtBarcode);
+		listTxt.add(txtDescricao);
+		listTxt.add(txtEstoque);
+		listTxt.add(txtEstoqueMin);
+		listTxt.add(txtFornecedor);
+		listTxt.add(txtIdFornecedor);
+		listTxt.add(txtidProdutos);
+		listTxt.add(txtLocalArmazenagem);
+		listTxt.add(txtProdutos);
+		listTxt.add(txtValor);
+		
+		listCb.add(cmbmedida);
+
 	}
 
 	private void LoadPhoto() {
@@ -387,26 +413,8 @@ public class Produtos extends JDialog {
 
 		String comando = "insert into produtos(produto,barcode,foto,estoque,estoquemin,valor,unidademedida,localarmazenagem,idfornecedor) values(?,?,?,?,?,?,?,?,?)";
 		String numOs = "SELECT idfornecedores FROM fornecedores WHERE idfornecedores =" + txtIdFornecedor.getText();
-		if (txtProdutos.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O produto deve ser preenchido");
-		} else if (txtEstoque.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O estoque deve ser preenchido");
-		} else if (txtProdutos.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O nome do produto deve ser preenchido");
-		} else if (txtEstoque.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "As informações do estoque deve ser preenchido");
-		} else if (txtEstoqueMin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O estoque minimo deve ser declarado");
-		} else if (txtIdFornecedor.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Id do fornecedor deve ser escolhido");
-		} else if (txtValor.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O valor deve ser declrado");
-		} else if (txtLocalArmazenagem.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Declarar local de armazenagem");
-
-			// }
-//		else if (lblimg.getIcon().equals("/bin/img/produtosIcon.png")) {JOptionPane.showMessageDialog(null, "Carregar imagem");
-		} else {
+		Checker = new EmptyBoxChecker();
+		if(Checker.BoxChecker(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
@@ -434,7 +442,7 @@ public class Produtos extends JDialog {
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
-				limparcampos();
+				limparcampos.clear(listTxt, listCb);
 				con.close();
 				System.out.println(lblimg.getIcon());
 			} catch (SQLException se) {
@@ -653,21 +661,6 @@ public class Produtos extends JDialog {
 
 	}//
 
-	private void limparcampos() {
-		txtEstoque.setText(null);
-		txtEstoqueMin.setText(null);
-		txtFornecedor.setText(null);
-		txtIdFornecedor.setText(null);
-		txtidProdutos.setText(null);
-		txtLocalArmazenagem.setText(null);
-		txtProdutos.setText(null);
-		txtValor.setText(null);
-		txtBarcode.setText(null);
-		txtDescricao.setText(null);
-		cmbmedida.setSelectedItem("");
-
-		lblimg.setIcon(new ImageIcon(Produtos.class.getResource("/img/produtosIcon.png")));
-	}
 
 	private void remover() {
 		String comando = "delete from produtos where idproduto = ?";
@@ -700,26 +693,8 @@ public class Produtos extends JDialog {
 	}// fim do remove
 
 	public void editar() {
-		if (txtProdutos.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O produto deve ser preenchido");
-		} else if (txtEstoque.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O estoque deve ser preenchido");
-		} else if (txtProdutos.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O nome do produto deve ser preenchido");
-		} else if (txtEstoque.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "As informações do estoque deve ser preenchido");
-		} else if (txtEstoqueMin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O estoque minimo deve ser declarado");
-		} else if (txtValor.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O valor deve ser declrado");
-		} else if (txtLocalArmazenagem.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Declarar local de armazenagem");
-		} else if (cmbmedida.getSelectedItem() == "") {
-			JOptionPane.showMessageDialog(null, "Declarar local de armazenagem");
-		}
-//		}
-//		else if (lblimg.getIcon().equals("/bin/img/produtosIcon.png")) {JOptionPane.showMessageDialog(null, "Carregar imagem");
-		else {
+		Checker = new EmptyBoxChecker();
+		if(Checker.BoxChecker(listTxt, listCb)) {
 			String update = "update produtos set produto=?,barcode=?,descricao=?,foto=?,estoque=?,estoquemin=?,valor=?,unidademedida=?,localarmazenagem=? where idproduto=?";
 			try {
 

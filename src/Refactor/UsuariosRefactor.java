@@ -33,6 +33,8 @@ import javax.swing.JTextField;
 
 import model.DAO;
 import util.Validador;
+import util.LimparCampos;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.BevelBorder;
@@ -72,6 +74,7 @@ public class UsuariosRefactor extends JDialog {
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 
+	private LimparCampos limparcampos;
 	/**
 	 * Launch the application.
 	 */
@@ -205,7 +208,7 @@ public class UsuariosRefactor extends JDialog {
 		btnNewButton_1.setToolTipText("Remover");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparCampos();
+				limparcampos.clear(listTxt, listCb);
 			}
 		});
 		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -305,6 +308,8 @@ public class UsuariosRefactor extends JDialog {
 		listTxt.add(txtNome);
 		listTxt.add(txtSenha);
 		listCb.add(cbPerfil);
+		
+		limparcampos = new LimparCampos(listTxt, listCb);
 	}
 
 	private void search() {
@@ -384,7 +389,7 @@ public class UsuariosRefactor extends JDialog {
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Contato adicionado com sucesso");
 
-				limparCampos();
+				limparcampos.clear(listTxt, listCb);
 				bttnEditar.setEnabled(true);
 
 				con.close(); // "Releases this Connection object's database and JDBC resources immediately
@@ -398,33 +403,6 @@ public class UsuariosRefactor extends JDialog {
 
 	}
 
-	private void limparCampos() {
-		// Remoção de todos os textos
-		txtId.setText(null);
-		txtNome.setText(null);
-		txtSenha.setText(null);
-		txtLogin.setText(null);
-		// Validação dos botões
-		bttnAdd.setEnabled(false);
-		bttnRemove.setEnabled(false);
-		bttnAdd.setEnabled(false);
-		bttnEditar.setEnabled(false);
-
-		bttnBuscar.setEnabled(true);
-		//
-		scrollPane.setVisible(false);
-		listaUsuarios.setVisible(false);
-		//
-		cbPerfil.setSelectedItem("");
-		checkSenha.setSelected(false);
-		
-		for(JTextField obj : listTxt) {
-			obj.setBackground(Color.WHITE);
-		}
-		
-//		txtSenha.setBackground(Color.WHITE);
-		
-	}//
 
 	@SuppressWarnings("deprecation")
 	private void refresh() {
@@ -448,7 +426,7 @@ public class UsuariosRefactor extends JDialog {
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
-				limparCampos();
+				limparcampos.clear(listTxt, listCb);
 
 				con.close();
 			} catch (Exception e) {
@@ -471,7 +449,7 @@ public class UsuariosRefactor extends JDialog {
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Usuario removidos com sucesso");
 
-				limparCampos();
+				limparcampos.clear(listTxt, listCb);
 				bttnAdd.setEnabled(true);
 			} catch (Exception e) {
 
