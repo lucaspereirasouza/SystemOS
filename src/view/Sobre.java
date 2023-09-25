@@ -44,25 +44,31 @@ public class Sobre extends JDialog {
 	 * Create the dialog.
 	 */
 	public Sobre() {
+		getContentPane().setBackground(new Color(54, 54, 54));
+		getContentPane().setForeground(new Color(54, 54, 54));
 		setTitle("Sobre");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/img/AboutIcon.png")));
 		setResizable(false);
 		setModal(true);
 		setBounds(100, 100, 334, 403);
 		getContentPane().setLayout(null);
+		contentPanel.setBackground(new Color(35, 36, 37));
+		contentPanel.setForeground(new Color(53, 54, 54));
 		contentPanel.setBounds(0, 0, 479, 364);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("");
-		lblNewLabel_2_1.setBounds(10, 127, 145, 117);
+		lblNewLabel_2_1.setBackground(new Color(35, 36, 37));
+		lblNewLabel_2_1.setBounds(20, 127, 135, 134);
 		contentPanel.add(lblNewLabel_2_1);
 		lblNewLabel_2_1.setIcon(new ImageIcon(Sobre.class.getResource("/img/ConsoleIcon.png")));
 		
 		JTextArea txtrEsseAplicativoTem = new JTextArea();
+		txtrEsseAplicativoTem.setForeground(Color.LIGHT_GRAY);
 		txtrEsseAplicativoTem.setFont(new Font("MS Gothic", Font.BOLD, 13));
-		txtrEsseAplicativoTem.setBackground(new Color(240, 240, 240));
+		txtrEsseAplicativoTem.setBackground(new Color(35, 36, 37));
 		txtrEsseAplicativoTem.setEditable(false);
 		txtrEsseAplicativoTem.setText("Esse aplicativo tem função de administrar \r\nordens de serviço pela criação, remoção, \r\nedição e pesquisa do Usuario, cliente,\r\nfornecedor e produtos. Com funções\r\nfundamentais como impressão do sistema,\r\ncompatibilidade com barcode scanner, etc.\r\n");
 		txtrEsseAplicativoTem.setBounds(10, 11, 306, 105);
@@ -77,11 +83,12 @@ public class Sobre extends JDialog {
 			}
 		});
 		lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_2.setBounds(168, 133, 128, 128);
+		lblNewLabel_2.setBounds(168, 127, 128, 134);
 		contentPanel.add(lblNewLabel_2);
 		lblNewLabel_2.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-icon.png")));
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Lucas pereira");
+		lblNewLabel_1_1_1.setForeground(new Color(177, 178, 179));
 		lblNewLabel_1_1_1.setBounds(10, 305, 126, 23);
 		contentPanel.add(lblNewLabel_1_1_1);
 		lblNewLabel_1_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));
@@ -112,6 +119,8 @@ public class Sobre extends JDialog {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Feito por:");
+		lblNewLabel_1_1.setForeground(new Color(177, 178, 179));
+		lblNewLabel_1_1.setBackground(new Color(95, 96, 97));
 		lblNewLabel_1_1.setBounds(10, 268, 126, 46);
 		contentPanel.add(lblNewLabel_1_1);
 		lblNewLabel_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));

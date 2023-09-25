@@ -142,6 +142,7 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 667, 336);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(91, 92, 93));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -153,6 +154,7 @@ public class Login extends JFrame {
 		contentPane.add(dbicon);
 
 		JLabel lblLogin = new JLabel("Login");
+		lblLogin.setForeground(Color.WHITE);
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setBounds(186, 67, 293, 33);
@@ -164,6 +166,7 @@ public class Login extends JFrame {
 		contentPane.add(txtLogin);
 
 		JLabel lblSenha = new JLabel("Senha");
+		lblSenha.setForeground(Color.WHITE);
 		lblSenha.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSenha.setBounds(262, 159, 130, 28);
@@ -186,14 +189,14 @@ public class Login extends JFrame {
 		bttnAcessar.setBounds(470, 202, 114, 33);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBackground(new Color(36, 107, 128));
+		lblNewLabel.setBackground(new Color(36, 37, 38));
 		lblNewLabel.setOpaque(true);
 		lblNewLabel.setBounds(0, 223, 674, 27);
 		contentPane.add(lblNewLabel);
 
 		lblEsqueciMinhaSenha = new JLabel("Esqueci minha senha");
 		lblEsqueciMinhaSenha.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblEsqueciMinhaSenha.setForeground(Color.BLACK);
+		lblEsqueciMinhaSenha.setForeground(Color.WHITE);
 		lblEsqueciMinhaSenha.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -248,7 +251,7 @@ public class Login extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblEsqueciMinhaSenha.setForeground(Color.BLACK);
+				lblEsqueciMinhaSenha.setForeground(Color.WHITE);
 			}
 		});
 		lblEsqueciMinhaSenha.setHorizontalAlignment(SwingConstants.CENTER);
