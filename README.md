@@ -14,3 +14,15 @@ ___________
 
 ![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
 ##### sob licença MIT
+___________________
+# Instalação
+## Requisitos necessarios para a instalação:
+
+## <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="40px" height="40px"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain.svg" width="40px" height="40px"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" width="40px" height="40px"/>
+          
+
+* VsCode
+* Docker
+* Docker Desktop (Opcional)
+
+## Teste
