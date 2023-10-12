@@ -22,7 +22,7 @@ ___________________
           
 
 * VsCode
-* Docker
-* Docker Desktop (Opcional)
+* Docker ou Docker Desktop (Opcional)
+* Java
 
-## Teste
+## [...]
