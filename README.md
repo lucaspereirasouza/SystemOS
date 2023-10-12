@@ -1,11 +1,11 @@
-# SistemaOS
-## 🎮 Assistente técnico de consoles e manutenção
+# SYSX
+## Progama para Sistema de Gestão e serviços
 
 > ### Técnologias usadas:
-| MYSQL  | JAVA   |
-|--------|--------|
-| 8.0.32 | 17.0.6 |
-___________________
+| MYSQL  | JAVA   | DOCKER |
+|--------|--------|--------|
+| 8.0.32 | 17.0.6 | Latest |
+____________________________
 ### autor:
 #### lucas pereira de souza
 ___________
