@@ -13,6 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
@@ -28,6 +33,9 @@ import javax.swing.JTextField;
 
 import model.DAO;
 import util.Validador;
+import util.JListTextValidate;
+import util.LimparCampos;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.BevelBorder;
@@ -64,6 +72,13 @@ public class Usuarios extends JDialog {
 	private JComboBox cbPerfil;
 	private JCheckBox checkSenha;
 
+	private List<JTextField> listTxt = new ArrayList<JTextField>();
+	private List<JComboBox> listCb = new ArrayList<JComboBox>();
+
+	private JListTextValidate jlistvalidate;
+
+	private LimparCampos limparcampos;
+
 	/**
 	 * Launch the application.
 	 */
@@ -85,6 +100,7 @@ public class Usuarios extends JDialog {
 	 * Create the dialog.
 	 */
 	public Usuarios() {
+
 		getContentPane().setBackground(SystemColor.menu);
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
@@ -102,20 +118,13 @@ public class Usuarios extends JDialog {
 		txtLogin = new JTextField();
 		txtLogin.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtLogin.addKeyListener(new KeyAdapter() {
-//					@Override
-//					public void keyTyped(KeyEvent e) {
-//						
-//					}
-//					@Override
-//					public void keyReleased(KeyEvent e) {
-//						listarUsuarios();
-//					}
+
 		});
 		txtLogin.setDocument(new Validador(50));
 		scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
 		scrollPane.setBorder(null);
-		scrollPane.setBounds(75, 152, 204, 43);
+		scrollPane.setBounds(75, 96, 204, 43);
 		getContentPane().add(scrollPane);
 
 		listaUsuarios = new JList();
@@ -140,7 +149,7 @@ public class Usuarios extends JDialog {
 			}
 		});
 		txtLogin.setColumns(10);
-		txtLogin.setBounds(75, 83, 204, 20);
+		txtLogin.setBounds(75, 130, 204, 20);
 		getContentPane().add(txtLogin);
 		txtLogin.setDocument(new Validador(18));
 
@@ -151,12 +160,12 @@ public class Usuarios extends JDialog {
 
 		JLabel lblNewLabel_1 = new JLabel("Nome");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(20, 128, 46, 28);
+		lblNewLabel_1.setBounds(20, 75, 46, 28);
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel_3 = new JLabel("Senha");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_3.setBounds(20, 195, 46, 14);
+		lblNewLabel_3.setBounds(20, 185, 46, 14);
 		getContentPane().add(lblNewLabel_3);
 
 		txtId = new JTextField();
@@ -173,7 +182,7 @@ public class Usuarios extends JDialog {
 				listarUsuarios();
 			}
 		});
-		txtNome.setBounds(75, 134, 204, 20);
+		txtNome.setBounds(75, 75, 204, 20);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
 		txtNome.setDocument(new Validador(15));
@@ -193,10 +202,14 @@ public class Usuarios extends JDialog {
 		getContentPane().add(bttnBuscar);
 
 		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setToolTipText("Remover");
+		btnNewButton_1.setToolTipText("Limpar tudo");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparCampos();
+				limparcampos.clear(listTxt, listCb);
+
+				bttnAdd.setEnabled(true);
+				bttnEditar.setEnabled(false);
+				bttnRemove.setEnabled(false);
 			}
 		});
 		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -205,7 +218,7 @@ public class Usuarios extends JDialog {
 		getContentPane().add(btnNewButton_1);
 
 		txtSenha = new JPasswordField();
-		txtSenha.setBounds(76, 194, 219, 14);
+		txtSenha.setBounds(76, 185, 219, 14);
 		getContentPane().add(txtSenha);
 		txtSenha.setDocument(new Validador(250));
 
@@ -246,17 +259,17 @@ public class Usuarios extends JDialog {
 
 		lblNewLabel_4 = new JLabel("Login");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_4.setBounds(20, 77, 46, 28);
+		lblNewLabel_4.setBounds(19, 130, 46, 28);
 		getContentPane().add(lblNewLabel_4);
 
 		JLabel lblPerfil = new JLabel("Perfil");
 		lblPerfil.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPerfil.setBounds(20, 237, 46, 14);
+		lblPerfil.setBounds(20, 240, 46, 14);
 		getContentPane().add(lblPerfil);
 
 		cbPerfil = new JComboBox();
 		cbPerfil.setModel(new DefaultComboBoxModel(new String[] { "", "admin", "user" }));
-		cbPerfil.setBounds(86, 229, 72, 22);
+		cbPerfil.setBounds(86, 240, 72, 22);
 		getContentPane().add(cbPerfil);
 
 		checkSenha = new JCheckBox("Alterar senha");
@@ -274,24 +287,37 @@ public class Usuarios extends JDialog {
 
 				} else {
 					System.out.println("Não selecionado");
-				
+
 					txtSenha.setBackground(Color.WHITE);
 				}
 			}
 		});
-		checkSenha.setBounds(90, 320, 135, 23);
+		checkSenha.setBounds(97, 320, 128, 23);
 		getContentPane().add(checkSenha);
+
+		JButton btnNewButton = new JButton("Checker");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jlistvalidate.IsEmpty(listTxt, listCb);
+			}
+		});
+		btnNewButton.setBounds(290, 261, 115, 55);
+		getContentPane().add(btnNewButton);
 		setLocationRelativeTo(null);
+		//
+		listTxt.add(txtId);
+		listTxt.add(txtLogin);
+		listTxt.add(txtNome);
+		listTxt.add(txtSenha);
+		listCb.add(cbPerfil);
+
+		jlistvalidate = new JListTextValidate(listTxt, listCb);
+		limparcampos = new LimparCampos(listTxt, listCb);
 	}
 
 	private void search() {
-		// dica - testar o evento primeiro
-		// System.out.println("teste do botão buscar");
-
-		// Criar uma variável com a query (instrução do banco)
 		String read = "select * from usuarios where login = ?";
 		String Value = "      ";
-		// tratamento de exceções
 		try {
 			con = dao.conectar();
 			pst = con.prepareStatement(read);
@@ -320,56 +346,34 @@ public class Usuarios extends JDialog {
 			// fechar a conexão (IMPORTANTE!)
 			con.close();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
-	} // fim do metodo buscar
+	}
 
 	@SuppressWarnings("deprecation")
 	private void adicionar() {
-		//
-		String capturaSenha = new String(txtSenha.getPassword());
-		// condição
-		if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Nome obrigatorio.");
-			txtNome.requestFocus();
-		} else if (capturaSenha.length() == 0) {
-			JOptionPane.showMessageDialog(null, "Senha obrigatoria.");
-			txtSenha.requestFocus();
-		} else if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
-			txtLogin.requestFocus();
-		} else if (capturaSenha.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Senha obrigatoria.");
-			txtSenha.requestFocus();
-		} else if (cbPerfil.getSelectedItem().equals("")) {
-			JOptionPane.showMessageDialog(null, "Perfil obrigatorio.");
-			cbPerfil.requestFocus();
-		} else {
-			// adicionar contato
-			// usar dao e pst via con
-			try {
 
+		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
+			try {
 				con = dao.conectar();
-				// estrutura dao
-				// adicionar mensagem
 				String create = "insert into usuarios(nome,login,senha,perfil) values(?,?,md5(?),?)";
 
 				pst = con.prepareStatement(create);
-				// Lista dos usuarios
+
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtLogin.getText());
-				pst.setString(3, txtSenha.getText());
+				String capturaSenha = new String(txtSenha.getPassword());
+				pst.setString(3, capturaSenha);
 				pst.setString(4, (String) cbPerfil.getSelectedItem());
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Contato adicionado com sucesso");
 
-				limparCampos();
+				limparcampos.clear(listTxt, listCb);
 				bttnEditar.setEnabled(true);
 
-				con.close(); // "Releases this Connection object's database and JDBC resources immediately
-								// instead of waiting for them to be automatically released"
-			} catch (SQLIntegrityConstraintViolationException e) {
+				con.close();
+			} catch (SQLIntegrityConstraintViolationException se) {
 				JOptionPane.showMessageDialog(null, "Já existe uma conta com esse login, tente com outro nome.");
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e);
@@ -378,80 +382,39 @@ public class Usuarios extends JDialog {
 
 	}
 
-	private void limparCampos() {
-		// Remoção de todos os textos
-		txtId.setText(null);
-		txtNome.setText(null);
-		txtSenha.setText(null);
-		txtLogin.setText(null);
-		// Validação dos botões
-		bttnAdd.setEnabled(false);
-		bttnRemove.setEnabled(false);
-		bttnAdd.setEnabled(false);
-		bttnEditar.setEnabled(false);
-
-		bttnBuscar.setEnabled(true);
-		//
-		scrollPane.setVisible(false);
-		listaUsuarios.setVisible(false);
-		//
-		cbPerfil.setSelectedItem("");
-		checkSenha.setSelected(false);
-		txtSenha.setBackground(Color.WHITE);
-	}//
-
 	@SuppressWarnings("deprecation")
 	private void refresh() {
 		String update = "update usuarios set nome=?,senha=md5(?),login=?,perfil=? where id=?";
 		String updatemd5 = "update usuarios set nome=?,senha=?,login=?,perfil=? where id=?";
 
-		if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
-			txtLogin.requestFocus();
-		} else if (txtSenha.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Senha obrigatoria.");
-			txtSenha.requestFocus();
-		} else if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Login obrigatorio.");
-			txtLogin.requestFocus();
-		} else if (cbPerfil.getSelectedItem().equals("")) {
-			JOptionPane.showMessageDialog(null, "Perfil obrigatorio.");
-			cbPerfil.requestFocus();
-
-		} else {
-
+		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
 				if (checkSenha.isSelected())
 					pst = con.prepareStatement(update);
-//				if (txtSenha.getText().length()>=30) {
-//					pst = con.prepareStatement(updatemd5);
-//				}else {
+
 				else {
 					pst = con.prepareStatement(updatemd5);
 				}
-//				}
 				pst.setString(1, txtNome.getText());
-
-//				if(txtSenha.getText().length()>=30) {
-//				pst.setString(2, rs.getString(4));
-//				System.out.println("mudado");
-//				}else{
-				pst.setString(2, txtSenha.getText());
-
+				String capturaSenha = new String(txtSenha.getPassword());
+				pst.setString(2, capturaSenha);
 				pst.setString(3, txtLogin.getText());
-
 				pst.setString(4, (String) cbPerfil.getSelectedItem());
 				pst.setString(5, txtId.getText());
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
-				limparCampos();
+				limparcampos.clear(listTxt, listCb);
+
+				bttnAdd.setEnabled(true);
+				bttnEditar.setEnabled(false);
+				bttnRemove.setEnabled(false);
 
 				con.close();
 			} catch (Exception e) {
-				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, e);
+				e.printStackTrace();
 			}
 		}
 	}//
@@ -467,25 +430,24 @@ public class Usuarios extends JDialog {
 				pst = con.prepareStatement(delete);
 				pst.setString(1, txtId.getText());
 				pst.executeUpdate();
+				limparcampos.clear(listTxt, listCb);
 				JOptionPane.showMessageDialog(null, "Usuario removidos com sucesso");
-
-				limparCampos();
 				bttnAdd.setEnabled(true);
+				bttnEditar.setEnabled(false);
+				bttnRemove.setEnabled(false);
 			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println(e);
+
+				e.printStackTrace();
 			}
 
 		}
 	}//
 
 	private void listarUsuarios() {
-
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 		listaUsuarios.setModel(modelo);
 		String type = "Select * from usuarios where nome like '" + txtNome.getText() + "%'" + " order by nome ";
 		try {
-
 			con = dao.conectar();
 			pst = con.prepareStatement(type);
 			rs = pst.executeQuery();
@@ -494,20 +456,18 @@ public class Usuarios extends JDialog {
 				listaUsuarios.setVisible(true);
 				scrollPane.setVisible(true);
 				modelo.addElement(rs.getString(2));
-				if (txtNome.getText().isEmpty()) {
-//					System.out.println("Condição");
+				if (txtNome.getText().isBlank()) {
 					listaUsuarios.setVisible(false);
 					scrollPane.setVisible(false);
 				}
 			}
 			con.close();
 		} catch (SQLException se) {
-			System.out.println(se);
+			se.printStackTrace();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
-
-	}//
+	}
 
 	public void ItensUsuariosLista() {
 		int linha = listaUsuarios.getSelectedIndex();
@@ -527,19 +487,19 @@ public class Usuarios extends JDialog {
 					txtLogin.setText(rs.getString(3));
 					txtSenha.setText(rs.getString(4));
 					cbPerfil.setSelectedItem(rs.getString(5));
+
 					bttnAdd.setEnabled(false);
 					bttnRemove.setEnabled(true);
 					bttnEditar.setEnabled(true);
 				}
 			} catch (SQLException se) {
-
+				se.printStackTrace();
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		} else {
 			scrollPane.setVisible(false);
 		}
-
-		System.out.println(linha);
 	}
+
 }

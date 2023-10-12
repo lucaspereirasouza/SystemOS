@@ -10,7 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
+
 
 import javax.swing.JComboBox;
 import javax.swing.border.EtchedBorder;
@@ -20,7 +24,9 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import model.DAO;
+import util.LimparCampos;
 import util.Validador;
+import util.JListTextValidate;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -44,6 +50,8 @@ public class Clientes extends JDialog {
 	private PreparedStatement pst;
 	private ResultSet rs;
 
+	private LimparCampos limparcampos;
+	
 	private JTextField txtCep;
 	private JTextField txtNome;
 	private JTextField txtFone;
@@ -64,6 +72,11 @@ public class Clientes extends JDialog {
 	private JButton btnExcluir_1;
 	private JTextField txtCPF;
 
+	private List<JTextField> listTxt = new ArrayList<JTextField>();
+	private List<JComboBox> listCb = new ArrayList<JComboBox>();
+	private JButton btnNewButton;
+	
+	private JListTextValidate jlistvalidate;
 	/**
 	 * Launch the application.
 	 */
@@ -307,7 +320,7 @@ public class Clientes extends JDialog {
 		btnExcluir_1 = new JButton("");
 		btnExcluir_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparcampos();
+				limparcampos.clear(listTxt, listCb);
 				btnAdicionar.setEnabled(true);
 			}
 		});
@@ -333,31 +346,33 @@ public class Clientes extends JDialog {
 		JLabel lblNewLabel_2 = new JLabel("CPF");
 		lblNewLabel_2.setBounds(399, 46, 41, 14);
 		getContentPane().add(lblNewLabel_2);
+		
+		btnNewButton = new JButton("Checker");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			jlistvalidate = new JListTextValidate(listTxt, listCb);
+			jlistvalidate.IsEmpty(listTxt, listCb);
+			}
+		});
+		btnNewButton.setBounds(317, 269, 115, 55);
+		getContentPane().add(btnNewButton);
 		setLocationRelativeTo(null);
-	}
-
-	/**
-	 * Method that sets each Jtext field to null.
-	 */
-	private void limparcampos() {
-		txtId.setText(null);
-		txtNome.setText(null);
-		txtFone.setText(null);
-		txtCep.setText(null);
-		txtCPF.setText(null);
-
-		txtEndereco.setText(null);
-		txtNumero.setText(null);
-		txtBairro.setText(null);
-		txtComplemento.setText(null);
-		txtCidade.setText(null);
-		txtNumero.setText(null);
-
-		cboUf.setSelectedItem("");
-
-		scrollPane.setVisible(false);
-	}
 	
+		listTxt.add(txtCep);
+		listTxt.add(txtBairro);
+		listTxt.add(txtCidade);
+		listTxt.add(txtCPF);
+		listTxt.add(txtEndereco);
+		listTxt.add(txtFone);
+		listTxt.add(txtNumero);
+		listTxt.add(txtNome);
+		listTxt.add(txtId);
+		
+		listCb.add(cboUf);
+		
+		limparcampos = new LimparCampos(listTxt, listCb);
+	}
+
 	/**
 	 * Method to find CEP (ZIP code) via "republica virtual"
 	 */
@@ -411,26 +426,9 @@ public class Clientes extends JDialog {
 	public void adicionar() {
 		String comando = "insert into clientes(nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf,cpf) values(?,?,?,?,?,?,?,?,?,?)";
 
-		if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O nome deve ser preenchido");
-		}
-		else if (txtCPF.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O CPF deve ser preenchido");
-		} else if (txtFone.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O telefone deve ser preenchido");
-		} else if (txtCep.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
-		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Endereço deve ser preenchido");
-		} else if (txtNumero.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Numero deve ser preenchido");
-		} else if (txtBairro.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Bairro deve ser preenchido");
-		} else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
-		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
-			JOptionPane.showMessageDialog(null, "O UF deve ser selecionado");
-		} else {
+		jlistvalidate = new JListTextValidate(listTxt, listCb);
+		if(jlistvalidate.IsEmpty(listTxt, listCb)){
+			
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
@@ -449,7 +447,7 @@ public class Clientes extends JDialog {
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
-				limparcampos();
+				limparcampos.clear(listTxt,listCb);
 				con.close();
 			} catch (SQLIntegrityConstraintViolationException SQLIntegry) {
 				JOptionPane.showInternalMessageDialog(null, "CPF já em uso");
@@ -457,6 +455,8 @@ public class Clientes extends JDialog {
 			catch (Exception e) {e.printStackTrace();};
 		}
 	}
+	
+	
 	/**
 	 * Method to remove Client from Id
 	 */
@@ -474,7 +474,7 @@ public class Clientes extends JDialog {
 
 				con.close();
 				JOptionPane.showInternalConfirmDialog(null, "Cliente removidos com sucesso");
-				limparcampos();
+				limparcampos.clear(listTxt,listCb);
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);
@@ -558,26 +558,7 @@ public class Clientes extends JDialog {
 	 * Method to update an entire data by id
 	 */
 	public void editar() {
-		if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Nome do cliente obrigatorio.");
-			txtNome.requestFocus();
-		} else if (txtCPF.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O CPF deve ser preenchido");
-		} else if (txtFone.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O telefone deve ser preenchido");
-		} else if (txtCep.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
-		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Endereço deve ser preenchido");
-		} else if (txtNumero.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Numero deve ser preenchido");
-		} else if (txtBairro.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Bairro deve ser preenchido");
-		} else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
-		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
-			JOptionPane.showMessageDialog(null, "O UF deve ser selecionado");
-		} else {
+		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,cpf=? where idcli=?";
 			try {
 				con = dao.conectar();
@@ -596,7 +577,9 @@ public class Clientes extends JDialog {
 				pst.setString(10, txtCPF.getText());
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
-				limparcampos();
+				
+				limparcampos.clear(listTxt,listCb);
+				
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);
