@@ -104,6 +104,7 @@ public class Login extends JFrame {
 						principal.btnClientes.setEnabled(true);
 						principal.btnRelatorios.setEnabled(true);
 						principal.btnServicos.setEnabled(true);
+						principal.btnFornecedor.setEnabled(true);
 
 						// Fechar banco
 						con.close();
@@ -113,9 +114,10 @@ public class Login extends JFrame {
 						principal.setVisible(true);
 						principal.lblUsuario.setText(rs.getString(2));
 						principal.lblCargo.setText(rs.getString(5));
+						
 						con.close();
-						// Remoção total da janela
-						// Memória solta para o Sistema
+						principal.btnRelatorios.setEnabled(true);
+//						principal.btnServicos.setEnabled(true);
 						this.dispose();
 					} else {
 
@@ -239,8 +241,6 @@ public class Login extends JFrame {
 						// TODO: handle exception
 						ex.printStackTrace();
 					}
-
-					
 				}
 			}
 

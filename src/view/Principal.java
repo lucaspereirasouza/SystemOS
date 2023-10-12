@@ -67,7 +67,6 @@ public class Principal extends JFrame {
 	private JPanel contentPane;
 	private JLabel dbicon;
 	private JPanel PanelBarraEsquerda;
-	private JButton bttnHome;
 
 	public JLabel lblUsuario;
 	public JLabel lblCargo;
@@ -75,9 +74,11 @@ public class Principal extends JFrame {
 	public JButton btnRelatorios;
 	public JButton btnServicos;
 	public JButton btnClientes;
+	public JButton btnFornecedor;
+	
 	private JMenuItem btnMenuFornecedor;
-	public JMenuItem btnMenuProdutos;
 	private JMenuItem btnMenuRelatorio;
+	
 
 	/**
 	 * Launch the application.
@@ -111,31 +112,6 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		bttnHome = new JButton("");
-		bttnHome.setBorder(null);
-		bttnHome.setBorderPainted(false);
-		bttnHome.setBounds(251, 33, 73, 57);
-		contentPane.add(bttnHome);
-		bttnHome.setToolTipText("Abrir Menu");
-		bttnHome.setFont(new Font("Yu Gothic UI", Font.BOLD, 13));
-
-		bttnHome.addActionListener(new ActionListener() {
-			public Boolean HideBar = true;
-
-			public void actionPerformed(ActionEvent e) {
-				if (HideBar == true) {
-					bttnHome.setLocation(251, 33);
-					HideBar = false;
-					PanelBarraEsquerda.setVisible(true);
-				} else {
-					bttnHome.setLocation(10, 33);
-					HideBar = true;
-					PanelBarraEsquerda.setVisible(false);
-				}
-			}
-		});
-		bttnHome.setIcon(new ImageIcon(Principal.class.getResource("/img/MenuIcon.png")));
-
 		dbicon = new JLabel("");
 		dbicon.setBounds(717, 502, 57, 48);
 		contentPane.add(dbicon);
@@ -167,17 +143,6 @@ public class Principal extends JFrame {
 		});
 		mnNewMenu.add(btnMenuFornecedor);
 
-		btnMenuProdutos = new JMenuItem("Produtos");
-		btnMenuProdutos.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				Produtos prod = new Produtos();
-				prod.setEnabled(true);
-				prod.setVisible(true);
-			}
-		});
-		mnNewMenu.add(btnMenuProdutos);
-
 		PanelBarraEsquerda = new JPanel();
 		PanelBarraEsquerda.setRequestFocusEnabled(false);
 		PanelBarraEsquerda.setLayout(null);
@@ -194,7 +159,7 @@ public class Principal extends JFrame {
 		btnRelatorios.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRelatorios.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnRelatorios.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnRelatorios.setBounds(10, 315, 221, 46);
+		btnRelatorios.setBounds(10, 376, 221, 46);
 		PanelBarraEsquerda.add(btnRelatorios);
 		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -215,7 +180,7 @@ public class Principal extends JFrame {
 		btnUsuarios.setHorizontalAlignment(SwingConstants.LEFT);
 		btnUsuarios.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnUsuarios.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnUsuarios.setBounds(10, 183, 221, 46);
+		btnUsuarios.setBounds(10, 141, 221, 46);
 		PanelBarraEsquerda.add(btnUsuarios);
 		btnUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -235,7 +200,7 @@ public class Principal extends JFrame {
 		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
 		btnClientes.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnClientes.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnClientes.setBounds(10, 227, 221, 46);
+		btnClientes.setBounds(10, 185, 221, 46);
 		PanelBarraEsquerda.add(btnClientes);
 		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnClientes.addActionListener(new ActionListener() {
@@ -256,7 +221,7 @@ public class Principal extends JFrame {
 		btnServicos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnServicos.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnServicos.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnServicos.setBounds(10, 271, 221, 46);
+		btnServicos.setBounds(10, 332, 221, 46);
 		PanelBarraEsquerda.add(btnServicos);
 		btnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnServicos.addActionListener(new ActionListener() {
@@ -274,6 +239,23 @@ public class Principal extends JFrame {
 		lblNewLabel.setBounds(57, 27, 128, 128);
 		PanelBarraEsquerda.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ConsoleIcon.png")));
+		
+		btnFornecedor = new JButton("Fornecedor");
+		btnFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnFornecedor.setIcon(new ImageIcon(Principal.class.getResource("/img/SupplierIcon.png")));
+		btnFornecedor.setToolTipText("Criação de clientes");
+		btnFornecedor.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnFornecedor.setHorizontalAlignment(SwingConstants.LEFT);
+		btnFornecedor.setForeground(Color.WHITE);
+		btnFornecedor.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
+		btnFornecedor.setEnabled(false);
+		btnFornecedor.setContentAreaFilled(false);
+		btnFornecedor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
+		btnFornecedor.setBounds(10, 238, 221, 46);
+		PanelBarraEsquerda.add(btnFornecedor);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(35, 36, 37));
@@ -308,7 +290,7 @@ public class Principal extends JFrame {
 		lblUsuario.setForeground(Color.WHITE);
 		lblUsuario.setHorizontalAlignment(SwingConstants.LEFT);
 		lblUsuario.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 15));
-		lblUsuario.setBounds(590, 482, 67, 33);
+		lblUsuario.setBounds(590, 482, 117, 33);
 		contentPane.add(lblUsuario);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Cargo:");
@@ -322,23 +304,12 @@ public class Principal extends JFrame {
 		lblCargo.setForeground(Color.WHITE);
 		lblCargo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCargo.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 15));
-		lblCargo.setBounds(590, 513, 67, 33);
+		lblCargo.setBounds(590, 513, 117, 33);
 		contentPane.add(lblCargo);
 		status();
-		comeco();
+
 		setLocationRelativeTo(null);
 	}
-
-	/**
-	 * Method that hides at first the left bar
-	 */
-	private void comeco() {
-		bttnHome.setLocation(10, 33);
-		System.out.println("Valor agora é TRUE");
-		PanelBarraEsquerda.setVisible(false);
-		System.out.println("Barra Invisivel");
-	}
-
 	/**
 	 * Method that check if MySQL is avaible then outputs to a new Icon
 	 */
