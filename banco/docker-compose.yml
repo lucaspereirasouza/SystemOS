@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: "MySQL"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_ROOT_PASSWORD: 123@senac
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: "phpmyadmin"
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
