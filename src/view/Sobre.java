@@ -94,6 +94,7 @@ public class Sobre extends JDialog {
 		lblNewLabel_1_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));
 		
 		JLabel lblNewLabel = new JLabel("github.com/lucaspereirasouza");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setBounds(59, 318, 243, 46);
 		contentPanel.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -113,7 +114,7 @@ public class Sobre extends JDialog {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblNewLabel.setForeground(Color.BLACK);
+				lblNewLabel.setForeground(Color.WHITE);
 			}
 		});
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
