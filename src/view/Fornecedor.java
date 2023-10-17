@@ -17,7 +17,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
@@ -29,6 +31,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import model.DAO;
+import util.JListTextValidate;
+import util.LimparCampos;
 import util.Validador;
 
 import javax.swing.JScrollPane;
@@ -81,7 +85,12 @@ public class Fornecedor extends JDialog {
 	private JTextField txtSite;
 	private JLabel lblNewLabel_7;
 	private JLabel lblNewLabel_2;
-
+	
+	private List<JTextField> listTxt = new ArrayList<JTextField>();
+	private List<JComboBox> listCb = new ArrayList<JComboBox>();
+	private JListTextValidate jlistvalidate;
+	private LimparCampos limparcampos;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -108,7 +117,7 @@ public class Fornecedor extends JDialog {
 
 		scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
-		scrollPane.setBounds(330, 169, 235, 67);
+		scrollPane.setBounds(120, 63, 269, 67);
 		getContentPane().add(scrollPane);
 
 		listClientes = new JList();
@@ -298,8 +307,9 @@ public class Fornecedor extends JDialog {
 		btnExcluir_1 = new JButton("");
 		btnExcluir_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparcampos();
-				btnAdicionar.setEnabled(true);
+				limparcampos = new LimparCampos(listTxt, listCb);
+				limparcampos.clear(listTxt, listCb);
+				
 			}
 		});
 		btnExcluir_1.setIcon(new ImageIcon(Fornecedor.class.getResource("/img/erase.png")));
@@ -389,33 +399,25 @@ public class Fornecedor extends JDialog {
 		lblNewLabel_2.setBounds(409, 75, 46, 20);
 		getContentPane().add(lblNewLabel_2);
 		setLocationRelativeTo(null);
-	}
+	
+	
+		listTxt.add(txtCep);
+		listTxt.add(txtBairro);
+		listTxt.add(txtCidade);
+		listTxt.add(txtComplemento);
+		listTxt.add(txtCPFCNPJ);
+		listTxt.add(txtEmail);
+		listTxt.add(txtEndereco);
+		listTxt.add(txtFantasia);
+		listTxt.add(txtFone);
+		listTxt.add(txtIe);
+		listTxt.add(txtNome);
+		listTxt.add(txtNumero);
+		listTxt.add(txtRazao);
+		listTxt.add(txtSite);
+		listTxt.add(txtVendedor);
 
-	private void limparcampos() {
-		txtId.setText(null);
-		txtNome.setText(null);
-
-		txtRazao.setText(null);
-		txtFantasia.setText(null);
-		txtVendedor.setText(null);
-		txtEmail.setText(null);
-		txtSite.setText(null);
-		txtIe.setText(null);
-
-		txtFone.setText(null);
-		txtCep.setText(null);
-		txtCPFCNPJ.setText(null);
-
-		txtEndereco.setText(null);
-		txtNumero.setText(null);
-		txtBairro.setText(null);
-		txtComplemento.setText(null);
-		txtCidade.setText(null);
-		txtNumero.setText(null);
-
-		cboUf.setSelectedItem("");
-
-		scrollPane.setVisible(false);
+		listCb.add(cboUf);
 	}
 
 	private void buscarCep() {
@@ -466,45 +468,12 @@ public class Fornecedor extends JDialog {
 	public void adicionar() {
 		String comando = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		String comandoTeste = "insert into fornecedores(nome,razao,fantasia,fone,vendedor,email,site,cep,cpfcnpj,ie,endereco,numero,complemento,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O nome deve ser preenchido");
-		}
-//		} else if (txtId.getText().isEmpty()) {
-//			
-//		}
-		else if (txtRazao.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "A Razao deve ser preenchido");
-		} else if (txtCPFCNPJ.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O CPF/CNPJ deve ser preenchido");
-		} else if (txtRazao.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "A razão social deve ser preenchido");
-		} else if (txtCep.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O cep deve ser preenchido");
-		} else if (txtIe.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O Ie deve ser preenchido");
-		} else if (txtFone.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O telefone deve ser preenchido");
-		} else if (txtFantasia.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "A Cidade deve ser preenchida");
-		} else if (txtVendedor.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O vendedor deve ser preenchido");
-//		} else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O Complemento deve ser preenchido");
-		} else if (txtEmail.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O email deve ser preenchida");
-		} else if (txtSite.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O site deve ser preenchida");
-		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O endereço deve ser preenchida");
-		} else if (txtNumero.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O numero deve ser preenchida");
-		} else if (txtBairro.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "O bairro deve ser preenchida");
-//		}else if (txtComplemento.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(null, "O  deve ser preenchida");
-		} else if (String.valueOf(cboUf.getSelectedItem()) == "") {
-			JOptionPane.showMessageDialog(null, "O UF deve ser selecionado");
-		} else {
+		
+		
+		jlistvalidate = new JListTextValidate(listTxt, listCb);
+		limparcampos = new LimparCampos(listTxt, listCb);
+		
+		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(comandoTeste);
@@ -529,7 +498,7 @@ public class Fornecedor extends JDialog {
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso!");
-				limparcampos();
+				limparcampos.clear(listTxt,listCb);
 				con.close();
 			} catch (SQLIntegrityConstraintViolationException se1) {
 				JOptionPane.showInternalMessageDialog(null, "CPF já em uso");
@@ -558,19 +527,18 @@ public class Fornecedor extends JDialog {
 
 				con.close();
 				JOptionPane.showInternalConfirmDialog(null, "Fornecedor removido com sucesso");
-				limparcampos();
+				limparcampos.clear(listTxt,listCb);
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);
 
-//			limparCampos();
 			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
 				//
 				JOptionPane.showInternalMessageDialog(null, "removido com sucesso");
-				System.out.println(se);
+				se.printStackTrace();
 			} catch (Exception e) {
 				//
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 	}// fim do remove
@@ -744,7 +712,7 @@ public class Fornecedor extends JDialog {
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados do fornecedor contato editados com sucesso.");
-				limparcampos();
+				
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);

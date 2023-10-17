@@ -50,7 +50,7 @@ public class Clientes extends JDialog {
 	private PreparedStatement pst;
 	private ResultSet rs;
 
-	private LimparCampos limparcampos;
+	
 	
 	private JTextField txtCep;
 	private JTextField txtNome;
@@ -71,12 +71,13 @@ public class Clientes extends JDialog {
 	private JList listClientes;
 	private JButton btnExcluir_1;
 	private JTextField txtCPF;
-
-	private List<JTextField> listTxt = new ArrayList<JTextField>();
-	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	private JButton btnNewButton;
 	
+	private List<JTextField> listTxt = new ArrayList<JTextField>();
+	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	private JListTextValidate jlistvalidate;
+	private LimparCampos limparcampos;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -560,7 +561,7 @@ public class Clientes extends JDialog {
 	 * Method to update an entire data by id
 	 */
 	public void editar() {
-		
+		jlistvalidate = new JListTextValidate(listTxt, listCb);
 		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,cpf=? where idcli=?";
 			try {
