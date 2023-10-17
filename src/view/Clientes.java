@@ -320,7 +320,9 @@ public class Clientes extends JDialog {
 		btnExcluir_1 = new JButton("");
 		btnExcluir_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				listTxt.add(txtId);
 				limparcampos.clear(listTxt, listCb);
+				listTxt.remove(txtId);
 				btnAdicionar.setEnabled(true);
 			}
 		});
@@ -364,9 +366,9 @@ public class Clientes extends JDialog {
 		listTxt.add(txtCPF);
 		listTxt.add(txtEndereco);
 		listTxt.add(txtFone);
-		listTxt.add(txtNumero);
 		listTxt.add(txtNome);
-		listTxt.add(txtId);
+		listTxt.add(txtNumero);
+		//		listTxt.add(txtId);
 		
 		listCb.add(cboUf);
 		
@@ -432,7 +434,7 @@ public class Clientes extends JDialog {
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
-
+				
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtFone.getText());
 				pst.setString(3, txtCep.getText());
@@ -558,6 +560,7 @@ public class Clientes extends JDialog {
 	 * Method to update an entire data by id
 	 */
 	public void editar() {
+		
 		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,cpf=? where idcli=?";
 			try {

@@ -9,8 +9,8 @@ import javax.swing.JTextField;
 
 public class JListTextValidate {
 	boolean isFilled = false;
-	boolean isFilledtxt = false;
-	boolean isFilledcb = false;
+	boolean isFilledtxt = true;
+	boolean isFilledcb = true;
 
 	private List<JTextField> JListtxt;
 	private List<JComboBox> JlistCb;
@@ -23,14 +23,13 @@ public class JListTextValidate {
 
 	public boolean IsEmpty(List<JTextField> JListtxt) {
 		for (JTextField obj : JListtxt) {
-			if (obj.getText().isEmpty() || obj.getText().equals("")) {
+			if (obj.getText().isEmpty()  || obj.getText().isBlank()) {
 				System.out.println("vazio");
 				obj.setBackground(Color.YELLOW);
 				isFilled = false;
 //				break;
 			} else {
 				System.out.println("Preenchido");
-				isFilled = true;
 			}
 		}
 
@@ -42,14 +41,14 @@ public class JListTextValidate {
 
 	public boolean IsEmpty(List<JTextField> JListtxt, List<JComboBox> JlistCb) {
 		for (JTextField obj : JListtxt) {
-			if (obj.getText().isEmpty() || obj.getText().equals("")) {
+			if (obj.getText().isEmpty() || obj.getText().isBlank()) {
 				System.out.println("vazio");
 				obj.setBackground(Color.YELLOW);
 				isFilledcb = false;
 //				break;
 			} else {
 				System.out.println("Preenchido");
-				isFilledcb = true;
+				
 			}
 		}
 
@@ -60,20 +59,19 @@ public class JListTextValidate {
 				break;
 			} else {
 				System.out.println("Preenchido");
-				isFilledtxt = true;
 			}
 		}
 
 		if (isFilledtxt && isFilledcb) {
 			isFilled = true;
+			System.out.println("Preenchido");
 		} else {
-
-			JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
 			isFilled = false;
+			JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
+			System.out.println("Não preenchido");
 		}
 		System.out.println("---");
 		System.out.println("once");
-		System.out.println(isFilled);
 		return isFilled;
 	}
 }
