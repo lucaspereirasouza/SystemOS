@@ -264,9 +264,10 @@ public class Principal extends JFrame {
 		panel.setLayout(null);
 
 		JButton bttnAbout = new JButton("");
+		bttnAbout.setContentAreaFilled(false);
 		bttnAbout.setBorderPainted(false);
 		bttnAbout.setBorder(null);
-		bttnAbout.setBounds(721, 21, 32, 36);
+		bttnAbout.setBounds(721, 23, 32, 34);
 		panel.add(bttnAbout);
 		bttnAbout.setToolTipText("Sobre");
 		bttnAbout.addActionListener(new ActionListener() {
