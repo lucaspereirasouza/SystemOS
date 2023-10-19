@@ -71,7 +71,6 @@ public class Clientes extends JDialog {
 	private JList listClientes;
 	private JButton btnExcluir_1;
 	private JTextField txtCPF;
-	private JButton btnNewButton;
 	
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
@@ -321,9 +320,16 @@ public class Clientes extends JDialog {
 		btnExcluir_1 = new JButton("");
 		btnExcluir_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				listTxt.add(txtId);
+				listTxt.add(txtComplemento);
+				
+				
 				limparcampos.clear(listTxt, listCb);
+				
 				listTxt.remove(txtId);
+				listTxt.remove(txtComplemento);
 				btnAdicionar.setEnabled(true);
 			}
 		});
@@ -349,16 +355,6 @@ public class Clientes extends JDialog {
 		JLabel lblNewLabel_2 = new JLabel("CPF");
 		lblNewLabel_2.setBounds(399, 46, 41, 14);
 		getContentPane().add(lblNewLabel_2);
-		
-		btnNewButton = new JButton("Checker");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			jlistvalidate = new JListTextValidate(listTxt, listCb);
-			jlistvalidate.IsEmpty(listTxt, listCb);
-			}
-		});
-		btnNewButton.setBounds(317, 269, 115, 55);
-		getContentPane().add(btnNewButton);
 		setLocationRelativeTo(null);
 	
 		listTxt.add(txtCep);
@@ -369,6 +365,7 @@ public class Clientes extends JDialog {
 		listTxt.add(txtFone);
 		listTxt.add(txtNome);
 		listTxt.add(txtNumero);
+//		listTxt.add(txtComplemento);
 		//		listTxt.add(txtId);
 		
 		listCb.add(cboUf);
@@ -561,6 +558,7 @@ public class Clientes extends JDialog {
 	 * Method to update an entire data by id
 	 */
 	public void editar() {
+		
 		jlistvalidate = new JListTextValidate(listTxt, listCb);
 		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			String update = "update clientes set nome=?,fone=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,cpf=? where idcli=?";
