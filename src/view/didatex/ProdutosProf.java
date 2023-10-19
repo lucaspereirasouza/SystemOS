@@ -157,7 +157,7 @@ public class ProdutosProf extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int linha = listFornecedor.getSelectedIndex();
-				String comando = "Select * from fornecedoresDida where razao like '" + txtFornecedor.getText() + "%'"
+				String comando = "Select * from fornecedores where razao like '" + txtFornecedor.getText() + "%'"
 						+ " order by razao limit " + (linha) + ", 1";
 				if (linha >= 0) {
 					try {
@@ -513,7 +513,7 @@ public class ProdutosProf extends JDialog {
 	private void pesquisarFornecedor() {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 		listFornecedor.setModel(modelo);
-		String comando = "Select * from fornecedoresDida where razao like '" + txtFornecedor.getText() + "%'"
+		String comando = "Select * from fornecedores where razao like '" + txtFornecedor.getText() + "%'"
 				+ " order by razao ";
 		try {
 			con = dao.conectar();
@@ -539,8 +539,8 @@ public class ProdutosProf extends JDialog {
 	}
 
 	private void pesquisarProduto() {
-		String comando = "SELECT produtosDida.*,razao\r\n" + "FROM produtosDida\r\n" + "INNER JOIN fornecedoresDida\r\n"
-				+ "ON produtosDida.idfornecedor = fornecedoresDida.idfornecedores where idproduto=?;";
+		String comando = "SELECT produtos.*,razao\r\n" + "FROM produtos\r\n" + "INNER JOIN fornecedores\r\n"
+				+ "ON produtos.idfornecedor = fornecedores.idfornecedores where idproduto=?;";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(comando);
@@ -605,7 +605,7 @@ public class ProdutosProf extends JDialog {
 
 //	private void pesquisarBarcode() {
 //		// System.out.println("teste botão pesquisar produto");
-//		String comando = "select * from produtosDida where barcode = ?";
+//		String comando = "select * from produtos where barcode = ?";
 //		try {
 //			Connection con = dao.conectar();
 //			PreparedStatement pst = con.prepareStatement(comando);
@@ -741,10 +741,10 @@ public class ProdutosProf extends JDialog {
 
 			/**
 			 * Comando insert para criacao de dados no produtos Dida = didatico, versao do
-			 * professor O banco de dados produtosDida tambem e diferente Total de 12
+			 * professor O banco de dados produtos tambem e diferente Total de 12
 			 * colunas
 			 */
-			String comando = "insert into produtosDida (barcode,produto,descricao,fabricante,datavalidade,foto,estoque,estoquemin,unidademedida,localarmazenagem,valor,lote,lucro,idFornecedor) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String comando = "insert into produtos (barcode,produto,descricao,fabricante,datavalidade,foto,estoque,estoquemin,unidademedida,localarmazenagem,valor,lote,lucro,idFornecedor) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			try {
 
 //			Connection con = dao.conectar();
@@ -870,11 +870,11 @@ public class ProdutosProf extends JDialog {
 
 			try {
 
-				String comando = "update produtosDida set barcode=?,produto=?,fabricante=?"
+				String comando = "update produtos set barcode=?,produto=?,fabricante=?"
 						+ ",descricao=?,datavalidade=?,foto=?,estoque=?,estoquemin=?"
 						+ ",valor=?,unidademedida=?,localarmazenagem=?,lote=?,lucro=? where idproduto=?;";
 
-				String comandoWithoutImg = "update produtosDida set barcode=?,produto=?,fabricante=?"
+				String comandoWithoutImg = "update produtos set barcode=?,produto=?,fabricante=?"
 						+ ",descricao=?,datavalidade=?,estoque=?,estoquemin=?"
 						+ ",valor=?,unidademedida=?,localarmazenagem=?,lote=?,lucro=? where idproduto=?;";
 
@@ -940,7 +940,7 @@ public class ProdutosProf extends JDialog {
 	}
 
 	private void excluir() {
-		String comando = "delete from produtosDida where idproduto = ?";
+		String comando = "delete from produtos where idproduto = ?";
 		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste produto?", "Atenção!",
 				JOptionPane.YES_NO_OPTION);
 
@@ -999,11 +999,11 @@ public class ProdutosProf extends JDialog {
 		// validação
 
 		int linha = listProdutos.getSelectedIndex();
-		String comando = "SELECT produtosDida.*,razao " + "FROM produtosDida " + "INNER JOIN fornecedoresDida "
-				+ "ON produtosDida.idfornecedor = fornecedoresDida.idfornecedores where produto like '"
+		String comando = "SELECT produtos.*,razao " + "FROM produtos " + "INNER JOIN fornecedores "
+				+ "ON produtos.idfornecedor = fornecedores.idfornecedores where produto like '"
 				+ txtProduto.getText() + "%'" + " order by produto limit " + (linha) + ", 1";
 
-		String comando2 = "Select * from produtosDida where produto like '" + txtProduto.getText() + "%'"
+		String comando2 = "Select * from produtos where produto like '" + txtProduto.getText() + "%'"
 				+ " order by produto limit " + (linha) + ", 1";
 		if (linha >= 0) {
 			try {
@@ -1074,7 +1074,7 @@ public class ProdutosProf extends JDialog {
 
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 		listProdutos.setModel(modelo);
-		String type = "Select * from produtosDida where produto like '" + txtProduto.getText() + "%'"
+		String type = "Select * from produtos where produto like '" + txtProduto.getText() + "%'"
 				+ " order by produto ";
 		try {
 
@@ -1103,9 +1103,9 @@ public class ProdutosProf extends JDialog {
 	}//
 
 	private void pesquisarBarcode() {
-//		String comando2 = "select * from produtosDida where barcode = ?";
-		String comando = "SELECT produtosDida.*,razao\r\n" + "FROM produtosDida\r\n" + "INNER JOIN fornecedoresDida\r\n"
-				+ "ON produtosDida.idfornecedor = fornecedoresDida.idfornecedores where barcode=?;";
+//		String comando2 = "select * from produtos where barcode = ?";
+		String comando = "SELECT produtos.*,razao\r\n" + "FROM produtos\r\n" + "INNER JOIN fornecedores\r\n"
+				+ "ON produtos.idfornecedor = fornecedores.idfornecedores where barcode=?;";
 		try {
 			Connection con = dao.conectar();
 			PreparedStatement pst = con.prepareStatement(comando);

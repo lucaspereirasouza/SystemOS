@@ -1,28 +1,38 @@
 package view;
 
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.EventQueue;
-
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-
-import model.DAO;
-import util.Validador;
-
-import javax.swing.JButton;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 
 import com.itextpdf.text.Document;
@@ -31,22 +41,10 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Executable;
-
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Toolkit;
-import java.awt.Dialog.ModalityType;
-import java.awt.Dialog.ModalExclusionType;
+import model.DAO;
+import util.JListTextValidate;
+import util.LimparCampos;
+import util.Validador;
 
 public class Servicos extends JDialog {
 
@@ -55,6 +53,11 @@ public class Servicos extends JDialog {
 	private ResultSet rs;
 	private PreparedStatement pst;
 	DAO dao = new DAO();
+	
+	private List<JTextField> listTxt = new ArrayList<JTextField>();
+	private List<JComboBox> listCb = new ArrayList<JComboBox>();
+	JListTextValidate jlisttextvalidade;
+	LimparCampos limparcampos;
 
 	private JTextField txtOS;
 	private JTextField txtDate;
@@ -212,7 +215,7 @@ public class Servicos extends JDialog {
 		btnApagar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparcampos();
+				limparcamposmtd();
 			}
 		});
 		btnApagar.setIcon(new ImageIcon(Servicos.class.getResource("/img/erase.png")));
@@ -273,36 +276,20 @@ public class Servicos extends JDialog {
 		btnNewButton.setBounds(469, 217, 107, 23);
 		getContentPane().add(btnNewButton);
 		setLocationRelativeTo(null);
+		listTxt.add(txtCliente);
+		listTxt.add(txtDefeito);
+		listTxt.add(txtEquipamento);
+		listTxt.add(txtValor);
 	}
 
-	public void limparcampos() {
-		// Nulifica todos os campos
-		txtOS.setText(null);
-		txtID.setText(null);
-		txtDate.setText(null);
-		txtEquipamento.setText(null);
-		txtDefeito.setText(null);
-		txtValor.setText(null);
-		txtCliente.setText(null);
-	}
 
 	public void adicionar() {
 		String comando = "insert into servicos (id,equipamento,defeito,valor) value (?,?,?,?)";
 		String numOs = "SELECT OS FROM servicos WHERE OS = (SELECT MAX(OS) FROM servicos)";
 		String info = "";
-		if (txtID.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
-			txtID.requestFocus();
-		} else if (txtID.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
-			txtEquipamento.requestFocus();
-		} else if (txtDefeito.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
-			txtDefeito.requestFocus();
-		} else if (txtValor.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
-			txtDefeito.requestFocus();
-		} else {
+		
+		jlisttextvalidade = new JListTextValidate(listTxt, listCb);
+		if (jlisttextvalidade.IsEmpty(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
 				
@@ -323,7 +310,9 @@ public class Servicos extends JDialog {
 					info = rs.getString(1);
 				}
 				con.close();
-				limparcampos();
+				
+				limparcamposmtd();
+				
 				JOptionPane.showInternalMessageDialog(null, "Adicionado com sucesso");
 				JOptionPane.showInternalMessageDialog(null,"Sua OS é: "+ info);
 				btnEditar.setEnabled(true);
@@ -351,7 +340,7 @@ public class Servicos extends JDialog {
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "servico removidos com sucesso");
 
-				limparcampos();
+				limparcamposmtd();
 			
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -362,7 +351,6 @@ public class Servicos extends JDialog {
 	}
 
 	public void buscar() {
-		// Captura do numero da OS (sem usar a caixa de texto)
 		String numOS = JOptionPane.showInputDialog("Numero da os:");
 		try {
 			String comando = "select * from servicos where os = ? ";
@@ -390,13 +378,6 @@ public class Servicos extends JDialog {
 				txtCliente.setText(rs.getString(1));
 			}
 			con.close();
-//			OS
-//			dataOS
-//			equipame
-//			defeito
-//			valor
-//			id
-
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -405,21 +386,22 @@ public class Servicos extends JDialog {
 		}
 	}
 
+	public void limparcamposmtd() {
+		limparcampos = new LimparCampos(listTxt, listCb);
+		
+		listTxt.add(txtOS);
+		listTxt.add(txtDate);
+		limparcampos.clear(listTxt, listCb);
+		listTxt.remove(txtOS);
+		listTxt.remove(txtDate);
+	}
+	
 	public void editar() {
 		String comando = "update servicos set dataOS=?,equipamento=?,defeito=?,valor=? where os=?";
-		if (txtID.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
-			txtID.requestFocus();
-		} else if (txtID.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo ID não pode estar vazio.");
-			txtEquipamento.requestFocus();
-		} else if (txtDefeito.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
-			txtDefeito.requestFocus();
-		} else if (txtValor.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "O campo txtDefeito não pode estar vazio.");
-			txtDefeito.requestFocus();
-		} else {
+		jlisttextvalidade = new JListTextValidate(listTxt, listCb);
+		limparcampos = new LimparCampos(listTxt, listCb);
+		
+		if (jlisttextvalidade.IsEmpty(listTxt, listCb)){
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(comando);
@@ -432,9 +414,9 @@ public class Servicos extends JDialog {
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados editados com sucesso.");
-				limparcampos();
-
 				con.close();
+				
+				limparcamposmtd();
 			} catch (SQLException se) {
 				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, se);
