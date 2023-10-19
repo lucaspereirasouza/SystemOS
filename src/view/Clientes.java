@@ -325,7 +325,6 @@ public class Clientes extends JDialog {
 				listTxt.add(txtId);
 				listTxt.add(txtComplemento);
 				
-				
 				limparcampos.clear(listTxt, listCb);
 				
 				listTxt.remove(txtId);
@@ -420,6 +419,16 @@ public class Clientes extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	public void limparcamposmtd() {
+		limparcampos = new LimparCampos(listTxt, listCb);
+		
+		listTxt.add(txtId);
+		listTxt.add(txtComplemento);
+		limparcampos.clear(listTxt, listCb);
+		listTxt.remove(txtId);
+		listTxt.remove(txtComplemento);
+	}
+
 	/**
 	 * Method to validate every JtextField and submit to database
 	 */
@@ -447,7 +456,7 @@ public class Clientes extends JDialog {
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
-				limparcampos.clear(listTxt,listCb);
+				limparcamposmtd();
 				con.close();
 			} catch (SQLIntegrityConstraintViolationException SQLIntegry) {
 				JOptionPane.showInternalMessageDialog(null, "CPF já em uso");
@@ -474,7 +483,7 @@ public class Clientes extends JDialog {
 
 				con.close();
 				JOptionPane.showInternalConfirmDialog(null, "Cliente removidos com sucesso");
-				limparcampos.clear(listTxt,listCb);
+				limparcamposmtd();
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnExcluir.setEnabled(false);
@@ -580,7 +589,7 @@ public class Clientes extends JDialog {
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
 				
-				limparcampos.clear(listTxt,listCb);
+				limparcamposmtd();
 				
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
