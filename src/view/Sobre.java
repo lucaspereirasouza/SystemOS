@@ -83,9 +83,9 @@ public class Sobre extends JDialog {
 			}
 		});
 		lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_2.setBounds(168, 127, 128, 134);
+		lblNewLabel_2.setBounds(165, 127, 128, 134);
 		contentPanel.add(lblNewLabel_2);
-		lblNewLabel_2.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-icon.png")));
+		lblNewLabel_2.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-license.png")));
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Lucas pereira");
 		lblNewLabel_1_1_1.setForeground(new Color(177, 178, 179));
