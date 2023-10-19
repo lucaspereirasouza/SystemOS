@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
+import view.didatex.FornecedorProf;
 import view.suporte.Contato;
 import view.suporte.SuporteMenu;
 
@@ -78,6 +79,9 @@ public class Principal extends JFrame {
 	
 	private JMenuItem btnMenuFornecedor;
 	private JMenuItem btnMenuRelatorio;
+	private JMenuItem btnMenuRelatorio_1;
+	private JMenuItem btnMenuRelatorio_2;
+	private JMenuItem btnMenuRelatorio_3;
 	
 
 	/**
@@ -124,23 +128,49 @@ public class Principal extends JFrame {
 		JMenu mnNewMenu = new JMenu("Menu");
 		menuBar.add(mnNewMenu);
 
-		btnMenuRelatorio = new JMenuItem("Relatorio");
+		btnMenuRelatorio = new JMenuItem("Usuarios");
 		btnMenuRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Relatorios relatorios = new Relatorios();
-				relatorios.setVisible(true);
+				var usr = new Usuarios();
+				usr.setVisible(true);
 			}
 		});
 		mnNewMenu.add(btnMenuRelatorio);
 
-		btnMenuFornecedor = new JMenuItem("Fornecedor");
+		btnMenuFornecedor = new JMenuItem("Relatórios");
 		btnMenuFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Fornecedor forn = new Fornecedor();
-				forn.setEnabled(true);
+				Relatorios forn = new Relatorios();
 				forn.setVisible(true);
 			}
 		});
+		
+		btnMenuRelatorio_1 = new JMenuItem("Clientes");
+		btnMenuRelatorio_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			var cli = new Clientes();
+			cli.setVisible(true);
+			}
+		});
+		mnNewMenu.add(btnMenuRelatorio_1);
+		
+		btnMenuRelatorio_2 = new JMenuItem("Fornecedor");
+		btnMenuRelatorio_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			var forn = new Fornecedor();
+			forn.setVisible(true);
+			}
+		});
+		mnNewMenu.add(btnMenuRelatorio_2);
+		
+		btnMenuRelatorio_3 = new JMenuItem("Serviços");
+		btnMenuRelatorio_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			Servicos servicos = new Servicos();
+			servicos.setVisible(true);
+			}
+		});
+		mnNewMenu.add(btnMenuRelatorio_3);
 		mnNewMenu.add(btnMenuFornecedor);
 
 		PanelBarraEsquerda = new JPanel();
@@ -159,7 +189,7 @@ public class Principal extends JFrame {
 		btnRelatorios.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRelatorios.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnRelatorios.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnRelatorios.setBounds(10, 376, 221, 46);
+		btnRelatorios.setBounds(10, 445, 221, 46);
 		PanelBarraEsquerda.add(btnRelatorios);
 		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -221,7 +251,7 @@ public class Principal extends JFrame {
 		btnServicos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnServicos.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnServicos.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnServicos.setBounds(10, 332, 221, 46);
+		btnServicos.setBounds(10, 399, 221, 46);
 		PanelBarraEsquerda.add(btnServicos);
 		btnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnServicos.addActionListener(new ActionListener() {
@@ -241,8 +271,11 @@ public class Principal extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ConsoleIcon.png")));
 		
 		btnFornecedor = new JButton("Fornecedor");
+		btnFornecedor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				var forn = new FornecedorProf();
+				forn.setVisible(true);
 			}
 		});
 		btnFornecedor.setIcon(new ImageIcon(Principal.class.getResource("/img/SupplierIcon.png")));
@@ -254,7 +287,7 @@ public class Principal extends JFrame {
 		btnFornecedor.setEnabled(false);
 		btnFornecedor.setContentAreaFilled(false);
 		btnFornecedor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
-		btnFornecedor.setBounds(10, 238, 221, 46);
+		btnFornecedor.setBounds(10, 231, 221, 46);
 		PanelBarraEsquerda.add(btnFornecedor);
 
 		JPanel panel = new JPanel();
