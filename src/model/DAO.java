@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DAO {
 	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://127.0.0.1:3306/databaseos";
+	private String url = "jdbc:mysql://127.0.0.1:3305/databaseos";
 //	private String url = "jdbc:mysql://10.26.45.241:3307/databaseos";
 	private String user = "root";
 	private String password = "123@senac";
