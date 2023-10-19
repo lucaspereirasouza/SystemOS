@@ -205,8 +205,9 @@ public class Usuarios extends JDialog {
 		btnNewButton_1.setToolTipText("Limpar tudo");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparcampos.clear(listTxt, listCb);
 
+				limparcamposmtd();
+				
 				bttnAdd.setEnabled(true);
 				bttnEditar.setEnabled(false);
 				bttnRemove.setEnabled(false);
@@ -294,25 +295,15 @@ public class Usuarios extends JDialog {
 		});
 		checkSenha.setBounds(97, 320, 128, 23);
 		getContentPane().add(checkSenha);
-
-		JButton btnNewButton = new JButton("Checker");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jlistvalidate.IsEmpty(listTxt, listCb);
-			}
-		});
-		btnNewButton.setBounds(290, 261, 115, 55);
-		getContentPane().add(btnNewButton);
 		setLocationRelativeTo(null);
 		//
-		listTxt.add(txtId);
 		listTxt.add(txtLogin);
 		listTxt.add(txtNome);
 		listTxt.add(txtSenha);
 		listCb.add(cbPerfil);
 
 		jlistvalidate = new JListTextValidate(listTxt, listCb);
-		limparcampos = new LimparCampos(listTxt, listCb);
+		
 	}
 
 	private void search() {
@@ -352,7 +343,7 @@ public class Usuarios extends JDialog {
 
 	@SuppressWarnings("deprecation")
 	private void adicionar() {
-
+		jlistvalidate = new JListTextValidate(listTxt, listCb);
 		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
@@ -368,11 +359,9 @@ public class Usuarios extends JDialog {
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Contato adicionado com sucesso");
-
-				limparcampos.clear(listTxt, listCb);
 				bttnEditar.setEnabled(true);
-
 				con.close();
+				limparcamposmtd();
 			} catch (SQLIntegrityConstraintViolationException se) {
 				JOptionPane.showMessageDialog(null, "Já existe uma conta com esse login, tente com outro nome.");
 			} catch (Exception e) {
@@ -386,7 +375,8 @@ public class Usuarios extends JDialog {
 	private void refresh() {
 		String update = "update usuarios set nome=?,senha=md5(?),login=?,perfil=? where id=?";
 		String updatemd5 = "update usuarios set nome=?,senha=?,login=?,perfil=? where id=?";
-
+		
+		jlistvalidate = new JListTextValidate(listTxt, listCb);
 		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
 				con = dao.conectar();
@@ -405,7 +395,9 @@ public class Usuarios extends JDialog {
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Dados contato editados com sucesso.");
-				limparcampos.clear(listTxt, listCb);
+				
+				
+				limparcamposmtd();
 
 				bttnAdd.setEnabled(true);
 				bttnEditar.setEnabled(false);
@@ -419,6 +411,15 @@ public class Usuarios extends JDialog {
 		}
 	}//
 
+	
+	private void limparcamposmtd() {
+		limparcampos = new LimparCampos(listTxt, listCb);
+		
+		listTxt.add(txtId);
+		limparcampos.clear(listTxt, listCb);
+		listTxt.remove(txtId);
+	}
+		
 	private void remove() {
 		con = dao.conectar();
 		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste contato?", "Atenção!",
@@ -430,7 +431,9 @@ public class Usuarios extends JDialog {
 				pst = con.prepareStatement(delete);
 				pst.setString(1, txtId.getText());
 				pst.executeUpdate();
-				limparcampos.clear(listTxt, listCb);
+				
+				limparcamposmtd();
+				
 				JOptionPane.showMessageDialog(null, "Usuario removidos com sucesso");
 				bttnAdd.setEnabled(true);
 				bttnEditar.setEnabled(false);
