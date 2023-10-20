@@ -88,4 +88,4 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `login` (`login`)
 );
 
-INSERT INTO `usuarios` (`nome`, `login`, `senha`, `perfil`) VALUES ('admin', 'admin', 'admin', 'admin');
+INSERT INTO `usuarios` (`nome`, `login`, `senha`, `perfil`) VALUES ('admin', 'admin', md5('admin'), 'admin');

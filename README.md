@@ -25,4 +25,15 @@ ___________________
 * Docker ou Docker Desktop (Opcional)
 * Java
 
+
+## Execute o comando docker-compose up dentro da pasta banco
+ 
+### user: root
+### senha: 123@senac
+
+### administrador do servidor interno:
+
+### user: admin
+### senha: admin
+
 ## [...]
