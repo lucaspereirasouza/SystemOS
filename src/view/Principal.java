@@ -210,7 +210,7 @@ public class Principal extends JFrame {
 		btnUsuarios.setHorizontalAlignment(SwingConstants.LEFT);
 		btnUsuarios.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnUsuarios.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnUsuarios.setBounds(10, 141, 221, 46);
+		btnUsuarios.setBounds(10, 130, 220, 61);
 		PanelBarraEsquerda.add(btnUsuarios);
 		btnUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -230,7 +230,7 @@ public class Principal extends JFrame {
 		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
 		btnClientes.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnClientes.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnClientes.setBounds(10, 185, 221, 46);
+		btnClientes.setBounds(10, 200, 220, 61);
 		PanelBarraEsquerda.add(btnClientes);
 		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnClientes.addActionListener(new ActionListener() {
@@ -287,7 +287,7 @@ public class Principal extends JFrame {
 		btnFornecedor.setEnabled(false);
 		btnFornecedor.setContentAreaFilled(false);
 		btnFornecedor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLACK));
-		btnFornecedor.setBounds(10, 231, 221, 46);
+		btnFornecedor.setBounds(10, 270, 221, 61);
 		PanelBarraEsquerda.add(btnFornecedor);
 
 		JPanel panel = new JPanel();
