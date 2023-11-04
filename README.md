@@ -23,10 +23,13 @@ ___________________
 
 * VsCode
 * Docker ou Docker Desktop (Opcional)
+* Xampp (Opcional)
 * Java
 
+(É necessario a escolha do docker ou Xampp)
 
-## Execute o comando docker-compose up dentro da pasta banco
+# Docker
+### No terminal (CMD, powershell ou Terminal), execute o comando docker-compose up
  
 ### user: root
 ### senha: 123@senac
