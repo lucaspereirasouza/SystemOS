@@ -30,11 +30,13 @@ ___________________
 
 # Docker
 ### No terminal (CMD, powershell ou Terminal), execute o comando docker-compose up
+
+### Administração do banco de dados
  
 ### user: root
 ### senha: 123@senac
 
-### administrador do servidor interno:
+### administrador da aplicação:
 
 ### user: admin
 ### senha: admin
