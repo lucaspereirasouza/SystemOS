@@ -15,24 +15,23 @@ ____________________________
 ___________________
 # Instalação
 
-Instalação Java
+## Manual e instalação do Java
 https://www.java.com/pt-BR/download/manual.jsp
 
-Instalação docker
+## Manual e instalação do docker
+https://docs.docker.com/engine/install/
 
+## Manual e instalação do Xampp
+https://www.apachefriends.org/pt_br/index.html
 
-Instalação Xampp
-
-
-Docker-compose
-
+Docker compose
 
 Mysql acesso & criação banco
 
 
 
 ### user: root
-### senha: 123@senac
+### senha: 123@changeme
 
 ### administrador da aplicação:
 
