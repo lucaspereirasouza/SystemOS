@@ -37,7 +37,7 @@ Configuração do sistema da aplicação
 
 
 
-### recoder e refatoramento do código, Designer da UX, recriador da estrutura, modelagem e normalização do banco de dados e implementador de novas features:
+### recoder, designer da UI e UX, modelador do banco de dados:
 ### Lucas pereira de souza
 
 ### autor do curso de java Windowsbuilder:
