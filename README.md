@@ -35,10 +35,10 @@ Configuração do sistema da aplicação
 ### user: admin@admin
 ### senha: admin
 
-### recoder, designer da UI e UX, modelador do banco de dados:
-### Lucas pereira de souza
+#### recoder, designer da UI e UX, modelador do banco de dados:
+#### Lucas pereira de souza
 
-### autor do curso de java Windowsbuilder:
+#### autor do curso de java Windowsbuilder:
 #### Professor José de assis
 
 ![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
