@@ -1,5 +1,5 @@
 # JavaOSFX
-## Progama para Sistema de Gestão e serviços
+## Aplicação para Sistema de Gestão e serviços
 
 
 ## [README em desenvolvimento]
