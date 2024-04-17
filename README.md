@@ -16,8 +16,10 @@ ___________________
 # Instalação
 
 Instalação Java
+https://www.java.com/pt-BR/download/manual.jsp
 
 Instalação docker
+
 
 Instalação Xampp
 
