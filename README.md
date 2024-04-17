@@ -5,7 +5,7 @@
 ## [README em desenvolvimento]
 
 
-> ### Técnologias usadas:
+> ### Serviços utilizados:
 | MYSQL  | JAVA   | DOCKER | or | Xampp |
 |--------|--------|--------| -- | ----- |
 | 8.0.32 | 17.0.6 | Latest | -- | Latest |
@@ -35,12 +35,6 @@ Configuração do sistema da aplicação
 ### user: admin@admin
 ### senha: admin
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> b2b62e7ff21dc40bd177e82a672a56a65f4c1170
 ### recoder, designer da UI e UX, modelador do banco de dados:
 ### Lucas pereira de souza
 
