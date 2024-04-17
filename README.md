@@ -39,7 +39,7 @@ Mysql acesso & criação banco
 ### senha: admin
 
 
-### autor:
+### autor do curso de java Windowsbuilder:
 #### Professor José de assis
 
 ### recoder, recriador da estrutura, modelagem e normalização do banco de dados e implementador de novas features:
