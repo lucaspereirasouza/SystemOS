@@ -21,6 +21,7 @@ https://docs.docker.com/engine/install/
 https://www.apachefriends.org/pt_br/index.html
 
 Docker compose
+na pasta docker compose, insira o arquivo em seu sistema, abra seu terminal e insira o comando docker-compose up, para criar os dados do MySQL
 
 Mysql acesso & criação banco
 
