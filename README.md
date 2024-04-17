@@ -6,13 +6,12 @@
 
 
 > ### Técnologias usadas:
-| MYSQL  | JAVA   | DOCKER |
-|--------|--------|--------|
-| 8.0.32 | 17.0.6 | Latest |
+| MYSQL  | JAVA   | DOCKER | or | Xampp |
+|--------|--------|--------| -- | ----- |
+| 8.0.32 | 17.0.6 | Latest | -- | Latest |
 ____________________________
 
-![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
-##### sob licença MIT
+
 ___________________
 # Instalação
 
@@ -40,6 +39,10 @@ Mysql acesso & criação banco
 
 
 ### autor:
-#### lucas pereira de souza
+#### Professor José de assis
 
+### recoder, recriador da estrutura, modelagem e normalização do banco de dados e implementador de novas features:
+### Lucas pereira de souza
+
+![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
 
