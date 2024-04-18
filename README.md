@@ -15,17 +15,32 @@ ____________________________
 
 ## Manual e instalação do Java
 https://www.java.com/pt-BR/download/manual.jsp
+
+### <small> é importante ressaltar que só é necessario a escolha de um ou outro, criação em docker ou uso em xampp tem suas vantagens e desvantagens </small>
+
 ## Manual e instalação do docker
 https://docs.docker.com/engine/install/
 ## Manual e instalação do Xampp
 https://www.apachefriends.org/pt_br/index.html
 
-Docker compose
-na pasta docker compose, insira o arquivo em seu sistema, abra seu terminal e insira o comando docker-compose up, para criar os dados do MySQL
+
+## Docker compose
+### no diretorio da pasta, crie ou obtenha o pelo proprio repositorio [/docker/docker-compose.yaml] docker-compose.yaml
+_____
+### ou por `` wget https://github.com/lucaspereirasouza/OSJFX/blob/master/docker/docker-compose.yml ``
+
+#### é possivel tentar se conectar ao servidor de imediato e dar erro e recusar a conexão
+
+## Xampp
+[Em desenvolvimento]
 
 Mysql acesso & criação banco
 
 Configuração do sistema da aplicação
+
+
+
+
 
 ### user: root
 ### senha: 123@changeme
