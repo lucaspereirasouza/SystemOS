@@ -24,14 +24,14 @@ https://docs.docker.com/engine/install/
 https://www.apachefriends.org/pt_br/index.html
 
 
-## Docker compose
+## Docker compose <a href="https://hub.docker.com/"><img src="https://img.icons8.com/?size=256&id=22813&format=png" height=50px></img></a>
 ### no diretorio da pasta, crie ou obtenha o pelo proprio repositorio [/docker/docker-compose.yaml] docker-compose.yaml
 _____
 ### ou por `` wget https://github.com/lucaspereirasouza/OSJFX/blob/master/docker/docker-compose.yml ``
 
 #### é possivel tentar se conectar ao servidor de imediato e dar erro e recusar a conexão
 
-## Xampp
+## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imagesReadme/xampp.png" height=50px></img></a>
 [Em desenvolvimento]
 
 Mysql acesso & criação banco
