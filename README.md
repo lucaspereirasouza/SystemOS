@@ -34,7 +34,7 @@ _____
 ## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imagesReadme/xamppIcon.png" height=50px></img></a>
 
 ### Após concluir a instalação do xampp, ligue os servidores do apache e mysql e acesse o host local e entre no phpmyadmin
-## <small>acesso local não tem login </small
+## <small>acesso local não tem login </small>
 http://localhost/phpmyadmin/
 
 
