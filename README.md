@@ -27,14 +27,25 @@ https://www.apachefriends.org/pt_br/index.html
 ## Docker compose <a href="https://hub.docker.com/"><img src="https://img.icons8.com/?size=256&id=22813&format=png" height=50px></img></a>
 ### no diretorio da pasta, crie ou obtenha o pelo proprio repositorio [/docker/docker-compose.yaml] docker-compose.yaml
 _____
-### ou por `` wget https://github.com/lucaspereirasouza/OSJFX/blob/master/docker/docker-compose.yml ``
+### ou por `` wget https://github.com/lucaspereirasouza/OSJFX/blob/master/docker/docker-compose.yaml ``
 
 #### é possivel tentar se conectar ao servidor de imediato e dar erro e recusar a conexão
 
 ## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imagesReadme/xamppIcon.png" height=50px></img></a>
+Após concluir a instalação do xampp, ligue os servidores do apache e mysql, acesse o proprio host e eentre no phpmyadmin
+não sera necessario inserir senha nem usuario (colcoar)
+
+
+http://localhost/phpmyadmin/
+
+
 [Em desenvolvimento]
 
-Mysql acesso & criação banco
+
+
+
+
+Mysql acesso & criação de banco
 
 Configuração do sistema da aplicação
 
