@@ -2,7 +2,7 @@
 ## Aplicação para Sistema de Gestão e serviços
 
 
-## [README em desenvolvimento]
+## [README e RECODE em desenvolvimento]
 
 
 > ### Serviços utilizados:
@@ -31,7 +31,7 @@ _____
 
 #### é possivel tentar se conectar ao servidor de imediato e dar erro e recusar a conexão
 
-## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imagesReadme/xampp.png" height=50px></img></a>
+## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imagesReadme/xamppIcon.png" height=50px></img></a>
 [Em desenvolvimento]
 
 Mysql acesso & criação banco
