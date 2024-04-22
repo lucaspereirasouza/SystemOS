@@ -63,8 +63,8 @@ wget https://github.com/lucaspereirasouza/OSJFX/blob/master/docker/docker-compos
 Configuração do sistema da aplicação
 
 ### administrador da aplicação:
-### user: admin@admin 
-### senha: admin@changeme
+### user: admin 
+### senha: admin
 
 #### autor da aplicação:
 #### Lucas pereira de souza
