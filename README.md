@@ -1,6 +1,6 @@
 ## Aplicação para Sistema de Gestão e serviços
 
-## PT-BR manual and installation here: <a href="readme_pt-br/">README_PT-BR</a>
+#### PT-BR manual and installation here: <a href="readme_pt-br/">README_PT-BR</a>
 
 > ### Serviços utilizados:
 | MYSQL  | JAVA   | DOCKER | or | Xampp |
