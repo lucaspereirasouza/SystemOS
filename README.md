@@ -50,7 +50,7 @@ ____
 ![browse](imgReadme/database.png)
 ![browse](imgReadme/import.png)
 ____
-## Apllication admin login:
+## Aplication admin login:
 - user: admin
 - pasword: admin
 
