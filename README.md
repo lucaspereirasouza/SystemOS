@@ -54,8 +54,8 @@ wget https://github.com/lucaspereirasouza/OSJFX/blob/master/docker/docker-compos
 ![browse](imgReadme/import.png)
 
 ### application admin:
-### user: admin@admin 
-### pasword: admin@changeme
+### user: admin
+### pasword: admin
 
 #### made by:
 #### Lucas pereira de souza
