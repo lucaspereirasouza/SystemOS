@@ -31,7 +31,7 @@ _____
 
 #### é possivel tentar se conectar ao servidor de imediato e dar erro e recusar a conexão
 
-## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imagesReadme/xamppIcon.png" height=50px></img></a>
+## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imgReadme/xamppIcon.png" height=50px></img></a>
 
 ## Acesso Mysql & criação de banco
 
