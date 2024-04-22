@@ -54,11 +54,11 @@ wget https://github.com/lucaspereirasouza/OSJFX/blob/master/docker/docker-compos
 ### URL do container
 ### 127.0.0.1:8080
 ## Importação de database no phpMyAdmin:
-![browse](imgReadme/importPage.png)
-![browse](imgReadme/browse.png)
+![browse](/imgReadme/importPage.png)
+![browse](/imgReadme/browse.png)
 ## <small> no diretorio /database/, insira o arquivo sql </small>
-![browse](imgReadme/database.png)
-![browse](imgReadme/import.png)
+![browse](/imgReadme/database.png)
+![browse](/imgReadme/import.png)
 
 Configuração do sistema da aplicação
 
