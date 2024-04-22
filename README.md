@@ -33,39 +33,39 @@ _____
 
 ## Xampp <a href="https://www.apachefriends.org/pt_br/index.html"><img src="/imagesReadme/xamppIcon.png" height=50px></img></a>
 
+## Acesso Mysql & criação de banco
+
 ### Após concluir a instalação do xampp, ligue os servidores do apache e mysql e acesse o host local e entre no phpmyadmin
 ## <small>acesso local não tem login </small>
 http://localhost/phpmyadmin/
 
 
 
-[Em desenvolvimento]
-
-
-
-
-
-Mysql acesso & criação de banco
+## Importação de database no phpMyAdmin:
+![browse](imgReadme/importPage.png)
+![browse](imgReadme/browse.png)
+## <small> no diretorio /database/, insira o arquivo sql </small>
+![browse](imgReadme/database.png)
+![browse](imgReadme/import.png)
 
 Configuração do sistema da aplicação
 
 
-
-
-
+#### <small> recomendado usar o root somente para inserir o banco </small>
 ### user: root
 ### senha: root@passwd@changeme
+
 
 ### administrador da aplicação:
 
 ### user: admin@admin
 ### senha: admin@changeme
 
-#### recoder, designer da UI e UX, modelador do banco de dados:
+#### autor da aplicação:
 #### Lucas pereira de souza
 
 #### autor do curso de java Windowsbuilder:
-#### Professor José de assis
+#### <a href="https://github.com/professorjosedeassis">Professor José de assis</a>
 
 ![GitHub](https://img.shields.io/github/license/lucaspereirasouza/SistemaOS)
 
