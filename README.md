@@ -1,4 +1,3 @@
-# JavaOSFX
 ## Aplicação para Sistema de Gestão e serviços
 
 
