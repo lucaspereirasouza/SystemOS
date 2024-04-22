@@ -54,12 +54,12 @@ Configuração do sistema da aplicação
 
 
 ### user: root
-### senha: 123@changeme
+### senha: root@passwd@changeme
 
 ### administrador da aplicação:
 
 ### user: admin@admin
-### senha: admin
+### senha: admin@changeme
 
 #### recoder, designer da UI e UX, modelador do banco de dados:
 #### Lucas pereira de souza
