@@ -54,6 +54,21 @@ ____
 - user: admin
 - pasword: admin
 
+## Application Login
+![](/png/Login.png)
+## Menu
+![](/png/Menu.png)
+## User creation
+![](/png/Users.png)
+## Clients
+![](/png/Clients.png)
+## Services
+![](/png/Services.png)
+## Stock managment
+![](/png/Stock.png)
+## Services and client PDF
+![](/png/ServicesAndClients.png)
+
 ____
 #### made by:
 #### Lucas pereira de souza
