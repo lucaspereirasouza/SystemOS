@@ -17,6 +17,7 @@ public class Reader extends FileReader {
 	}
 	// Read all content of a file and returns a String
 	public String getText() {
+		
 		return null;
 	}
 	//Read text until find the content inside name

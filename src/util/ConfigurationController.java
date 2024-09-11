@@ -1,5 +1,6 @@
 package util;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,22 +31,24 @@ public class ConfigurationController{
 		return write;
 	}
 	
+	public Reader readConfig() throws FileNotFoundException {
+		FileReader _read = new FileReader("./configuration.conf");
+		
+		
+		//Reader read = new Reader(_read);
+		return null;
+	}
+	
 	public Configuration getConfiguration() {
 		// validation if exist
+		Configuration getConfig = new Configuration();
 		try {
-			
-			FileReader read = new FileReader("./configuration.conf");
-			
-			//read names and results
-			//insert content inside Configuration
-			Configuration conf = new Configuration();
-			
-			return conf;
+			getConfig = new Configuration();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return null;
+			
 		}
-		
+		return getConfig;
 	}
 } 
