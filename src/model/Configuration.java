@@ -19,16 +19,13 @@ public class Configuration {
 	private String password;
 	
 	public Configuration() {
-		try {
-			//FileReader read = new FileReader(file);
-			Reader read = new Reader(file);
-			System.out.println();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-	
+	public Configuration(Configuration conf) {
+		driver = conf.getDriver();
+		ip = conf.getIp();
+		user = conf.getUser();
+		password = conf.getPassword();
+	}
 	public Configuration(String driver, String ip, String user, String password) {
 		this.driver = driver;
 		this.ip = ip;
