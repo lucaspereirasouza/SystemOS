@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
-import view.didatex.FornecedorProf;
 import view.suporte.Contato;
 import view.suporte.SuporteMenu;
 
@@ -274,7 +273,7 @@ public class Principal extends JFrame {
 		btnFornecedor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				var forn = new FornecedorProf();
+				var forn = new Fornecedor();
 				forn.setVisible(true);
 			}
 		});

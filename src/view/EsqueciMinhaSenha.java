@@ -6,8 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
+
 import javax.swing.JTextField;
 
 import model.DAO;
@@ -21,6 +20,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class EsqueciMinhaSenha extends JDialog {
+	private static final long serialVersionUID = 1L;
 	DAO dao = new DAO();
 	private Connection con;
 	private PreparedStatement pst;

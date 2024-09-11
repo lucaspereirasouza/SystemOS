@@ -10,24 +10,32 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.ClientEntity;
 import model.DAO;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JWindow;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.ObjectInputFilter.Status;
 import java.awt.Cursor;
 
 public class Login extends JFrame {
@@ -50,6 +58,9 @@ public class Login extends JFrame {
 	private JLabel dbicon;
 	private JLabel lblEsqueciMinhaSenha;
 
+	private ClientEntity clientEntity;
+	
+	private static boolean windowVisible = true;
 	/**
 	 * Launch the application.
 	 */
@@ -58,25 +69,24 @@ public class Login extends JFrame {
 			public void run() {
 				try {
 					Login frame = new Login();
-					frame.setVisible(true);
+					frame.setVisible(windowVisible);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
 	public void logar() {
 		// Criar uam variavel objeto para caputrar a senha
 
 		String capturaSenha = new String(txtSenha.getPassword());
 
 		String read = "select * from usuarios where login = ? and senha = md5(?)";
-
+		
 		if (txtLogin.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "PREENCHA O LOGIN");
 			txtLogin.requestFocus();
-		} else if (capturaSenha.length() == 0) {
+		} else if (capturaSenha.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "PREENCHA A SENHA");
 			txtSenha.requestFocus();
 		} else {
@@ -258,11 +268,14 @@ public class Login extends JFrame {
 		lblEsqueciMinhaSenha.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		lblEsqueciMinhaSenha.setBounds(139, 197, 114, 17);
 		contentPane.add(lblEsqueciMinhaSenha);
-		status();
+		
 		setLocationRelativeTo(null);
+		status();
 	}
 
 	private void status() {
+		
+		
 		try {
 			if (dao.conectar() == null) {
 				dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
@@ -271,8 +284,22 @@ public class Login extends JFrame {
 			}
 			dao.conectar().close();
 		} catch (Exception SQLe) {
+			int c;
+			//pedido para conectar
+			c = JOptionPane.showConfirmDialog(contentPane, "Conexão padrão não encontrada, gostaria de configura-la?");
+			System.out.println(c);
+			if (c==0) {
+				ConfigurationDialog CD = new ConfigurationDialog();
+				CD.setVisible(true);
+				windowVisible = false;
+			}else {
+			//Setar na configuração, ler e salvar o arquivo configurado
+			//Confirmação do erro de conexão
+			//??
 			JOptionPane.showMessageDialog(null, "Erro ao se conectar ao Banco de dados (MySQL), por favor, cheque sua conexão");
+			}
 			SQLe.printStackTrace();
+			
 		}
 	}//
 }

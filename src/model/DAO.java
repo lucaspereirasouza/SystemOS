@@ -10,7 +10,12 @@ public class DAO {
 	private String password = "root@passwd@changeme";
 	// Criação de um objeto para uso da classe Connection(JDBC)
 	private Connection con;
+	
+	private Configuration conf;
+	// Insert all configuration inside DAO
+	
 	/**
+	 *
 	 * Método responsavel pela conexão jdbc no sistema
 	 * @return con
 	 */
@@ -23,5 +28,24 @@ public class DAO {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public DAO(String driver, String url, String user, String password, Connection con) {
+		super();
+		this.driver = driver;
+		this.url = url;
+		this.user = user;
+		this.password = password;
+		this.con = con;
+	}
+	
+	public DAO(boolean b) {
+		super();
+		this.driver = conf.getDriver();
+		this.url = conf.getIp();
+		this.user = conf.getUser();
+		this.password = conf.getPassword();
+	}
+	
+	public DAO() {
 	}
 }

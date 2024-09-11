@@ -358,7 +358,7 @@ public class FornecedorProf extends JDialog {
 		txtRazao.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				var<String> model = new DefaultListModel<>();
+				DefaultListModel<String> model = new DefaultListModel<>();
 				listFornecedores.setModel(model);
 				String keyRelease = "Select * from fornecedoresDida where razao like'" + txtRazao.getText() + "%'"
 						+ "order by razao";
