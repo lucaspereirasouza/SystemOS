@@ -24,8 +24,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import model.DAO;
-import util.LimparCampos;
-import util.Validador;
+import util.ClearFields;
+import util.Validator;
 import util.JListTextValidate;
 
 import javax.swing.JScrollPane;
@@ -75,7 +75,7 @@ public class Clientes extends JDialog {
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	private JListTextValidate jlistvalidate;
-	private LimparCampos limparcampos;
+	private ClearFields limparcampos;
 	
 	/**
 	 * Launch the application.
@@ -151,7 +151,7 @@ public class Clientes extends JDialog {
 		});
 		txtNome.setColumns(10);
 		txtNome.setBounds(61, 43, 302, 21);
-		txtNome.setDocument(new Validador(50));
+		txtNome.setDocument(new Validator(50));
 		getContentPane().add(txtNome);
 
 		JLabel lblNewLabel_1_1 = new JLabel("CEP");
@@ -172,7 +172,7 @@ public class Clientes extends JDialog {
 		txtFone.setColumns(10);
 		txtFone.setBounds(61, 75, 112, 21);
 		getContentPane().add(txtFone);
-		txtFone.setDocument(new Validador(15));
+		txtFone.setDocument(new Validator(15));
 
 		JButton btnCep = new JButton("Buscar CEP");
 		btnCep.addActionListener(new ActionListener() {
@@ -182,17 +182,17 @@ public class Clientes extends JDialog {
 		});
 		btnCep.setBounds(244, 106, 145, 23);
 		getContentPane().add(btnCep);
-		txtCep.setDocument(new Validador(10));
+		txtCep.setDocument(new Validator(10));
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Endereço");
-		lblNewLabel_1_1_1.setBounds(10, 139, 56, 21);
+		lblNewLabel_1_1_1.setBounds(10, 139, 75, 21);
 		getContentPane().add(lblNewLabel_1_1_1);
 
 		txtEndereco = new JTextField();
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(71, 139, 292, 21);
+		txtEndereco.setBounds(81, 139, 282, 21);
 		getContentPane().add(txtEndereco);
-		txtEndereco.setDocument(new Validador(50));
+		txtEndereco.setDocument(new Validator(50));
 
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Numero");
 		lblNewLabel_1_1_1_1.setBounds(411, 139, 56, 21);
@@ -208,7 +208,7 @@ public class Clientes extends JDialog {
 		txtNumero.setColumns(10);
 		txtNumero.setBounds(466, 139, 86, 20);
 		getContentPane().add(txtNumero);
-		txtNumero.setDocument(new Validador(10));
+		txtNumero.setDocument(new Validator(10));
 
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Bairro");
 		lblNewLabel_1_1_1_2.setBounds(10, 172, 65, 21);
@@ -218,17 +218,17 @@ public class Clientes extends JDialog {
 		txtBairro.setColumns(10);
 		txtBairro.setBounds(81, 172, 148, 21);
 		getContentPane().add(txtBairro);
-		txtBairro.setDocument(new Validador(30));
+		txtBairro.setDocument(new Validator(30));
 
 		JLabel lblNewLabel_1_1_1_2_1 = new JLabel("Complemento");
-		lblNewLabel_1_1_1_2_1.setBounds(317, 172, 86, 21);
+		lblNewLabel_1_1_1_2_1.setBounds(291, 172, 112, 21);
 		getContentPane().add(lblNewLabel_1_1_1_2_1);
 
 		txtComplemento = new JTextField();
 		txtComplemento.setColumns(10);
 		txtComplemento.setBounds(404, 172, 148, 21);
 		getContentPane().add(txtComplemento);
-		txtComplemento.setDocument(new Validador(20));
+		txtComplemento.setDocument(new Validator(20));
 
 		JLabel lblNewLabel_1_1_1_2_2 = new JLabel("Cidade");
 		lblNewLabel_1_1_1_2_2.setBounds(61, 224, 65, 21);
@@ -238,7 +238,7 @@ public class Clientes extends JDialog {
 		txtCidade.setColumns(10);
 		txtCidade.setBounds(132, 224, 148, 21);
 		getContentPane().add(txtCidade);
-		txtCidade.setDocument(new Validador(30));
+		txtCidade.setDocument(new Validator(30));
 
 		JLabel lblNewLabel_1 = new JLabel("UF");
 		lblNewLabel_1.setBounds(305, 227, 27, 14);
@@ -349,7 +349,7 @@ public class Clientes extends JDialog {
 		txtCPF.setBounds(440, 43, 112, 20);
 		getContentPane().add(txtCPF);
 		txtCPF.setColumns(10);
-		txtCPF.setDocument(new Validador(15));
+		txtCPF.setDocument(new Validator(15));
 
 		JLabel lblNewLabel_2 = new JLabel("CPF");
 		lblNewLabel_2.setBounds(399, 46, 41, 14);
@@ -369,7 +369,7 @@ public class Clientes extends JDialog {
 		
 		listCb.add(cboUf);
 		
-		limparcampos = new LimparCampos(listTxt, listCb);
+		limparcampos = new ClearFields(listTxt, listCb);
 	}
 
 	/**
@@ -420,7 +420,7 @@ public class Clientes extends JDialog {
 		}
 	}
 	public void limparcamposmtd() {
-		limparcampos = new LimparCampos(listTxt, listCb);
+		limparcampos = new ClearFields(listTxt, listCb);
 		
 		listTxt.add(txtId);
 		listTxt.add(txtComplemento);

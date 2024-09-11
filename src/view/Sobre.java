@@ -50,7 +50,7 @@ public class Sobre extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/img/AboutIcon.png")));
 		setResizable(false);
 		setModal(true);
-		setBounds(100, 100, 334, 403);
+		setBounds(100, 100, 349, 403);
 		getContentPane().setLayout(null);
 		contentPanel.setBackground(new Color(35, 36, 37));
 		contentPanel.setForeground(new Color(53, 54, 54));
@@ -61,7 +61,7 @@ public class Sobre extends JDialog {
 		
 		JLabel lblNewLabel_2_1 = new JLabel("");
 		lblNewLabel_2_1.setBackground(new Color(35, 36, 37));
-		lblNewLabel_2_1.setBounds(20, 127, 135, 134);
+		lblNewLabel_2_1.setBounds(20, 142, 135, 119);
 		contentPanel.add(lblNewLabel_2_1);
 		lblNewLabel_2_1.setIcon(new ImageIcon(Sobre.class.getResource("/img/ConsoleIcon.png")));
 		
@@ -71,7 +71,7 @@ public class Sobre extends JDialog {
 		txtrEsseAplicativoTem.setBackground(new Color(35, 36, 37));
 		txtrEsseAplicativoTem.setEditable(false);
 		txtrEsseAplicativoTem.setText("Esse aplicativo tem função de administrar \r\nordens de serviço pela criação, remoção, \r\nedição e pesquisa do Usuario, cliente,\r\nfornecedor e produtos. Com funções\r\nfundamentais como impressão do sistema,\r\ncompatibilidade com barcode scanner, etc.\r\n");
-		txtrEsseAplicativoTem.setBounds(10, 11, 306, 105);
+		txtrEsseAplicativoTem.setBounds(10, 11, 329, 119);
 		contentPanel.add(txtrEsseAplicativoTem);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
@@ -83,19 +83,19 @@ public class Sobre extends JDialog {
 			}
 		});
 		lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_2.setBounds(165, 127, 128, 134);
+		lblNewLabel_2.setBounds(166, 132, 128, 129);
 		contentPanel.add(lblNewLabel_2);
 		lblNewLabel_2.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-license.png")));
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Lucas pereira");
 		lblNewLabel_1_1_1.setForeground(new Color(177, 178, 179));
-		lblNewLabel_1_1_1.setBounds(10, 305, 126, 23);
+		lblNewLabel_1_1_1.setBounds(10, 305, 164, 23);
 		contentPanel.add(lblNewLabel_1_1_1);
 		lblNewLabel_1_1_1.setFont(new Font("Square721 BT", Font.BOLD | Font.ITALIC, 18));
 		
 		JLabel lblNewLabel = new JLabel("github.com/lucaspereirasouza");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setBounds(59, 318, 243, 46);
+		lblNewLabel.setBounds(45, 318, 281, 46);
 		contentPanel.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

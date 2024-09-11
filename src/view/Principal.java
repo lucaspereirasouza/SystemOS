@@ -188,7 +188,7 @@ public class Principal extends JFrame {
 		btnRelatorios.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRelatorios.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnRelatorios.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnRelatorios.setBounds(10, 445, 221, 46);
+		btnRelatorios.setBounds(9, 485, 221, 46);
 		PanelBarraEsquerda.add(btnRelatorios);
 		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -250,7 +250,7 @@ public class Principal extends JFrame {
 		btnServicos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnServicos.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnServicos.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-		btnServicos.setBounds(10, 399, 221, 46);
+		btnServicos.setBounds(9, 439, 221, 46);
 		PanelBarraEsquerda.add(btnServicos);
 		btnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnServicos.addActionListener(new ActionListener() {
@@ -316,7 +316,7 @@ public class Principal extends JFrame {
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 17));
-		lblNewLabel_1.setBounds(513, 482, 67, 33);
+		lblNewLabel_1.setBounds(490, 482, 90, 33);
 		contentPane.add(lblNewLabel_1);
 
 		lblUsuario = new JLabel("[]");
@@ -330,7 +330,7 @@ public class Principal extends JFrame {
 		lblNewLabel_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 17));
-		lblNewLabel_1_1.setBounds(524, 513, 67, 33);
+		lblNewLabel_1_1.setBounds(490, 513, 101, 33);
 		contentPane.add(lblNewLabel_1_1);
 
 		lblCargo = new JLabel("[]");

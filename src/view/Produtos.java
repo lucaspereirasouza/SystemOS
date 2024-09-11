@@ -10,9 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.DAO;
-import util.Validador;
+import util.Validator;
 import util.JListTextValidate;
-import util.LimparCampos;
+import util.ClearFields;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
@@ -59,7 +59,7 @@ public class Produtos extends JDialog {
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	
-	private LimparCampos limparcampos;
+	private ClearFields limparcampos;
 	private JListTextValidate jlistvalidate;
 	
 	private JLabel lblimg;
@@ -283,8 +283,8 @@ public class Produtos extends JDialog {
 		txtEstoqueMin.setBounds(105, 213, 31, 20);
 		getContentPane().add(txtEstoqueMin);
 
-		txtEstoque.setDocument(new Validador(3));
-		txtEstoqueMin.setDocument(new Validador(3));
+		txtEstoque.setDocument(new Validator(3));
+		txtEstoqueMin.setDocument(new Validator(3));
 
 		txtFornecedor = new JTextField();
 		txtFornecedor.addKeyListener(new KeyAdapter() {
@@ -387,7 +387,7 @@ public class Produtos extends JDialog {
 		
 		listCb.add(cmbmedida);
 		
-		limparcampos = new LimparCampos(listTxt, listCb);
+		limparcampos = new ClearFields(listTxt, listCb);
 	}
 
 	private void LoadPhoto() {

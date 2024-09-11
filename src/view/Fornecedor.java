@@ -32,8 +32,8 @@ import org.dom4j.io.SAXReader;
 
 import model.DAO;
 import util.JListTextValidate;
-import util.LimparCampos;
-import util.Validador;
+import util.ClearFields;
+import util.Validator;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -89,7 +89,7 @@ public class Fornecedor extends JDialog {
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	private JListTextValidate jlistvalidate;
-	private LimparCampos limparcampos;
+	private ClearFields limparcampos;
 	
 	/**
 	 * Launch the application.
@@ -151,7 +151,7 @@ public class Fornecedor extends JDialog {
 		txtId.setBounds(30, 11, 80, 21);
 		getContentPane().add(txtId);
 
-		JLabel lblNome = new JLabel("Nome do fornecedor");
+		JLabel lblNome = new JLabel("Fornecedor");
 		lblNome.setBounds(10, 43, 132, 21);
 		getContentPane().add(lblNome);
 
@@ -165,7 +165,7 @@ public class Fornecedor extends JDialog {
 		});
 		txtNome.setColumns(10);
 		txtNome.setBounds(142, 43, 247, 21);
-		txtNome.setDocument(new Validador(50));
+		txtNome.setDocument(new Validator(50));
 		getContentPane().add(txtNome);
 
 		JLabel lblNewLabel_1_1 = new JLabel("CEP");
@@ -173,7 +173,7 @@ public class Fornecedor extends JDialog {
 		getContentPane().add(lblNewLabel_1_1);
 
 		JLabel lblFone = new JLabel("Telefone");
-		lblFone.setBounds(10, 106, 56, 21);
+		lblFone.setBounds(10, 106, 65, 21);
 		getContentPane().add(lblFone);
 
 		txtFone = new JTextField();
@@ -184,9 +184,9 @@ public class Fornecedor extends JDialog {
 			}
 		});
 		txtFone.setColumns(10);
-		txtFone.setBounds(61, 106, 112, 21);
+		txtFone.setBounds(93, 106, 80, 21);
 		getContentPane().add(txtFone);
-		txtFone.setDocument(new Validador(15));
+		txtFone.setDocument(new Validator(15));
 
 		JButton btnCep = new JButton("Buscar CEP");
 		btnCep.addActionListener(new ActionListener() {
@@ -196,7 +196,7 @@ public class Fornecedor extends JDialog {
 		});
 		btnCep.setBounds(200, 213, 123, 23);
 		getContentPane().add(btnCep);
-		txtCep.setDocument(new Validador(10));
+		txtCep.setDocument(new Validator(10));
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Endereço");
 		lblNewLabel_1_1_1.setBounds(10, 256, 56, 21);
@@ -206,7 +206,7 @@ public class Fornecedor extends JDialog {
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(71, 256, 292, 21);
 		getContentPane().add(txtEndereco);
-		txtEndereco.setDocument(new Validador(50));
+		txtEndereco.setDocument(new Validator(50));
 
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Numero");
 		lblNewLabel_1_1_1_1.setBounds(373, 256, 56, 21);
@@ -221,9 +221,9 @@ public class Fornecedor extends JDialog {
 			}
 		});
 		txtNumero.setColumns(10);
-		txtNumero.setBounds(421, 256, 43, 20);
+		txtNumero.setBounds(437, 257, 43, 20);
 		getContentPane().add(txtNumero);
-		txtNumero.setDocument(new Validador(10));
+		txtNumero.setDocument(new Validator(10));
 
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Bairro");
 		lblNewLabel_1_1_1_2.setBounds(10, 289, 65, 21);
@@ -233,17 +233,17 @@ public class Fornecedor extends JDialog {
 		txtBairro.setColumns(10);
 		txtBairro.setBounds(81, 289, 148, 21);
 		getContentPane().add(txtBairro);
-		txtBairro.setDocument(new Validador(30));
+		txtBairro.setDocument(new Validator(30));
 
 		JLabel lblNewLabel_1_1_1_2_1 = new JLabel("Complemento");
-		lblNewLabel_1_1_1_2_1.setBounds(239, 289, 86, 21);
+		lblNewLabel_1_1_1_2_1.setBounds(239, 289, 124, 21);
 		getContentPane().add(lblNewLabel_1_1_1_2_1);
 
 		txtComplemento = new JTextField();
 		txtComplemento.setColumns(10);
-		txtComplemento.setBounds(316, 289, 148, 21);
+		txtComplemento.setBounds(354, 289, 148, 21);
 		getContentPane().add(txtComplemento);
-		txtComplemento.setDocument(new Validador(20));
+		txtComplemento.setDocument(new Validator(20));
 
 		JLabel lblNewLabel_1_1_1_2_2 = new JLabel("Cidade");
 		lblNewLabel_1_1_1_2_2.setBounds(61, 322, 65, 21);
@@ -253,7 +253,7 @@ public class Fornecedor extends JDialog {
 		txtCidade.setColumns(10);
 		txtCidade.setBounds(132, 322, 148, 21);
 		getContentPane().add(txtCidade);
-		txtCidade.setDocument(new Validador(30));
+		txtCidade.setDocument(new Validator(30));
 
 		JLabel lblNewLabel_1 = new JLabel("UF");
 		lblNewLabel_1.setBounds(305, 322, 27, 14);
@@ -307,7 +307,7 @@ public class Fornecedor extends JDialog {
 		btnExcluir_1 = new JButton("");
 		btnExcluir_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparcampos = new LimparCampos(listTxt, listCb);
+				limparcampos = new ClearFields(listTxt, listCb);
 				limparcampos.clear(listTxt, listCb);
 				
 			}
@@ -329,10 +329,10 @@ public class Fornecedor extends JDialog {
 		txtCPFCNPJ.setBounds(464, 43, 101, 20);
 		getContentPane().add(txtCPFCNPJ);
 		txtCPFCNPJ.setColumns(10);
-		txtCPFCNPJ.setDocument(new Validador(15));
+		txtCPFCNPJ.setDocument(new Validator(15));
 
 		lblNewLabel_1_1_1_3 = new JLabel("CPF/CNPJ");
-		lblNewLabel_1_1_1_3.setBounds(399, 43, 56, 21);
+		lblNewLabel_1_1_1_3.setBounds(390, 43, 65, 21);
 		getContentPane().add(lblNewLabel_1_1_1_3);
 
 		txtIe = new JTextField();
@@ -345,26 +345,26 @@ public class Fornecedor extends JDialog {
 		txtIe.setColumns(10);
 		txtIe.setBounds(466, 75, 86, 20);
 		getContentPane().add(txtIe);
-		txtCPFCNPJ.setDocument(new Validador(14));
+		txtCPFCNPJ.setDocument(new Validator(14));
 
 		lblNewLabel_3 = new JLabel("Nome fantasia");
-		lblNewLabel_3.setBounds(180, 109, 86, 14);
+		lblNewLabel_3.setBounds(180, 109, 143, 14);
 		getContentPane().add(lblNewLabel_3);
 
 		txtFantasia = new JTextField();
-		txtFantasia.setBounds(266, 106, 123, 20);
+		txtFantasia.setBounds(332, 107, 233, 20);
 		getContentPane().add(txtFantasia);
 		txtFantasia.setColumns(10);
-		txtFantasia.setDocument(new Validador(50));
+		txtFantasia.setDocument(new Validator(50));
 
 		txtVendedor = new JTextField();
 		txtVendedor.setColumns(10);
-		txtVendedor.setBounds(296, 138, 132, 20);
-		txtVendedor.setDocument(new Validador(20));
+		txtVendedor.setBounds(332, 139, 132, 20);
+		txtVendedor.setDocument(new Validator(20));
 		getContentPane().add(txtVendedor);
 
 		lblNewLabel_4 = new JLabel("vendedor");
-		lblNewLabel_4.setBounds(229, 141, 65, 14);
+		lblNewLabel_4.setBounds(229, 141, 94, 14);
 		getContentPane().add(lblNewLabel_4);
 
 		lblNewLabel_5 = new JLabel("Email");
@@ -375,7 +375,7 @@ public class Fornecedor extends JDialog {
 		txtEmail.setBounds(61, 138, 158, 20);
 		getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
-		txtEmail.setDocument(new Validador(50));
+		txtEmail.setDocument(new Validator(50));
 
 		lblNewLabel_6 = new JLabel("Razão social");
 		lblNewLabel_6.setBounds(10, 78, 100, 14);
@@ -396,7 +396,7 @@ public class Fornecedor extends JDialog {
 		getContentPane().add(lblNewLabel_7);
 
 		lblNewLabel_2 = new JLabel("IE");
-		lblNewLabel_2.setBounds(409, 75, 46, 20);
+		lblNewLabel_2.setBounds(400, 75, 55, 20);
 		getContentPane().add(lblNewLabel_2);
 		setLocationRelativeTo(null);
 	
@@ -471,7 +471,7 @@ public class Fornecedor extends JDialog {
 		
 		
 		jlistvalidate = new JListTextValidate(listTxt, listCb);
-		limparcampos = new LimparCampos(listTxt, listCb);
+		limparcampos = new ClearFields(listTxt, listCb);
 		
 		if (jlistvalidate.IsEmpty(listTxt, listCb)) {
 			try {
@@ -527,7 +527,7 @@ public class Fornecedor extends JDialog {
 
 				con.close();
 				JOptionPane.showInternalMessageDialog(null, "Fornecedor removido com sucesso");
-				limparcampos = new LimparCampos(listTxt, listCb);
+				limparcampos = new ClearFields(listTxt, listCb);
 				limparcampos.clear(listTxt,listCb);
 				btnAdicionar.setEnabled(true);
 				btnEditar.setEnabled(false);
@@ -683,7 +683,7 @@ public class Fornecedor extends JDialog {
 				btnExcluir.setEnabled(false);
 				con.close();
 				
-				limparcampos = new LimparCampos(listTxt, listCb);
+				limparcampos = new ClearFields(listTxt, listCb);
 				limparcampos.clear(listTxt, listCb);
 				
 			} catch (SQLIntegrityConstraintViolationException se1) {

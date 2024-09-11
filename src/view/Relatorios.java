@@ -69,7 +69,7 @@ public class Relatorios extends JDialog {
 		btnServicos.setBorder(UIManager.getBorder("ComboBox.editorBorder"));
 		btnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnServicos.setToolTipText("Servicos");
-		btnServicos.setBounds(246, 55, 137, 50);
+		btnServicos.setBounds(238, 55, 207, 50);
 		getContentPane().add(btnServicos);
 		
 		JButton btnClientes_1 = new JButton("Clientes");
@@ -81,7 +81,7 @@ public class Relatorios extends JDialog {
 		});
 		btnClientes_1.setToolTipText("Clientes");
 		btnClientes_1.setBorder(UIManager.getBorder("ComboBox.editorBorder"));
-		btnClientes_1.setBounds(44, 55, 137, 50);
+		btnClientes_1.setBounds(12, 55, 207, 50);
 		getContentPane().add(btnClientes_1);
 		setLocationRelativeTo(null);
 	}

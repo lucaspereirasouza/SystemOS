@@ -32,9 +32,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import model.DAO;
-import util.Validador;
+import util.Validator;
 import util.JListTextValidate;
-import util.LimparCampos;
+import util.ClearFields;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -77,7 +77,7 @@ public class Usuarios extends JDialog {
 
 	private JListTextValidate jlistvalidate;
 
-	private LimparCampos limparcampos;
+	private ClearFields limparcampos;
 
 	/**
 	 * Launch the application.
@@ -120,7 +120,7 @@ public class Usuarios extends JDialog {
 		txtLogin.addKeyListener(new KeyAdapter() {
 
 		});
-		txtLogin.setDocument(new Validador(50));
+		txtLogin.setDocument(new Validator(50));
 		scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
 		scrollPane.setBorder(null);
@@ -151,7 +151,7 @@ public class Usuarios extends JDialog {
 		txtLogin.setColumns(10);
 		txtLogin.setBounds(75, 130, 204, 20);
 		getContentPane().add(txtLogin);
-		txtLogin.setDocument(new Validador(18));
+		txtLogin.setDocument(new Validator(18));
 
 		JLabel lblNewLabel = new JLabel("id");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -165,7 +165,7 @@ public class Usuarios extends JDialog {
 
 		JLabel lblNewLabel_3 = new JLabel("Senha");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_3.setBounds(20, 185, 46, 14);
+		lblNewLabel_3.setBounds(12, 185, 54, 14);
 		getContentPane().add(lblNewLabel_3);
 
 		txtId = new JTextField();
@@ -185,7 +185,7 @@ public class Usuarios extends JDialog {
 		txtNome.setBounds(75, 75, 204, 20);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
-		txtNome.setDocument(new Validador(15));
+		txtNome.setDocument(new Validator(15));
 
 		bttnBuscar = new JButton("");
 		bttnBuscar.setToolTipText("Buscar");
@@ -221,7 +221,7 @@ public class Usuarios extends JDialog {
 		txtSenha = new JPasswordField();
 		txtSenha.setBounds(76, 185, 219, 14);
 		getContentPane().add(txtSenha);
-		txtSenha.setDocument(new Validador(250));
+		txtSenha.setDocument(new Validator(250));
 
 		bttnAdd = new JButton("");
 		bttnAdd.setToolTipText("Adicionar");
@@ -246,7 +246,7 @@ public class Usuarios extends JDialog {
 		bttnEditar.setBounds(457, 187, 64, 64);
 		getContentPane().add(bttnEditar);
 
-		bttnRemove = new JButton("X");
+		bttnRemove = new JButton("x");
 		bttnRemove.setEnabled(false);
 		bttnRemove.setToolTipText("Remover");
 		bttnRemove.addActionListener(new ActionListener() {
@@ -413,7 +413,7 @@ public class Usuarios extends JDialog {
 
 	
 	private void limparcamposmtd() {
-		limparcampos = new LimparCampos(listTxt, listCb);
+		limparcampos = new ClearFields(listTxt, listCb);
 		
 		listTxt.add(txtId);
 		limparcampos.clear(listTxt, listCb);

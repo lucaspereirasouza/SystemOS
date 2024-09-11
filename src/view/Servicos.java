@@ -43,8 +43,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import model.DAO;
 import util.JListTextValidate;
-import util.LimparCampos;
-import util.Validador;
+import util.ClearFields;
+import util.Validator;
 
 public class Servicos extends JDialog {
 
@@ -57,7 +57,7 @@ public class Servicos extends JDialog {
 	private List<JTextField> listTxt = new ArrayList<JTextField>();
 	private List<JComboBox> listCb = new ArrayList<JComboBox>();
 	JListTextValidate jlisttextvalidade;
-	LimparCampos limparcampos;
+	ClearFields limparcampos;
 
 	private JTextField txtOS;
 	private JTextField txtDate;
@@ -117,7 +117,7 @@ public class Servicos extends JDialog {
 		txtOS.setBounds(90, 24, 107, 20);
 		getContentPane().add(txtOS);
 		txtOS.setColumns(10);
-		txtOS.setDocument(new Validador(5));
+		txtOS.setDocument(new Validator(5));
 
 		JLabel lblDatwe = new JLabel("Date");
 		lblDatwe.setBounds(28, 55, 52, 20);
@@ -135,8 +135,8 @@ public class Servicos extends JDialog {
 
 		txtEquipamento = new JTextField();
 		txtEquipamento.setColumns(10);
-		txtEquipamento.setBounds(112, 86, 185, 20);
-		txtEquipamento.setDocument(new Validador(200));
+		txtEquipamento.setBounds(127, 87, 185, 20);
+		txtEquipamento.setDocument(new Validator(200));
 		getContentPane().add(txtEquipamento);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Defeito");
@@ -146,7 +146,7 @@ public class Servicos extends JDialog {
 		txtDefeito = new JTextField();
 		txtDefeito.setColumns(10);
 		txtDefeito.setBounds(90, 123, 207, 20);
-		txtDefeito.setDocument(new Validador(200));
+		txtDefeito.setDocument(new Validator(200));
 		getContentPane().add(txtDefeito);
 
 		JLabel lblNewLabel_1_2 = new JLabel("valor");
@@ -162,7 +162,7 @@ public class Servicos extends JDialog {
 		});
 		txtValor.setColumns(10);
 		txtValor.setBounds(112, 154, 185, 20);
-		txtOS.setDocument(new Validador(10));
+		txtOS.setDocument(new Validator(10));
 		getContentPane().add(txtValor);
 
 		btnAdicionar = new JButton("Adicionar");
@@ -174,7 +174,7 @@ public class Servicos extends JDialog {
 				adicionar();
 			}
 		});
-		btnAdicionar.setBounds(10, 208, 138, 41);
+		btnAdicionar.setBounds(12, 208, 145, 41);
 		getContentPane().add(btnAdicionar);
 
 		btnEditar = new JButton("Editar");
@@ -186,7 +186,7 @@ public class Servicos extends JDialog {
 				editar();
 			}
 		});
-		btnEditar.setBounds(158, 208, 125, 41);
+		btnEditar.setBounds(169, 208, 125, 41);
 		getContentPane().add(btnEditar);
 
 		btnExcluir = new JButton("Excluir");
@@ -198,7 +198,7 @@ public class Servicos extends JDialog {
 		});
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnExcluir.setBounds(293, 208, 125, 41);
+		btnExcluir.setBounds(306, 208, 125, 41);
 		getContentPane().add(btnExcluir);
 
 		JButton btnBuscar = new JButton("Pesquisar");
@@ -208,7 +208,7 @@ public class Servicos extends JDialog {
 				buscar();
 			}
 		});
-		btnBuscar.setBounds(207, 11, 162, 40);
+		btnBuscar.setBounds(207, 11, 173, 40);
 		getContentPane().add(btnBuscar);
 
 		btnApagar = new JButton("");
@@ -251,7 +251,7 @@ public class Servicos extends JDialog {
 			}
 		});
 		txtID.setColumns(10);
-		txtID.setDocument(new Validador(5));
+		txtID.setDocument(new Validator(5));
 
 		txtCliente = new JTextField();
 		txtCliente.addKeyListener(new KeyAdapter() {
@@ -387,7 +387,7 @@ public class Servicos extends JDialog {
 	}
 
 	public void limparcamposmtd() {
-		limparcampos = new LimparCampos(listTxt, listCb);
+		limparcampos = new ClearFields(listTxt, listCb);
 		
 		listTxt.add(txtOS);
 		listTxt.add(txtDate);
@@ -399,7 +399,7 @@ public class Servicos extends JDialog {
 	public void editar() {
 		String comando = "update servicos set dataOS=?,equipamento=?,defeito=?,valor=? where os=?";
 		jlisttextvalidade = new JListTextValidate(listTxt, listCb);
-		limparcampos = new LimparCampos(listTxt, listCb);
+		limparcampos = new ClearFields(listTxt, listCb);
 		
 		if (jlisttextvalidade.IsEmpty(listTxt, listCb)){
 			try {
