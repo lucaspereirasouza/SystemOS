@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.ClientEntity;
 import model.DAO;
+import util.DockerValidation;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,7 +36,9 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.ObjectInputFilter.Status;
 import java.awt.Cursor;
 
@@ -59,8 +63,9 @@ public class Login extends JFrame {
 	private JLabel lblEsqueciMinhaSenha;
 
 	private ClientEntity clientEntity;
-	
+
 	private static boolean windowVisible = true;
+
 	/**
 	 * Launch the application.
 	 */
@@ -76,13 +81,14 @@ public class Login extends JFrame {
 			}
 		});
 	}
+
 	public void logar() {
 		// Criar uam variavel objeto para caputrar a senha
 
 		String capturaSenha = new String(txtSenha.getPassword());
 
 		String read = "select * from usuarios where login = ? and senha = md5(?)";
-		
+
 		if (txtLogin.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "PREENCHA O LOGIN");
 			txtLogin.requestFocus();
@@ -124,7 +130,7 @@ public class Login extends JFrame {
 						principal.setVisible(true);
 						principal.lblUsuario.setText(rs.getString(2));
 						principal.lblCargo.setText(rs.getString(5));
-						
+
 						con.close();
 						principal.btnRelatorios.setEnabled(true);
 //						principal.btnServicos.setEnabled(true);
@@ -135,10 +141,11 @@ public class Login extends JFrame {
 				} else {
 					JOptionPane.showInternalMessageDialog(null, "Login ou senha invalida");
 				}
-			}catch(java.lang.NullPointerException Nulle) {
+			} catch (java.lang.NullPointerException Nulle) {
 				JOptionPane.showMessageDialog(null, "Falha no banco de dados, Por favor, reinicie o aplicativo.");
-			}catch(SQLException SQLe) {SQLe.printStackTrace();}
-			catch (Exception e) {
+			} catch (SQLException SQLe) {
+				SQLe.printStackTrace();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -215,13 +222,13 @@ public class Login extends JFrame {
 
 				String name = JOptionPane.showInputDialog("Por favor, insira o nome de usuario com administrador:");
 				String pass;
-				if(name==null) {}
-				else {
+				if (name == null) {
+				} else {
 					pass = JOptionPane.showInputDialog("Insira a senha:");
 					try {
 						String comando = "SELECT * FROM usuarios where nome=? and senha=md5(?)";
 						pst = dao.conectar().prepareStatement(comando);
-					
+
 						pst.setString(1, name);
 						pst.setString(2, pass);
 
@@ -230,13 +237,13 @@ public class Login extends JFrame {
 						 * rs.next tem função de checar o perfil do usuario para a mudança de senha
 						 */
 						if (rs.next()) {
-							//rs.getString 5 = Perfil, admin ou usuario
+							// rs.getString 5 = Perfil, admin ou usuario
 							if (rs.getString(5).equals("admin")) {
-									
-									String nam = txtLogin.getText();
-									var esquecisenha = new EsqueciMinhaSenha();
-									esquecisenha.setVisible(true);
-									esquecisenha.txtNome.setText(nam);
+
+								String nam = txtLogin.getText();
+								var esquecisenha = new EsqueciMinhaSenha();
+								esquecisenha.setVisible(true);
+								esquecisenha.txtNome.setText(nam);
 							} else {
 								JOptionPane.showMessageDialog(null, "Login não autorizado");
 							}
@@ -268,38 +275,55 @@ public class Login extends JFrame {
 		lblEsqueciMinhaSenha.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		lblEsqueciMinhaSenha.setBounds(139, 197, 114, 17);
 		contentPane.add(lblEsqueciMinhaSenha);
-		
+
 		setLocationRelativeTo(null);
 		status();
 	}
 
 	private void status() {
-		
-		
-		try {
-			if (dao.conectar() == null) {
-				dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
-			} else {
-				dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dbon.png")));
+		// tentar se conectar, caso não tenha, verificar se há docker, verificar se há windows
+		DockerValidation docker = new DockerValidation();
+			try {
+				if (dao.conectar() == null) {
+					if (docker.isDockerInstalled()) {
+						int c = JOptionPane.showConfirmDialog(null, "Parece que o docker esta instalado, gostaria de inicializar o banco de dados?");
+								if(c==0) {docker.InstallDockerEngine();}
+					} else {
+						if (!docker.isWindows()) {
+//							JOptionPane.showInternalOptionDialog(contentPane, con, getTitle(), ALLBITS, ABORT, null, getComponentListeners(), clientEntity);
+							JOptionPane.showOptionDialog(null,
+									"Database não encontrada, para instalar no windows, é necessario que voce siga o seguinte link:\nhttps://docs.docker.com/engine/install/",
+									getTitle(), ALLBITS, ABORT, null, getComponentListeners(), clientEntity);
+//							JOptionPane.showMessageDialog(null, "Database não encontrada, para instalar no windows, é necessario que voce siga o seguinte link:\nhttps://docs.docker.com/engine/install/");
+						} else {
+							
+						}
+					}
+					dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
+				} else {
+					dbicon.setIcon(new ImageIcon(Principal.class.getResource("/img/dbon.png")));
+				}
+				dao.conectar().close();
+			} catch (Exception SQLe) {
+				int c;
+				// pedido para conectar
+				c = JOptionPane.showConfirmDialog(contentPane,
+						"Conexão padrão não encontrada, gostaria de configura-la?");
+				System.out.println(c);
+				if (c == 0) {
+					ConfigurationDialog CD = new ConfigurationDialog();
+					CD.setVisible(true);
+					windowVisible = false;
+				} else {
+					// Setar na configuração, ler e salvar o arquivo configurado
+					// Confirmação do erro de conexão
+					// ??
+					JOptionPane.showMessageDialog(null,
+							"Erro ao se conectar ao Banco de dados (MySQL), por favor, cheque sua conexão");
+				}
+				SQLe.printStackTrace();
+
 			}
-			dao.conectar().close();
-		} catch (Exception SQLe) {
-			int c;
-			//pedido para conectar
-			c = JOptionPane.showConfirmDialog(contentPane, "Conexão padrão não encontrada, gostaria de configura-la?");
-			System.out.println(c);
-			if (c==0) {
-				ConfigurationDialog CD = new ConfigurationDialog();
-				CD.setVisible(true);
-				windowVisible = false;
-			}else {
-			//Setar na configuração, ler e salvar o arquivo configurado
-			//Confirmação do erro de conexão
-			//??
-			JOptionPane.showMessageDialog(null, "Erro ao se conectar ao Banco de dados (MySQL), por favor, cheque sua conexão");
-			}
-			SQLe.printStackTrace();
-			
-		}
+		
 	}//
 }
